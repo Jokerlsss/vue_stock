@@ -1,5 +1,7 @@
 <template>
-  <StockDataCell></StockDataCell>
+  <div class="container">
+    <StockDataCell></StockDataCell>
+  </div>
 </template>
 
 <script>
@@ -19,6 +21,7 @@ page {
 
 <style scoped>
 .container {
-  color: white;
+  display: flex;
+  justify-content: center;
 }
 </style>
