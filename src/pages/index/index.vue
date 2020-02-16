@@ -1,6 +1,12 @@
 <template>
   <div class="container">
     <StockDataCell></StockDataCell>
+    <StockDataCell></StockDataCell>
+    <StockDataCell></StockDataCell>
+    <StockDataCell></StockDataCell>
+    <StockDataCell></StockDataCell>
+    <StockDataCell></StockDataCell>
+    <StockDataCell></StockDataCell>
   </div>
 </template>
 
@@ -22,6 +28,7 @@ page {
 <style scoped>
 .container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 </style>
