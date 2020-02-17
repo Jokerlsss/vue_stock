@@ -8,7 +8,7 @@
       </div>
       <!-- 类型标签 -->
       <div class="proType">
-        <van-tag round color="#CC3333" size="large" class="typeTag">股</van-tag>
+        <van-tag round :color="TypeColor" size="large" class="typeTag">{{StockType}}</van-tag>
       </div>
     </div>
     <!-- 收益详情 -->
@@ -46,7 +46,35 @@
 
 <script>
 export default {
-
+  props: {
+    StockType: ''
+  },
+  data () {
+    return {
+      StockType: this.StockType,
+      TypeColor: ''
+    }
+  },
+  onLoad () {
+    // console.log(this.StockType)
+    this.getStockType()
+    // console.log('come in 2')
+  },
+  methods: {
+    getStockType: function () {
+      if (this.StockType === '股') {
+        this.TypeColor = '#CC3333'
+      } else if (this.StockType === '基') {
+        this.TypeColor = '#3399FF'
+      } else if (this.StockType === '定') {
+        this.TypeColor = '#009900'
+      } else if (this.StockType === '金') {
+        this.TypeColor = '#FF9900'
+      } else if (this.StockType === '其') {
+        this.TypeColor = '#999999'
+      }
+    }
+  }
 }
 </script>
 
@@ -90,6 +118,7 @@ export default {
 .typeTag {
   margin-top: 20rpx;
   margin-right: 30rpx;
+  font-size: 32rpx;
 }
 /*---------- 卡片底部 ----------*/
 .info {

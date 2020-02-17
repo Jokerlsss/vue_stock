@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <StockDataCell></StockDataCell>
-    <StockDataCell></StockDataCell>
-    <StockDataCell></StockDataCell>
-    <StockDataCell></StockDataCell>
-    <StockDataCell></StockDataCell>
-    <StockDataCell></StockDataCell>
-    <StockDataCell></StockDataCell>
+    <StockDataCell StockType="基"></StockDataCell>
+    <StockDataCell StockType="金"></StockDataCell>
+    <StockDataCell StockType="定"></StockDataCell>
+    <StockDataCell StockType="其"></StockDataCell>
+    <StockDataCell StockType="股"></StockDataCell>
+    <StockDataCell StockType="基"></StockDataCell>
+    <VxeTable></VxeTable>
   </div>
 </template>
 
@@ -15,6 +15,11 @@ import StockDataCell from '@/components/StockDataCell'
 export default {
   components: {
     StockDataCell
+  },
+  data () {
+    return {
+
+    }
   }
 }
 </script>
