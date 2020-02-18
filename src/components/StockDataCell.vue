@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @click="text">
     <!-- 资产名字 & 类型 -->
     <div class="title">
       <!-- 资产名字 -->

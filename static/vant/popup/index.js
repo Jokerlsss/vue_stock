@@ -21,7 +21,7 @@ VantComponent({
         },
         zIndex: {
             type: Number,
-            value: 100
+            value: 999
         },
         overlay: {
             type: Boolean,
@@ -53,20 +53,20 @@ VantComponent({
             value: false
         }
     },
-    created() {
+    created () {
         this.observeClass();
     },
     methods: {
-        onClickCloseIcon() {
+        onClickCloseIcon () {
             this.$emit('close');
         },
-        onClickOverlay() {
+        onClickOverlay () {
             this.$emit('click-overlay');
             if (this.data.closeOnClickOverlay) {
                 this.$emit('close');
             }
         },
-        observeClass() {
+        observeClass () {
             const { transition, position } = this.data;
             const updateData = {
                 name: transition || position
