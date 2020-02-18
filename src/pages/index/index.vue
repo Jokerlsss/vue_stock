@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div class="container" @touchstart="touchStart" @touchend="touchEnd">
     <van-popup
       :show="show"
       position="right"
-      custom-style="width:30%;height:100%;opacity:0.7"
+      custom-style="width:30%;height:100%;opacity:0.8"
       @close="onClose"
     >内容</van-popup>
     <MoneyInfo></MoneyInfo>
@@ -31,7 +31,11 @@ export default {
   },
   data () {
     return {
-      show: false
+      show: false,
+      start: '',
+      end: '',
+      interval: '',
+      time: 0
     }
   },
   methods: {
@@ -41,6 +45,24 @@ export default {
     // *问题：为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
     showPopup: function () {
       this.show = true
+    },
+    touchStart: function (e) {
+      this.start = e.mp.changedTouches[0].clientX
+      this.interval = setInterval(() => {
+        this.time++
+      }, 100)
+    },
+    touchEnd: function (e) {
+      this.end = e.mp.changedTouches[0].clientX
+      // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
+      if (this.end - this.start <= -40 && this.time < 10) {
+        this.show = true
+      }
+      if (this.end - this.start >= 40 && this.time < 10) {
+        this.show = false
+      }
+      clearInterval(this.interval)
+      this.time = 0
     }
   }
 }
