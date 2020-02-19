@@ -37,6 +37,7 @@ export default {
   opacity: 0.4;
   padding: 0;
 }
+/* 点击触发样式 */
 .add_btn_hover {
   opacity: 0.7;
 }
