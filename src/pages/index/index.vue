@@ -1,21 +1,27 @@
+<!-- Description:资产项目页面 -->
 <template>
   <div class="container" @touchstart="touchStart" @touchend="touchEnd">
     <!-- 右侧筛选弹出层 -->
     <van-popup
       :show="show"
       position="right"
-      custom-style="width:30%;height:100%;opacity:0.8"
+      custom-style="width:30%;height:100%;opacity:0.8;display:flex;flex-direction:column-reserve"
       @close="onClose"
-    >内容</van-popup>
+    >
+      <PopupContent></PopupContent>
+    </van-popup>
     <!-- 顶部资产明细 -->
     <MoneyInfo></MoneyInfo>
     <!-- 项目卡片 -->
-    <StockDataCell StockType="基"></StockDataCell>
-    <StockDataCell StockType="金"></StockDataCell>
-    <StockDataCell StockType="定"></StockDataCell>
-    <StockDataCell StockType="其"></StockDataCell>
-    <StockDataCell StockType="股"></StockDataCell>
-    <StockDataCell StockType="基"></StockDataCell>
+    <StockDataCell
+      v-for="(item,index) in StockList"
+      :key="index"
+      :name="item.name"
+      :type="item.type"
+      :asset="item.asset"
+      :dayEarn="item.dayEarn"
+      :hadEarn="item.hadEarn"
+    ></StockDataCell>
     <!-- 添加项目按钮 -->
     <AddProBtn></AddProBtn>
     <!-- 底部留空 -->
@@ -30,6 +36,7 @@ import MoneyInfo from '@/components/MoneyInfo'
 import SliderCell from '@/components/SliderCell'
 import ScrollTable from '@/components/ScrollTable'
 import DefinedTable from '@/components/Table'
+import PopupContent from '@/components/PopupContent'
 export default {
   components: {
     StockDataCell,
@@ -37,7 +44,8 @@ export default {
     MoneyInfo,
     SliderCell,
     ScrollTable,
-    DefinedTable
+    DefinedTable,
+    PopupContent
   },
   data () {
     return {
@@ -45,18 +53,60 @@ export default {
       start: '',
       end: '',
       interval: '',
-      time: 0
+      time: 0,
+
+      StockList: [
+        {
+          name: '通用股份',
+          type: '股',
+          asset: '40621',
+          dayEarn: '+432',
+          hadEarn: '-451'
+        },
+        {
+          name: '通用股份',
+          type: '基',
+          asset: '40621',
+          dayEarn: '+432',
+          hadEarn: '-451'
+        },
+        {
+          name: '通用股份',
+          type: '定',
+          asset: '40621',
+          dayEarn: '+432',
+          hadEarn: '-451'
+        },
+        {
+          name: '通用股份',
+          type: '金',
+          asset: '40621',
+          dayEarn: '+432',
+          hadEarn: '-451'
+        },
+        {
+          name: '通用股份',
+          type: '其',
+          asset: '40621',
+          dayEarn: '+432',
+          hadEarn: '-451'
+        },
+        {
+          name: '通用股份',
+          type: '股',
+          asset: '40621',
+          dayEarn: '+432',
+          hadEarn: '-451'
+        }
+      ]
     }
   },
   methods: {
+    // 关闭弹出层
     onClose: function () {
       this.show = false
     },
     // *问题：为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
-    // showPopup: function () {
-    //   this.show = true
-    // },
-
     touchStart: function (e) {
       this.start = e.mp.changedTouches[0].clientX
       this.interval = setInterval(() => {
@@ -68,9 +118,11 @@ export default {
       // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
       if (this.end - this.start <= -40 && this.time < 10) {
         this.show = true
+        console.log('zuo')
       }
       if (this.end - this.start >= 40 && this.time < 10) {
         this.show = false
+        console.log('zuo')
       }
       clearInterval(this.interval)
       this.time = 0

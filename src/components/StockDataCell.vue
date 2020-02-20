@@ -1,14 +1,15 @@
+<!-- Description:资产卡片信息 -->
 <template>
-  <div class="container" @click="text">
+  <div class="container" @click="text" v-if="isShow">
     <!-- 资产名字 & 类型 -->
     <div class="title">
       <!-- 资产名字 -->
       <div class="proText">
-        <p class="proName">通用股份</p>
+        <p class="proName">{{name}}</p>
       </div>
       <!-- 类型标签 -->
       <div class="proType">
-        <van-tag round :color="TypeColor" size="large" class="typeTag">{{StockType}}</van-tag>
+        <van-tag round :color="TypeColor" size="large" class="typeTag">{{type}}</van-tag>
       </div>
     </div>
     <!-- 收益详情 -->
@@ -19,7 +20,7 @@
           <p>资产</p>
         </div>
         <div class="infoBottom assetNum">
-          <p>44030</p>
+          <p>{{asset}}</p>
         </div>
       </div>
       <!-- 今日收益 -->
@@ -28,7 +29,7 @@
           <p>今日收益</p>
         </div>
         <div class="infoBottom dayYieldNum">
-          <p>+ 440</p>
+          <p>{{dayEarn}}</p>
         </div>
       </div>
       <!-- 持有收益 -->
@@ -37,7 +38,7 @@
           <p>持有收益</p>
         </div>
         <div class="infoBottom holdYieldNum">
-          <p>- 3.4</p>
+          <p>{{hadEarn}}</p>
         </div>
       </div>
     </div>
@@ -45,32 +46,60 @@
 </template>
 
 <script>
+import globalStore from '../stores/global-stores'
 export default {
+  // 控制卡片可见性
+  computed: {
+    isShow () {
+      if (this.type === '股') {
+        return globalStore.state.checkStock
+      }
+      if (this.type === '基') {
+        return globalStore.state.checkFund
+      }
+      if (this.type === '金') {
+        return globalStore.state.checkGold
+      }
+      if (this.type === '定') {
+        return globalStore.state.checkRegular
+      }
+      if (this.type === '其') {
+        return globalStore.state.checkOther
+      }
+    }
+  },
   props: {
-    StockType: ''
+    name: '',
+    type: '',
+    asset: '',
+    dayEarn: '',
+    hadEarn: ''
   },
   data () {
     return {
-      StockType: this.StockType,
+      name: this.name,
+      type: this.type,
+      asset: this.asset,
+      dayEarn: this.dayEarn,
+      hadEarn: this.hadEarn,
       TypeColor: ''
     }
   },
   onLoad () {
-    // console.log(this.StockType)
     this.getStockType()
-    // console.log('come in 2')
   },
   methods: {
+    // 控制 tag 颜色
     getStockType: function () {
-      if (this.StockType === '股') {
+      if (this.type === '股') {
         this.TypeColor = '#CC3333'
-      } else if (this.StockType === '基') {
+      } else if (this.type === '基') {
         this.TypeColor = '#3399FF'
-      } else if (this.StockType === '定') {
+      } else if (this.type === '定') {
         this.TypeColor = '#009900'
-      } else if (this.StockType === '金') {
+      } else if (this.type === '金') {
         this.TypeColor = '#FF9900'
-      } else if (this.StockType === '其') {
+      } else if (this.type === '其') {
         this.TypeColor = '#999999'
       }
     }
@@ -170,7 +199,6 @@ export default {
   margin-left: 30rpx;
   color: #fff;
   font-size: 28rpx;
-  /* font-weight: bold; */
 }
 /* 今日收益 Text */
 .dayYieldTitle {
@@ -182,7 +210,6 @@ export default {
   justify-content: center;
   color: #ff3300;
   font-size: 28rpx;
-  /* font-weight: bold; */
 }
 /* 持有收益 Text */
 .holdYieldTitle {
@@ -196,6 +223,5 @@ export default {
   margin-right: 30rpx;
   font-size: 28rpx;
   color: #009900;
-  /* font-weight: bold; */
 }
 </style>
