@@ -14,9 +14,9 @@
     <MoneyInfo></MoneyInfo>
     <!-- Not Found 页面 -->
     <NotFound v-if="isNotFound"></NotFound>
-
+    <ScrollTable :StockList="StockList"></ScrollTable>
     <!-- 项目卡片 -->
-    <StockDataCell
+    <!-- <StockDataCell
       v-for="(item,index) in StockList"
       :key="index"
       :name="item.name"
@@ -24,7 +24,7 @@
       :asset="item.asset"
       :dayEarn="item.dayEarn"
       :hadEarn="item.hadEarn"
-    ></StockDataCell>
+    ></StockDataCell>-->
     <!-- 添加项目按钮 -->
     <AddProBtn></AddProBtn>
     <!-- 底部留空 -->
@@ -54,6 +54,7 @@ export default {
         globalStore.state.checkOther === false) {
         return true
       }
+      // 当前页面无项目时
       if (this.StockList.length === 0) {
         return true
       } else {
@@ -83,44 +84,44 @@ export default {
         {
           name: '通用股份',
           type: '股',
-          asset: '40621',
-          dayEarn: '+432',
-          hadEarn: '-451'
+          asset: '4146',
+          dayEarn: '+12',
+          hadEarn: '-41'
         },
         {
-          name: '通用股份',
+          name: '三全食品',
           type: '基',
           asset: '40621',
           dayEarn: '+432',
           hadEarn: '-451'
         },
         {
-          name: '通用股份',
+          name: '鹏华债券',
           type: '定',
-          asset: '40621',
-          dayEarn: '+432',
-          hadEarn: '-451'
+          asset: '4333',
+          dayEarn: '+110',
+          hadEarn: '-99'
         },
         {
-          name: '通用股份',
+          name: '汤圆股份',
           type: '金',
-          asset: '40621',
-          dayEarn: '+432',
-          hadEarn: '-451'
+          asset: '8204',
+          dayEarn: '+304',
+          hadEarn: '-102'
         },
         {
-          name: '通用股份',
+          name: '余额宝',
           type: '其',
-          asset: '40621',
-          dayEarn: '+432',
-          hadEarn: '-451'
+          asset: '900',
+          dayEarn: '+41',
+          hadEarn: '-84'
         },
         {
-          name: '通用股份',
+          name: '上海一汽',
           type: '股',
-          asset: '40621',
-          dayEarn: '+432',
-          hadEarn: '-451'
+          asset: '7654',
+          dayEarn: '+14',
+          hadEarn: '-11'
         }
       ]
     }
@@ -129,28 +130,26 @@ export default {
     // 关闭弹出层
     onClose: function () {
       this.show = false
-    },
-    // *问题：为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
-    touchStart: function (e) {
-      this.start = e.mp.changedTouches[0].clientX
-      this.interval = setInterval(() => {
-        this.time++
-      }, 100)
-    },
-    touchEnd: function (e) {
-      this.end = e.mp.changedTouches[0].clientX
-      // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
-      if (this.end - this.start <= -40 && this.time < 10) {
-        this.show = true
-        console.log('zuo')
-      }
-      if (this.end - this.start >= 40 && this.time < 10) {
-        this.show = false
-        console.log('zuo')
-      }
-      clearInterval(this.interval)
-      this.time = 0
     }
+    // *问题：为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
+    // touchStart: function (e) {
+    //   this.start = e.mp.changedTouches[0].clientX
+    //   this.interval = setInterval(() => {
+    //     this.time++
+    //   }, 100)
+    // },
+    // touchEnd: function (e) {
+    //   this.end = e.mp.changedTouches[0].clientX
+    //   // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
+    //   if (this.end - this.start <= -40 && this.time < 10) {
+    //     this.show = true
+    //   }
+    //   if (this.end - this.start >= 40 && this.time < 10) {
+    //     this.show = false
+    //   }
+    //   clearInterval(this.interval)
+    //   this.time = 0
+    // }
   }
 }
 </script>

@@ -1,19 +1,36 @@
 <!-- Descripion：scroll-view 滑动表格-->
 <template>
   <div class="container">
+    <div class="left-ProjectName">
+      <div
+        class="projectNameCell"
+        v-for="(projectName,proIndex) in StockList"
+        :key="proIndex"
+      >{{projectName.name}}</div>
+    </div>
+    <!-- <div class="right-ProjectInfo"> -->
     <!-- 滚动 -->
     <!-- enable-flex 将滚动控件变为 flex 布局的容器 -->
     <scroll-view class="scrollBox" scroll-x="true">
-      <div class="item" v-for="(item,index) in list" :key="index">{{item}}</div>
+      <div class="scrollCell" v-for="(projectInfo,infoIndex) in StockList" :key="infoIndex">
+        <div class="item">{{projectInfo.type}}</div>
+        <div class="item">{{projectInfo.asset}}</div>
+        <div class="item">{{projectInfo.dayEarn}}</div>
+        <div class="item">{{projectInfo.hadEarn}}</div>
+      </div>
     </scroll-view>
+    <!-- </div> -->
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    StockList: ''
+  },
   data () {
     return {
-      list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      StockList: this.StockList
     }
   }
 }
@@ -21,15 +38,44 @@ export default {
 
 <style scoped>
 .container {
-  height: 100rpx;
+  height: auto;
   width: 680rpx;
-}
-.scrollBox {
-  width: 100%;
-  height: 100%;
-  white-space: nowrap;
   display: flex;
+  border: 1px solid #ffffff;
+}
+/*--------- 左边固定栏 ---------*/
+.left-ProjectName {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+/* 项目名单元格 */
+.projectNameCell {
+  height: 100rpx;
+  width: 100%;
+  font-size: 28rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-bottom: 1px solid #fff;
+}
+/*--------- 右边滑动栏 ---------*/
+.right-ProjectInfo {
+  width: 70%;
+  height: 100%;
+}
+.scrollCell {
+  /* display: inline-block; */
+}
+/* 滚动容器 */
+.scrollBox {
+  width: 80%;
+  /* height: 100%; */
+  white-space: nowrap;
   background-color: #8989a0;
+  /* border: 1px solid #ffffff; */
 }
 /* 
 inline:行内元素。可与其他元素共享一行，但不可调宽高，padding 有效，margin 左右有效
@@ -37,9 +83,11 @@ block:块级元素。与其他元素不共享一行，能调宽高，默认填�
 inline-block:可与其他元素共享的块级元素
  */
 .item {
-  height: 100%;
+  height: 100rpx;
   width: 200rpx;
   display: inline-block;
-  border: 1px solid #ffffff;
+  text-align: center;
+  line-height: 100rpx;
+  border-bottom: 1px solid #fff;
 }
 </style>
