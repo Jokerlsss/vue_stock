@@ -1,4 +1,4 @@
-<!-- Description:自选页面-右侧弹出层中的内容 -->
+  <!-- Description:自选页面-右侧弹出层中的内容 -->
 <template>
   <div class="container">
     <div class="tipsText">选择展示项目</div>
@@ -24,6 +24,8 @@
         <van-tag round color="#999999" size="large" class="typeTag">其</van-tag>
         <van-switch :checked="checkOther" @change="changeOther" class="switch" size="48rpx" />
       </div>
+      <!-- 底部空白处 -->
+      <div class="bottomSpace"></div>
     </div>
   </div>
 </template>
@@ -52,8 +54,6 @@ export default {
   },
   data () {
     return {
-      checked: true,
-      item: [1, 2, 3, 4]
     }
   },
   methods: {
@@ -118,5 +118,10 @@ export default {
 /* 筛选按钮 */
 .switch {
   margin-top: 8rpx;
+}
+/* 底部留白 */
+.bottomSpace {
+  height: 20%;
+  width: 100%;
 }
 </style>

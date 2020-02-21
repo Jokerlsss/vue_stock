@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+    // 项目筛选按钮状态
     state: {
         checkStock: true,
         checkFund: true,

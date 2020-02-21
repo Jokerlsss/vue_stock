@@ -12,6 +12,9 @@
     </van-popup>
     <!-- 顶部资产明细 -->
     <MoneyInfo></MoneyInfo>
+    <!-- Not Found 页面 -->
+    <NotFound v-if="isNotFound"></NotFound>
+
     <!-- 项目卡片 -->
     <StockDataCell
       v-for="(item,index) in StockList"
@@ -30,6 +33,8 @@
 </template>
 
 <script>
+import globalStore from '../../stores/global-stores'
+
 import StockDataCell from '@/components/StockDataCell'
 import AddProBtn from '@/components/AddProBtn'
 import MoneyInfo from '@/components/MoneyInfo'
@@ -37,7 +42,25 @@ import SliderCell from '@/components/SliderCell'
 import ScrollTable from '@/components/ScrollTable'
 import DefinedTable from '@/components/Table'
 import PopupContent from '@/components/PopupContent'
+import NotFound from '@/components/NotFound'
 export default {
+  computed: {
+    isNotFound () {
+      // 当所有项目筛选为空时，出现 NotFound 页面
+      if (globalStore.state.checkStock === false &&
+        globalStore.state.checkFund === false &&
+        globalStore.state.checkGold === false &&
+        globalStore.state.checkRegular === false &&
+        globalStore.state.checkOther === false) {
+        return true
+      }
+      if (this.StockList.length === 0) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   components: {
     StockDataCell,
     AddProBtn,
@@ -45,7 +68,8 @@ export default {
     SliderCell,
     ScrollTable,
     DefinedTable,
-    PopupContent
+    PopupContent,
+    NotFound
   },
   data () {
     return {
