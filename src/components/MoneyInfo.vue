@@ -5,6 +5,7 @@
       <div class="assetText">
         总资产
         <img :src="visableFlag?visableimg:invisableimg" class="visableImg" @click="cutVisable" />
+        <img :src="isShowList?cardShowImg:listShowImg" class="changeShowImg" @click="cutShow" />
       </div>
       <div class="assetNum">{{visableFlag?allAsset:invisableNum}}</div>
     </div>
@@ -27,7 +28,13 @@
 </template>
 
 <script>
+import globalStore from '../stores/global-stores'
 export default {
+  computed: {
+    isShowList () {
+      return globalStore.state.isShowList
+    }
+  },
   data () {
     return {
       // 可见 & 不可见 状态及对应图标
@@ -39,16 +46,24 @@ export default {
       dayAsset: '+300',
       totalAsset: '+3400',
       hadAsset: '+15420',
-      invisableNum: '----'
+      invisableNum: '----',
+      // 切换展示方式
+      listShowImg: '../../static/images/list.png',
+      cardShowImg: '../../static/images/card.png'
     }
   },
   methods: {
+    // 切换资产可见性
     cutVisable () {
       if (this.visableFlag === true) {
         this.visableFlag = false
       } else {
         this.visableFlag = true
       }
+    },
+    // 切换项目展示方式
+    cutShow () {
+      globalStore.commit('isShowList')
     }
   }
 }
@@ -83,6 +98,13 @@ export default {
 /* 可见 & 不可见 图标 */
 .visableImg {
   margin-left: 20rpx;
+  height: 46rpx;
+  width: 50rpx;
+}
+/* 改变展示方式图标 */
+.changeShowImg {
+  position: absolute;
+  right: 70rpx;
   height: 46rpx;
   width: 50rpx;
 }

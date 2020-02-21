@@ -10,9 +10,18 @@ export default new Vuex.Store({
         checkFund: true,
         checkGold: true,
         checkRegular: true,
-        checkOther: true
+        checkOther: true,
+        isShowList: false
     },
     mutations: {
+
+        isShowList: (state) => {
+            if (state.isShowList === true) {
+                state.isShowList = false
+            } else {
+                state.isShowList = true
+            }
+        },
         // 股票类型
         changeStock: (state) => {
             if (state.checkStock === true) {

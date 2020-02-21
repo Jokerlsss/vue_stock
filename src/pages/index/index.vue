@@ -14,17 +14,19 @@
     <MoneyInfo></MoneyInfo>
     <!-- Not Found 页面 -->
     <NotFound v-if="isNotFound"></NotFound>
-    <ScrollTable :StockList="StockList"></ScrollTable>
+    <ScrollTable :StockList="StockList" v-if="isShowList"></ScrollTable>
     <!-- 项目卡片 -->
-    <!-- <StockDataCell
-      v-for="(item,index) in StockList"
-      :key="index"
-      :name="item.name"
-      :type="item.type"
-      :asset="item.asset"
-      :dayEarn="item.dayEarn"
-      :hadEarn="item.hadEarn"
-    ></StockDataCell>-->
+    <div v-if="isShowList?false:true">
+      <StockDataCell
+        v-for="(item,index) in StockList"
+        :key="index"
+        :name="item.name"
+        :type="item.type"
+        :asset="item.asset"
+        :dayEarn="item.dayEarn"
+        :hadEarn="item.hadEarn"
+      ></StockDataCell>
+    </div>
     <!-- 添加项目按钮 -->
     <AddProBtn></AddProBtn>
     <!-- 底部留空 -->
@@ -45,6 +47,9 @@ import PopupContent from '@/components/PopupContent'
 import NotFound from '@/components/NotFound'
 export default {
   computed: {
+    isShowList () {
+      return globalStore.state.isShowList
+    },
     isNotFound () {
       // 当所有项目筛选为空时，出现 NotFound 页面
       if (globalStore.state.checkStock === false &&
@@ -81,6 +86,15 @@ export default {
       time: 0,
 
       StockList: [
+        // 表头
+        {
+          name: '项目名称',
+          type: '项目类型',
+          asset: '资产',
+          dayEarn: '每日收益',
+          hadEarn: '持有收益'
+        },
+        // 表内容
         {
           name: '通用股份',
           type: '股',
@@ -130,26 +144,26 @@ export default {
     // 关闭弹出层
     onClose: function () {
       this.show = false
-    }
+    },
     // *问题：为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
-    // touchStart: function (e) {
-    //   this.start = e.mp.changedTouches[0].clientX
-    //   this.interval = setInterval(() => {
-    //     this.time++
-    //   }, 100)
-    // },
-    // touchEnd: function (e) {
-    //   this.end = e.mp.changedTouches[0].clientX
-    //   // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
-    //   if (this.end - this.start <= -40 && this.time < 10) {
-    //     this.show = true
-    //   }
-    //   if (this.end - this.start >= 40 && this.time < 10) {
-    //     this.show = false
-    //   }
-    //   clearInterval(this.interval)
-    //   this.time = 0
-    // }
+    touchStart: function (e) {
+      this.start = e.mp.changedTouches[0].clientX
+      this.interval = setInterval(() => {
+        this.time++
+      }, 100)
+    },
+    touchEnd: function (e) {
+      this.end = e.mp.changedTouches[0].clientX
+      // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
+      if (this.end - this.start <= -40 && this.time < 10) {
+        this.show = true
+      }
+      if (this.end - this.start >= 40 && this.time < 10) {
+        this.show = false
+      }
+      clearInterval(this.interval)
+      this.time = 0
+    }
   }
 }
 </script>

@@ -2,9 +2,10 @@
 <template>
   <div class="container">
     <div class="left-ProjectName">
+      <div class="projectNameCell"></div>
       <div
         class="projectNameCell"
-        v-for="(projectName,proIndex) in StockList"
+        v-for="(projectName,proIndex) in projectNameList"
         :key="proIndex"
       >{{projectName.name}}</div>
     </div>
@@ -25,6 +26,17 @@
 
 <script>
 export default {
+  computed: {
+    // 去除索引为 0 的表头数据
+    projectNameList () {
+      var projectNameList = []
+      for (var len = 1; len < this.StockList.length; len++) {
+        projectNameList.push(this.StockList[len])
+        console.log(projectNameList)
+      }
+      return projectNameList
+    }
+  },
   props: {
     StockList: ''
   },
@@ -38,10 +50,11 @@ export default {
 
 <style scoped>
 .container {
+  margin-top: 30rpx;
   height: auto;
-  width: 680rpx;
+  width: 640rpx;
   display: flex;
-  border: 1px solid #ffffff;
+  border: 1px solid #9898a0;
 }
 /*--------- 左边固定栏 ---------*/
 .left-ProjectName {
@@ -59,7 +72,7 @@ export default {
   justify-content: center;
   align-items: center;
   color: white;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #9898a0;
 }
 /*--------- 右边滑动栏 ---------*/
 .right-ProjectInfo {
@@ -72,10 +85,10 @@ export default {
 /* 滚动容器 */
 .scrollBox {
   width: 80%;
-  /* height: 100%; */
   white-space: nowrap;
-  background-color: #8989a0;
-  /* border: 1px solid #ffffff; */
+  color: white;
+  background-color: #393942;
+  font-family: PingFang SC;
 }
 /* 
 inline:行内元素。可与其他元素共享一行，但不可调宽高，padding 有效，margin 左右有效
@@ -88,6 +101,6 @@ inline-block:可与其他元素共享的块级元素
   display: inline-block;
   text-align: center;
   line-height: 100rpx;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #9898a0;
 }
 </style>
