@@ -3,10 +3,10 @@
   <div class="container" @touchstart="touchStart" @touchend="touchEnd">
     <!-- 右侧筛选弹出层 -->
     <van-popup
-      :show="show"
+      :show="isShowPopup"
       position="right"
       custom-style="width:30%;height:100%;opacity:0.8;display:flex;flex-direction:column-reserve"
-      @close="onClose"
+      @close="closePopup"
     >
       <PopupContent></PopupContent>
     </van-popup>
@@ -28,7 +28,7 @@
       ></StockDataCell>
     </div>
     <!-- 添加项目按钮 -->
-    <AddProBtn></AddProBtn>
+    <AddProBtn @showPopup="openPopup"></AddProBtn>
     <!-- 底部留空 -->
     <div class="space"></div>
   </div>
@@ -79,7 +79,7 @@ export default {
   },
   data () {
     return {
-      show: false,
+      isShowPopup: false,
       start: '',
       end: '',
       interval: '',
@@ -142,28 +142,34 @@ export default {
   },
   methods: {
     // 关闭弹出层
-    onClose: function () {
-      this.show = false
+    closePopup: function () {
+      this.isShowPopup = false
     },
-    // *问题：为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
-    touchStart: function (e) {
-      this.start = e.mp.changedTouches[0].clientX
-      this.interval = setInterval(() => {
-        this.time++
-      }, 100)
-    },
-    touchEnd: function (e) {
-      this.end = e.mp.changedTouches[0].clientX
-      // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
-      if (this.end - this.start <= -40 && this.time < 10) {
-        this.show = true
-      }
-      if (this.end - this.start >= 40 && this.time < 10) {
-        this.show = false
-      }
-      clearInterval(this.interval)
-      this.time = 0
+    openPopup: function () {
+      this.isShowPopup = true
     }
+
+    // *问题：为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
+    // 由于左滑和滑动表格冲突，暂时用按钮代替
+
+    // touchStart: function (e) {
+    //   this.start = e.mp.changedTouches[0].clientX
+    //   this.interval = setInterval(() => {
+    //     this.time++
+    //   }, 100)
+    // },
+    // touchEnd: function (e) {
+    //   this.end = e.mp.changedTouches[0].clientX
+    //   // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
+    //   if (this.end - this.start <= -40 && this.time < 10) {
+    //     this.openPopup()
+    //   }
+    //   if (this.end - this.start >= 40 && this.time < 10) {
+    //     this.closePopup()
+    //   }
+    //   clearInterval(this.interval)
+    //   this.time = 0
+    // }
   }
 }
 </script>

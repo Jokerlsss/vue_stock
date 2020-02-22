@@ -14,7 +14,6 @@ export default new Vuex.Store({
         isShowList: false
     },
     mutations: {
-
         isShowList: (state) => {
             if (state.isShowList === true) {
                 state.isShowList = false

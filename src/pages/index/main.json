@@ -1,6 +1,7 @@
 {
     "usingComponents": {
         "van-popup": "../../../static/vant/popup/index",
-        "van-switch": "../../../static/vant/switch/index"
+        "van-switch": "../../../static/vant/switch/index",
+        "van-transition": "../../../static/vant/transition/index"
     }
 }

@@ -52,7 +52,7 @@ export default {
 .container {
   margin-top: 30rpx;
   height: auto;
-  width: 640rpx;
+  width: 100%;
   display: flex;
   border: 1px solid #9898a0;
 }

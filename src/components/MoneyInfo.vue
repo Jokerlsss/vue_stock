@@ -5,7 +5,7 @@
       <div class="assetText">
         总资产
         <img :src="visableFlag?visableimg:invisableimg" class="visableImg" @click="cutVisable" />
-        <img :src="isShowList?cardShowImg:listShowImg" class="changeShowImg" @click="cutShow" />
+        <!-- <img :src="isShowList?cardShowImg:listShowImg" class="changeShowImg" @click="cutShow" /> -->
       </div>
       <div class="assetNum">{{visableFlag?allAsset:invisableNum}}</div>
     </div>
