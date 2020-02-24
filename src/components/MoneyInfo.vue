@@ -46,7 +46,7 @@ export default {
       dayAsset: '+300',
       totalAsset: '+3400',
       hadAsset: '+15420',
-      invisableNum: '----',
+      invisableNum: '****',
       // 切换展示方式
       listShowImg: '../../static/images/list.png',
       cardShowImg: '../../static/images/card.png'

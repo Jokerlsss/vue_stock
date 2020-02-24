@@ -28,7 +28,7 @@
       </button>
       <!-- 添加按钮 -->
       <button class="addBtn" hover-class="btnGroup_hover" :style="isBtn?addBtnSlide:addBtnNoSlide">
-        <img src="../../static/images/add515151.png" class="BtnGroupImg" v-if="isBtn" />
+        <img src="../../static/images/addPro.png" class="BtnGroupImg" v-if="isBtn" />
       </button>
     </div>
   </div>
@@ -148,7 +148,7 @@ export default {
   width: 100rpx;
   height: 100rpx;
   border-radius: 50rpx;
-  background-color: #999999;
+  background-color: #666666;
   z-index: 2;
   transition: bottom 0.3s ease-in-out;
 }
@@ -161,7 +161,7 @@ export default {
   width: 100rpx;
   height: 100rpx;
   border-radius: 50rpx;
-  background-color: #cccccc;
+  background-color: #666666;
   z-index: 3;
   transition: bottom 0.3s ease-in-out;
 }

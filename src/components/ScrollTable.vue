@@ -32,7 +32,6 @@ export default {
       var projectNameList = []
       for (var len = 1; len < this.StockList.length; len++) {
         projectNameList.push(this.StockList[len])
-        console.log(projectNameList)
       }
       return projectNameList
     }

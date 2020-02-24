@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/main",
-    "pages/mine/main"
+    "pages/mine/main",
+    "pages/index/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -31,6 +31,8 @@
     "position": "bottom"
   },
   "usingComponents": {
-    "van-tag": "../static/vant/tag/index"
+    "van-tag": "../static/vant/tag/index",
+    "van-image": "../static/vant/image/index",
+    "van-progress": "../static/vant/progress/index"
   }
 }
