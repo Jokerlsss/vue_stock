@@ -4,36 +4,68 @@
     <div class="titleDiv">
       <p class="titleText">资产占比</p>
     </div>
-    <div class="content">
+    <div class="content" v-for="(projectItem,itemIndex) in proportionOfAssets" :key="itemIndex">
       <div class="project">
-        <div class="projectItem">股票</div>
-        <div class="projectItem">基金</div>
-        <div class="projectItem">黄金</div>
-        <div class="projectItem">定期</div>
-        <div class="projectItem">其他</div>
+        <div class="projectItem">{{projectItem.projectItem}}</div>
       </div>
       <div class="asset">
-        <div class="assetItem">51204</div>
-        <div class="assetItem">4032.1</div>
-        <div class="assetItem">210</div>
-        <div class="assetItem">40014</div>
-        <div class="assetItem">3201.24</div>
+        <div class="assetItem">{{projectItem.assetItem}}</div>
       </div>
-      <div class="proportionPrograss">
-        <div class="prograssItem">51204</div>
-        <div class="prograssItem">4032.1</div>
-        <div class="prograssItem">210</div>
-        <div class="prograssItem">40014</div>
-        <div class="prograssItem">3201.24</div>
+      <div class="proportionProgress">
+        <div class="progressItem">
+          <ProportionProgress :width="projectItem.proportionItem"></ProportionProgress>
+        </div>
+        <!-- <div class="progressItem">{{projectItem.progressItem}}</div> -->
       </div>
-      <div class="proportionNum"></div>
+      <div class="proportionNum">
+        <div class="proportionItem">{{projectItem.proportionItem}}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import ProportionProgress from '@/components/ProportionProgress'
 export default {
-
+  components: {
+    ProportionProgress
+  },
+  data () {
+    return {
+      proportionOfAssets: [
+        {
+          projectItem: '股票',
+          assetItem: '51324',
+          progressItem: '51%',
+          proportionItem: '51%'
+        },
+        {
+          projectItem: '基金',
+          assetItem: '4032.1',
+          progressItem: '3.6%',
+          proportionItem: '3.6%'
+        },
+        {
+          projectItem: '黄金',
+          assetItem: '201',
+          progressItem: '0.4%',
+          proportionItem: '0.4%'
+        },
+        {
+          projectItem: '定期',
+          assetItem: '40000',
+          progressItem: '42%',
+          proportionItem: '42%'
+        },
+        {
+          projectItem: '其他',
+          assetItem: '3201.24',
+          progressItem: '3%',
+          proportionItem: '3%'
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -41,7 +73,7 @@ export default {
 .container {
   margin-top: 30rpx;
   width: 680rpx;
-  height: 480rpx;
+  height: auto;
   border-radius: 20rpx;
   background-color: #191b2a;
   display: flex;
@@ -62,7 +94,7 @@ export default {
 }
 /*--------- 下部内容部分 ---------*/
 .content {
-  height: 400rpx;
+  height: 80rpx;
   width: 100%;
   display: flex;
   color: white;
@@ -76,43 +108,54 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-/* 项目 item */
+/* 项目名称 item */
 .projectItem {
   width: 100%;
-  height: 20%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 /* 资产 */
 .asset {
-  width: 200rpx;
+  width: 210rpx;
   display: flex;
   flex-wrap: wrap;
 }
 .assetItem {
   width: 100%;
-  height: 20%;
+  height: 100%;
   display: flex;
   font-weight: bold;
   align-items: center;
   padding-left: 20rpx;
 }
 /* 进度条 & 进度数值 */
-.proportionPrograss {
+.proportionProgress {
   display: flex;
   flex-wrap: wrap;
-  width: 230rpx;
+  width: 260rpx;
   height: 100%;
 }
-.prograssItem {
+/* 进度条 item */
+.progressItem {
   width: 100%;
-  height: 20%;
+  height: 100%;
   display: flex;
   align-items: center;
+  padding-right: 20rpx;
 }
+
+/* 进度值 */
 .proportionNum {
-  width: 140rpx;
+  width: 100rpx;
   height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.proportionItem {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 </style>
