@@ -13,7 +13,11 @@
     <!-- 滚动 -->
     <!-- enable-flex 将滚动控件变为 flex 布局的容器 -->
     <scroll-view class="scrollBox" scroll-x="true">
-      <div class="scrollCell" v-for="(projectInfo,infoIndex) in StockList" :key="infoIndex">
+      <div
+        class="scrollCell"
+        v-for="(projectInfo,infoIndex) in financialProjectList"
+        :key="infoIndex"
+      >
         <div class="item">{{projectInfo.type}}</div>
         <div class="item">{{projectInfo.asset}}</div>
         <div class="item">{{projectInfo.dayEarn}}</div>
@@ -30,18 +34,18 @@ export default {
     // 去除索引为 0 的表头数据
     projectNameList () {
       var projectNameList = []
-      for (var len = 1; len < this.StockList.length; len++) {
-        projectNameList.push(this.StockList[len])
+      for (var len = 1; len < this.financialProjectList.length; len++) {
+        projectNameList.push(this.financialProjectList[len])
       }
       return projectNameList
     }
   },
   props: {
-    StockList: ''
+    financialProjectList: ''
   },
   data () {
     return {
-      StockList: this.StockList
+      financialProjectList: this.financialProjectList
     }
   }
 }

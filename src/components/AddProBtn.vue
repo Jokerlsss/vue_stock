@@ -2,8 +2,12 @@
 <template>
   <div class="container">
     <div>
-      <button class="managerBtn" hover-class="managerBtn_hover" @click="isShowMoreBtn">
-        <img src="../../static/images/up.png" class="btnImg" :style="isBtn?Rotate:noRotate" />
+      <button class="openBtnGroup" hover-class="openBtnGroup_hover" @click="cutBtnGroup">
+        <img
+          :src="openBtnGroupImg"
+          class="openBtnImg"
+          :style="isOpenBtnGroup?RotateBtn:noRotateBtn"
+        />
       </button>
     </div>
     <!-- 按钮组 -->
@@ -12,23 +16,31 @@
       <button
         class="popupBtn"
         hover-class="btnGroup_hover"
-        :style="isBtn?popupBtnSlide:popupBtnNoSlide"
+        :style="isOpenBtnGroup?popupBtnSlideStyle:popupBtnNoSlideStyle"
         @click="showPopup"
       >
-        <img src="../../static/images/select.png" class="BtnGroupImg" v-if="isBtn" />
+        <img :src="popupBtnImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
       <!-- 切换卡片按钮 -->
       <button
         class="cutShowBtn"
         hover-class="btnGroup_hover"
-        :style="isBtn?cutShowSlide:cutShowNoSlide"
+        :style="isOpenBtnGroup?cutShowSlideStyle:cutShowNoSlideStyle"
         @click="cutShow"
       >
-        <img :src="isShowList?cardShowImg:listShowImg" class="BtnGroupImg" v-if="isBtn" />
+        <img
+          :src="isChangeToScrollTable?toTableBtnImg:toCellBtnImg"
+          class="BtnGroupImg"
+          v-if="isOpenBtnGroup"
+        />
       </button>
       <!-- 添加按钮 -->
-      <button class="addBtn" hover-class="btnGroup_hover" :style="isBtn?addBtnSlide:addBtnNoSlide">
-        <img src="../../static/images/addPro.png" class="BtnGroupImg" v-if="isBtn" />
+      <button
+        class="addProBtn"
+        hover-class="btnGroup_hover"
+        :style="isOpenBtnGroup?addBtnSlideStyle:addBtnNoSlideStyle"
+      >
+        <img :src="addProBtnImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
     </div>
   </div>
@@ -38,47 +50,52 @@
 import globalStore from '../stores/global-stores'
 export default {
   computed: {
-    isShowList () {
-      return globalStore.state.isShowList
+    isChangeToScrollTable () {
+      return globalStore.state.isChangeToScrollTable
     }
   },
   data () {
     return {
-      isBtn: false,
-      popupBtnSlide: 'bottom:410rpx;opacity:0.9',
-      popupBtnNoSlide: 'bottom:40rpx;opacity:0.4',
+      isOpenBtnGroup: false,
+      popupBtnSlideStyle: 'bottom:410rpx;opacity:0.9',
+      popupBtnNoSlideStyle: 'bottom:40rpx;opacity:0.4',
 
-      cutShowSlide: 'bottom:290rpx;opacity:0.9',
-      cutShowNoSlide: 'bottom:40rpx;opacity:0.4',
+      cutShowSlideStyle: 'bottom:290rpx;opacity:0.9',
+      cutShowNoSlideStyle: 'bottom:40rpx;opacity:0.4',
 
-      addBtnSlide: 'bottom:170rpx;opacity:0.9',
-      addBtnNoSlide: 'bottom:40rpx;opacity:0.4;',
+      addBtnSlideStyle: 'bottom:170rpx;opacity:0.9',
+      addBtnNoSlideStyle: 'bottom:40rpx;opacity:0.4;',
 
-      Rotate: 'transform: rotate(180deg);',
-      noRotate: 'transform: rotate(0deg);',
+      RotateBtn: 'transform: rotate(180deg);',
+      noRotateBtn: 'transform: rotate(0deg);',
 
-      // 切换卡片 & 列表视图
-      listShowImg: '../../static/images/list.png',
-      cardShowImg: '../../static/images/card.png'
+      toCellBtnImg: '../../static/images/list.png',
+      toTableBtnImg: '../../static/images/card.png',
+
+      openBtnGroupImg: '../../static/images/up.png',
+      popupBtnImg: '../../static/images/select.png',
+      addProBtnImg: '../../static/images/addPro.png'
     }
   },
   methods: {
-    isShowMoreBtn: function () {
-      if (this.isBtn === false) {
-        this.isBtn = true
+    cutBtnGroup: function () {
+      const OPEN = true
+      const CLOSE = false
+      if (this.isOpenBtnGroup === CLOSE) {
+        this.isOpenBtnGroup = OPEN
       } else {
-        this.isBtn = false
+        this.isOpenBtnGroup = CLOSE
       }
     },
     // 切换视图
     cutShow () {
-      globalStore.commit('isShowList')
-      this.isShowMoreBtn()
+      globalStore.commit('isChangeToScrollTable')
+      this.cutBtnGroup()
     },
     // 弹出层
     showPopup () {
       this.$emit('showPopup')
-      this.isShowMoreBtn()
+      this.cutBtnGroup()
     }
   }
 }
@@ -100,7 +117,7 @@ export default {
   justify-content: center;
 }
 /* 管理项目按钮 */
-.managerBtn {
+.openBtnGroup {
   position: relative;
   z-index: 999;
   right: 20rpx;
@@ -112,11 +129,11 @@ export default {
   padding: 0;
 }
 /* 点击触发样式 */
-.managerBtn_hover {
+.openBtnGroup_hover {
   opacity: 0.7;
 }
 /* 管理按钮背景图 */
-.btnImg {
+.openBtnImg {
   width: 60rpx;
   height: 60rpx;
   margin-top: 20rpx;
@@ -153,7 +170,7 @@ export default {
   transition: bottom 0.3s ease-in-out;
 }
 /* 3、添加按钮 */
-.addBtn {
+.addProBtn {
   position: fixed;
   padding: 0;
   right: 52rpx;

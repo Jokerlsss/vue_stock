@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="imgDiv">
-      <img src="../../static/images/notfind.png" class="NotFoundImg" />
+      <img src="../../static/images/notfind.png" class="NoContentPageImg" />
     </div>
     <div class="textDiv">当前无内容</div>
   </div>
@@ -25,7 +25,7 @@ export default {
   align-items: flex-end;
   justify-content: center;
 }
-.NotFoundImg {
+.NoContentPageImg {
   height: 256rpx;
   width: 256rpx;
   opacity: 0.7;

@@ -1,12 +1,13 @@
+<!-- Description: 项目模块-顶部资产信息 -->
 <template>
   <div class="container">
     <!-- 总资产 -->
     <div class="allAsset">
       <div class="assetText">
         总资产
-        <img :src="visableFlag?visableimg:invisableimg" class="visableImg" @click="cutVisable" />
-        <!-- <img :src="isShowList?cardShowImg:listShowImg" class="changeShowImg" @click="cutShow" /> -->
+        <img :src="visableFlag?visableImg:invisableImg" class="visableImg" @click="cutVisable" />
       </div>
+      <!-- 总资产：数据库存储并从后台读取 -->
       <div class="assetNum">{{visableFlag?allAsset:invisableNum}}</div>
     </div>
     <!-- 收益 -->
@@ -31,16 +32,16 @@
 import globalStore from '../stores/global-stores'
 export default {
   computed: {
-    isShowList () {
-      return globalStore.state.isShowList
+    isChangeToScrollTable () {
+      return globalStore.state.isChangeToScrollTable
     }
   },
   data () {
     return {
       // 可见 & 不可见 状态及对应图标
       visableFlag: true,
-      visableimg: '../../static/images/visable.png',
-      invisableimg: '../../static/images/invisable.png',
+      visableImg: '../../static/images/visable.png',
+      invisableImg: '../../static/images/invisable.png',
       // 四项收益
       allAsset: '41115',
       dayAsset: '+300',
@@ -55,15 +56,17 @@ export default {
   methods: {
     // 切换资产可见性
     cutVisable () {
-      if (this.visableFlag === true) {
-        this.visableFlag = false
+      const VISABLE = true
+      const UNVISABLE = false
+      if (this.visableFlag === VISABLE) {
+        this.visableFlag = UNVISABLE
       } else {
-        this.visableFlag = true
+        this.visableFlag = VISABLE
       }
     },
     // 切换项目展示方式
     cutShow () {
-      globalStore.commit('isShowList')
+      globalStore.commit('isChangeToScrollTable')
     }
   }
 }

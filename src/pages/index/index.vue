@@ -1,7 +1,6 @@
 <!-- Description:资产项目页面 -->
 <template>
-  <div class="container" @touchstart="touchStart" @touchend="touchEnd">
-    <!-- 右侧筛选弹出层 -->
+  <div class="container">
     <van-popup
       :show="isShowPopup"
       position="right"
@@ -11,14 +10,15 @@
       <PopupContent></PopupContent>
     </van-popup>
     <!-- 顶部资产明细 -->
-    <MoneyInfo></MoneyInfo>
-    <!-- Not Found 页面 -->
-    <NotFound v-if="isNotFound"></NotFound>
-    <ScrollTable :StockList="StockList" v-if="isShowList"></ScrollTable>
+    <AssetInfo></AssetInfo>
+    <!-- No Content 页面 -->
+    <NoContentPage v-if="isNoContentPage"></NoContentPage>
+    <!-- 滚动表格 -->
+    <ScrollTable :financialProjectList="financialProjectList" v-if="isChangeToScrollTable"></ScrollTable>
     <!-- 项目卡片 -->
-    <div v-if="isShowList?false:true">
+    <div v-if="isChangeToScrollTable?false:true">
       <StockDataCell
-        v-for="(item,index) in StockList"
+        v-for="(item,index) in financialProjectList"
         :key="index"
         :name="item.name"
         :type="item.type"
@@ -30,7 +30,7 @@
     <!-- 添加项目按钮 -->
     <AddProBtn @showPopup="openPopup"></AddProBtn>
     <!-- 底部留空 -->
-    <div class="space"></div>
+    <div class="bottomSpace"></div>
   </div>
 </template>
 
@@ -39,53 +39,50 @@ import globalStore from '../../stores/global-stores'
 
 import StockDataCell from '@/components/StockDataCell'
 import AddProBtn from '@/components/AddProBtn'
-import MoneyInfo from '@/components/MoneyInfo'
+import AssetInfo from '@/components/AssetInfo'
 import SliderCell from '@/components/SliderCell'
 import ScrollTable from '@/components/ScrollTable'
-import DefinedTable from '@/components/Table'
 import PopupContent from '@/components/PopupContent'
-import NotFound from '@/components/NotFound'
+import NoContentPage from '@/components/NoContentPage'
 export default {
   computed: {
-    isShowList () {
-      return globalStore.state.isShowList
+    isChangeToScrollTable () {
+      return globalStore.state.isChangeToScrollTable
     },
-    isNotFound () {
-      // 当所有项目筛选为空时，出现 NotFound 页面
-      if (globalStore.state.checkStock === false &&
-        globalStore.state.checkFund === false &&
-        globalStore.state.checkGold === false &&
-        globalStore.state.checkRegular === false &&
-        globalStore.state.checkOther === false) {
-        return true
+    isNoContentPage () {
+      const ShowNoContentPage = true
+      const NotShowNoContentPage = false
+      const NoProjectList = 0
+      const UnChecked = false
+      // 当所有项目筛选为空时，出现 NoContentPage 页面
+      if (globalStore.state.checkStock === UnChecked &&
+        globalStore.state.checkFund === UnChecked &&
+        globalStore.state.checkGold === UnChecked &&
+        globalStore.state.checkRegular === UnChecked &&
+        globalStore.state.checkOther === UnChecked) {
+        return ShowNoContentPage
       }
-      // 当前页面无项目时
-      if (this.StockList.length === 0) {
-        return true
+      // 当前页面无项目时，出现 NoContentPage 页面
+      if (this.financialProjectList.length === NoProjectList) {
+        return ShowNoContentPage
       } else {
-        return false
+        return NotShowNoContentPage
       }
     }
   },
   components: {
     StockDataCell,
     AddProBtn,
-    MoneyInfo,
+    AssetInfo,
     SliderCell,
     ScrollTable,
-    DefinedTable,
     PopupContent,
-    NotFound
+    NoContentPage
   },
   data () {
     return {
       isShowPopup: false,
-      start: '',
-      end: '',
-      interval: '',
-      time: 0,
-
-      StockList: [
+      financialProjectList: [
         // 表头
         {
           name: '项目名称',
@@ -98,42 +95,42 @@ export default {
         {
           name: '通用股份',
           type: '股',
-          asset: '4146',
+          asset: 4146,
           dayEarn: '+12',
           hadEarn: '-41'
         },
         {
           name: '三全食品',
           type: '基',
-          asset: '40621',
+          asset: 40621,
           dayEarn: '+432',
           hadEarn: '-451'
         },
         {
           name: '鹏华债券',
           type: '定',
-          asset: '4333',
+          asset: 4333,
           dayEarn: '+110',
           hadEarn: '-99'
         },
         {
           name: '汤圆股份',
           type: '金',
-          asset: '8204',
+          asset: 8204,
           dayEarn: '+304',
           hadEarn: '-102'
         },
         {
           name: '余额宝',
           type: '其',
-          asset: '900',
+          asset: 900,
           dayEarn: '+41',
           hadEarn: '-84'
         },
         {
           name: '上海一汽',
           type: '股',
-          asset: '7654',
+          asset: 7654,
           dayEarn: '+14',
           hadEarn: '-11'
         }
@@ -141,7 +138,6 @@ export default {
     }
   },
   methods: {
-    // 关闭弹出层
     closePopup: function () {
       this.isShowPopup = false
     },
@@ -149,27 +145,7 @@ export default {
       this.isShowPopup = true
     }
 
-    // *问题：为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
-    // 由于左滑和滑动表格冲突，暂时用按钮代替
-
-    // touchStart: function (e) {
-    //   this.start = e.mp.changedTouches[0].clientX
-    //   this.interval = setInterval(() => {
-    //     this.time++
-    //   }, 100)
-    // },
-    // touchEnd: function (e) {
-    //   this.end = e.mp.changedTouches[0].clientX
-    //   // 当滑动事件小于 1 秒时、且滑动距离大于 40 px 触发
-    //   if (this.end - this.start <= -40 && this.time < 10) {
-    //     this.openPopup()
-    //   }
-    //   if (this.end - this.start >= 40 && this.time < 10) {
-    //     this.closePopup()
-    //   }
-    //   clearInterval(this.interval)
-    //   this.time = 0
-    // }
+    // TODO-为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
   }
 }
 </script>
@@ -187,7 +163,7 @@ page {
   justify-content: center;
 }
 /* 底部留白部分 */
-.space {
+.bottomSpace {
   width: 100%;
   height: 150rpx;
 }

@@ -11,14 +11,15 @@ export default new Vuex.Store({
         checkGold: true,
         checkRegular: true,
         checkOther: true,
-        isShowList: false
+        isChangeToScrollTable: false
     },
     mutations: {
-        isShowList: (state) => {
-            if (state.isShowList === true) {
-                state.isShowList = false
+        // 项目页面-切换成列表形式
+        isChangeToScrollTable: (state) => {
+            if (state.isChangeToScrollTable === true) {
+                state.isChangeToScrollTable = false
             } else {
-                state.isShowList = true
+                state.isChangeToScrollTable = true
             }
         },
         // 股票类型

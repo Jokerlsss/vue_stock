@@ -1,19 +1,19 @@
 <template>
   <div class="container">
     <UserLoginInfo></UserLoginInfo>
-    <operateMenu></operateMenu>
+    <UserOperateMenu></UserOperateMenu>
     <AssetProportion></AssetProportion>
   </div>
 </template>
 
 <script>
 import UserLoginInfo from '@/components/UserLoginInfo'
-import operateMenu from '@/components/operateMenu'
+import UserOperateMenu from '@/components/UserOperateMenu'
 import AssetProportion from '@/components/AssetProportion'
 export default {
   components: {
     UserLoginInfo,
-    operateMenu,
+    UserOperateMenu,
     AssetProportion
   }
 }
