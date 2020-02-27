@@ -30,7 +30,7 @@
     <!-- 添加项目按钮 -->
     <AddProBtn @showPopup="openPopup"></AddProBtn>
     <!-- 底部留空 -->
-    <div class="bottomSpace"></div>
+    <BottomSpace></BottomSpace>
   </div>
 </template>
 
@@ -44,6 +44,7 @@ import SliderCell from '@/components/SliderCell'
 import ScrollTable from '@/components/ScrollTable'
 import PopupContent from '@/components/PopupContent'
 import NoContentPage from '@/components/NoContentPage'
+import BottomSpace from '@/components/BottomSpace'
 export default {
   computed: {
     isChangeToScrollTable () {
@@ -53,13 +54,13 @@ export default {
       const ShowNoContentPage = true
       const NotShowNoContentPage = false
       const NoProjectList = 0
-      const UnChecked = false
+      const UNCHECKED = false
       // 当所有项目筛选为空时，出现 NoContentPage 页面
-      if (globalStore.state.checkStock === UnChecked &&
-        globalStore.state.checkFund === UnChecked &&
-        globalStore.state.checkGold === UnChecked &&
-        globalStore.state.checkRegular === UnChecked &&
-        globalStore.state.checkOther === UnChecked) {
+      if (globalStore.state.checkStock === UNCHECKED &&
+        globalStore.state.checkFund === UNCHECKED &&
+        globalStore.state.checkGold === UNCHECKED &&
+        globalStore.state.checkRegular === UNCHECKED &&
+        globalStore.state.checkOther === UNCHECKED) {
         return ShowNoContentPage
       }
       // 当前页面无项目时，出现 NoContentPage 页面
@@ -77,7 +78,8 @@ export default {
     SliderCell,
     ScrollTable,
     PopupContent,
-    NoContentPage
+    NoContentPage,
+    BottomSpace
   },
   data () {
     return {
@@ -161,10 +163,5 @@ page {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
-/* 底部留白部分 */
-.bottomSpace {
-  width: 100%;
-  height: 150rpx;
 }
 </style>

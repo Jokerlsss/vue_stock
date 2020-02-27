@@ -39,6 +39,7 @@
         class="addProBtn"
         hover-class="btnGroup_hover"
         :style="isOpenBtnGroup?addBtnSlideStyle:addBtnNoSlideStyle"
+        @click="toAddProPage"
       >
         <img :src="addProBtnImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
@@ -86,6 +87,12 @@ export default {
       } else {
         this.isOpenBtnGroup = CLOSE
       }
+    },
+    toAddProPage () {
+      wx.navigateTo({
+        url: '../addPro/main'
+      })
+      this.cutBtnGroup()
     },
     // 切换视图
     cutShow () {

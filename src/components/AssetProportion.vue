@@ -21,6 +21,16 @@
         <div class="proportionItem">{{projectItem.proportionItem}}</div>
       </div>
     </div>
+    <div class="viewSuggestion" @click="cutSuggestionVisable">
+      <van-transition :show="isSuggestionVisable" name="fade-down" duration="500">
+        <div class="visableSuggestion" v-if="isSuggestionVisable">
+          <p>过于激进</p>
+        </div>
+      </van-transition>
+      <div class="inVisableSuggestion" v-if="true">
+        <img :src="isSuggestionVisable?visablesuggestionImg:inVisableSuggestionImg" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,6 +42,9 @@ export default {
   },
   data () {
     return {
+      isSuggestionVisable: false,
+      visablesuggestionImg: '../../static/images/up.png',
+      inVisableSuggestionImg: '../../static/images/down.png',
       proportionOfAssets: [
         {
           projectItem: '股票',
@@ -65,6 +78,15 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    cutSuggestionVisable () {
+      if (this.isSuggestionVisable === true) {
+        this.isSuggestionVisable = false
+      } else {
+        this.isSuggestionVisable = true
+      }
+    }
   }
 }
 </script>
@@ -87,6 +109,8 @@ export default {
   width: 100%;
   color: white;
   border-bottom: 1px solid #515151;
+  border-radius: 20rpx 20rpx 0 0;
+  background-color: #5e5e5e;
 }
 .titleText {
   margin-top: 20rpx;
@@ -146,7 +170,7 @@ export default {
   padding-right: 20rpx;
 }
 
-/* 进度值 */
+/* 占比值 */
 .proportionNum {
   width: 100rpx;
   height: 100%;
@@ -157,5 +181,35 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
+}
+/* 查看建议 */
+.viewSuggestion {
+  height: auto;
+  width: 100%;
+  border-radius: 0 0 20rpx 20rpx;
+}
+.inVisableSuggestion {
+  height: 50rpx;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inVisableSuggestion > img {
+  height: 30rpx;
+  width: 30rpx;
+  background-color: #000;
+  opacity: 0.1;
+}
+.visableSuggestion {
+  height: auto;
+  background-color: #191b2a;
+  color: #ff6600;
+  text-align: center;
+  font-size: 28rpx;
+  width: 100%;
+}
+.visableSuggestion > p {
+  margin: 20rpx;
 }
 </style>

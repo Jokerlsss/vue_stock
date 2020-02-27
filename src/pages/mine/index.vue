@@ -3,6 +3,8 @@
     <UserLoginInfo></UserLoginInfo>
     <UserOperateMenu></UserOperateMenu>
     <AssetProportion></AssetProportion>
+    <AceAsset></AceAsset>
+    <BottomSpace></BottomSpace>
   </div>
 </template>
 
@@ -10,11 +12,15 @@
 import UserLoginInfo from '@/components/UserLoginInfo'
 import UserOperateMenu from '@/components/UserOperateMenu'
 import AssetProportion from '@/components/AssetProportion'
+import AceAsset from '@/components/AceAsset'
+import BottomSpace from '@/components/BottomSpace'
 export default {
   components: {
     UserLoginInfo,
     UserOperateMenu,
-    AssetProportion
+    AssetProportion,
+    AceAsset,
+    BottomSpace
   }
 }
 </script>

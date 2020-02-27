@@ -6,14 +6,18 @@
     </div>
     <div class="userName">Joker-ls</div>
     <div class="userCharacter">
-      <van-tag type="primary" size="large" round>稳健</van-tag>
+      <!-- <van-tag type="primary" size="large" round>稳健</van-tag> -->
+      <CharacterTag characterType="稳健"></CharacterTag>
     </div>
   </div>
 </template>
 
 <script>
+import CharacterTag from '@/components/CharacterTag'
 export default {
-
+  components: {
+    CharacterTag
+  }
 }
 </script>
 

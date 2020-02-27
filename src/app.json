@@ -1,7 +1,8 @@
 {
   "pages": [
+    "pages/mine/main",
     "pages/index/main",
-    "pages/mine/main"
+    "pages/addPro/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -33,6 +34,7 @@
   "usingComponents": {
     "van-tag": "../static/vant/tag/index",
     "van-image": "../static/vant/image/index",
-    "van-progress": "../static/vant/progress/index"
+    "van-progress": "../static/vant/progress/index",
+    "van-transition": "../static/vant/transition/index"
   }
 }
