@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/oprateHistory/main",
     "pages/mine/main",
     "pages/index/main",
-    "pages/addPro/main",
-    "pages/oprateHistory/main"
+    "pages/addPro/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -37,6 +37,8 @@
     "van-image": "../static/vant/image/index",
     "van-progress": "../static/vant/progress/index",
     "van-transition": "../static/vant/transition/index",
-    "van-steps": "../static/vant/steps/index"
+    "van-steps": "../static/vant/steps/index",
+    "van-dropdown-menu": "../static/vant/dropdown-menu/index",
+    "van-dropdown-item": "../static/vant/dropdown-item/index"
   }
 }
