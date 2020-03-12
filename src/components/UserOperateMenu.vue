@@ -9,7 +9,7 @@
     </div>
     <div class="menu">
       <div class="imgDiv">
-        <img src="../../static/images/operate.png" />
+        <img src="../../static/images/operate.png" @click="toOprateHistory" />
       </div>
       <div class="menuText">操作记录</div>
     </div>
@@ -30,7 +30,13 @@
 
 <script>
 export default {
-
+  methods: {
+    toOprateHistory () {
+      wx.navigateTo({
+        url: '../oprateHistory/main'
+      })
+    }
+  }
 }
 </script>
 

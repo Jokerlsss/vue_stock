@@ -2,7 +2,8 @@
   "pages": [
     "pages/mine/main",
     "pages/index/main",
-    "pages/addPro/main"
+    "pages/addPro/main",
+    "pages/oprateHistory/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -35,6 +36,7 @@
     "van-tag": "../static/vant/tag/index",
     "van-image": "../static/vant/image/index",
     "van-progress": "../static/vant/progress/index",
-    "van-transition": "../static/vant/transition/index"
+    "van-transition": "../static/vant/transition/index",
+    "van-steps": "../static/vant/steps/index"
   }
 }

@@ -1,9 +1,11 @@
 <!-- Description: 资产占比模块 -->
 <template>
   <div class="container">
+    <!-- 标题 -->
     <div class="titleDiv">
       <p class="titleText">资产占比</p>
     </div>
+    <!-- 名称、金额、占比图、占比数值 -->
     <div class="content" v-for="(projectItem,itemIndex) in proportionOfAssets" :key="itemIndex">
       <div class="project">
         <div class="projectItem">{{projectItem.projectItem}}</div>
@@ -21,6 +23,7 @@
         <div class="proportionItem">{{projectItem.proportionItem}}</div>
       </div>
     </div>
+    <!-- 建议 -->
     <div class="viewSuggestion" @click="cutSuggestionVisable">
       <van-transition :show="isSuggestionVisable" name="fade-down" duration="500">
         <div class="visableSuggestion" v-if="isSuggestionVisable">

@@ -3,9 +3,9 @@
   <div class="container">
     <div class="titleDiv">
       <div class="titleText">王牌资产</div>
-      <div class="titleToMore">
+      <!-- <div class="titleToMore">
         <p>查看更多></p>
-      </div>
+      </div>-->
     </div>
     <div class="contentDiv">
       <div class="contentItem">
