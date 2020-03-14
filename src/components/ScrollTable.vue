@@ -17,6 +17,7 @@
         class="scrollCell"
         v-for="(projectInfo,infoIndex) in financialProjectList"
         :key="infoIndex"
+        @click="cellClick"
       >
         <div class="item">{{projectInfo.type}}</div>
         <div class="item">{{projectInfo.asset}}</div>
@@ -46,6 +47,12 @@ export default {
   data () {
     return {
       financialProjectList: this.financialProjectList
+    }
+  },
+  methods: {
+    // TODO: 点击表格某一行时进入到项目详情
+    cellClick (e) {
+      console.log(e)
     }
   }
 }

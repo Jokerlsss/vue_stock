@@ -5,10 +5,10 @@
     </div>
     <div class="filterDiv">
       <van-dropdown-menu>
-        <van-dropdown-item :value="value1" :options="option1" disabled />
-        <van-dropdown-item :value="value2" :options="option2" />
-        <van-dropdown-item :value="value1" :options="option1" />
-        <van-dropdown-item :value="value2" :options="option2" />
+        <van-dropdown-item :value="valueDefault" :options="option1" />
+        <van-dropdown-item :value="valueDefault" :options="option2" disabled />
+        <van-dropdown-item :value="valueDefault" :options="option3" disabled />
+        <van-dropdown-item :value="valueDefault" :options="option4" />
       </van-dropdown-menu>
     </div>
   </div>
@@ -18,7 +18,14 @@
 export default {
   data () {
     return {
+      // 年份展示近三年
       option1: [
+        { text: '年份', value: 0 },
+        { text: '2020', value: 1 },
+        { text: '2019', value: 2 },
+        { text: '2018', value: 3 }
+      ],
+      option2: [
         { text: '月份', value: 0 },
         { text: '1', value: 1 },
         { text: '2', value: 2 },
@@ -33,13 +40,25 @@ export default {
         { text: '11', value: 11 },
         { text: '12', value: 12 }
       ],
-      option2: [
-        { text: '月份', value: 'a' },
-        { text: '好评排序', value: 'b' },
-        { text: '销量排序', value: 'c' }
+      option3: [
+        { text: '天', value: 0 },
+        { text: '1', value: 1 },
+        { text: '2', value: 2 },
+        { text: '3', value: 3 },
+        { text: '4', value: 4 },
+        { text: '5', value: 5 },
+        { text: '6', value: 6 },
+        { text: '7', value: 7 },
+        { text: '8', value: 8 },
+        { text: '9', value: 9 },
+        { text: '10', value: 10 },
+        { text: '11', value: 11 },
+        { text: '12', value: 12 }
       ],
-      value1: 0,
-      value2: 'a'
+      option4: [
+        { text: '查看全部', value: 0 }
+      ],
+      valueDefault: 0
     }
   }
 }
@@ -51,6 +70,7 @@ export default {
   border-radius: 10rpx 10rpx 0 0;
   margin-top: 60rpx;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   width: 680rpx;
   height: auto;
@@ -72,6 +92,6 @@ export default {
 .filterDiv {
   height: auto;
   width: 100%;
-  /* background-color: blue; */
+  background-color: #30323f;
 }
 </style>
