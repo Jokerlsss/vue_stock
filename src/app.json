@@ -1,11 +1,13 @@
 {
   "pages": [
-    "pages/riskTest/main",
-    "pages/myCollection/main",
-    "pages/oprateHistory/main",
+    "pages/projectDetail/main",
+    "pages/recommend/main",
     "pages/mine/main",
     "pages/index/main",
-    "pages/addPro/main"
+    "pages/addPro/main",
+    "pages/riskTest/main",
+    "pages/myCollection/main",
+    "pages/oprateHistory/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -19,6 +21,12 @@
     "selectedColor": "#cc6600",
     "borderStyle": "black",
     "list": [
+      {
+        "text": "推荐",
+        "pagePath": "pages/recommend/main",
+        "iconPath": "static/images/recommend.png",
+        "selectedIconPath": "static/images/recommend-active.png"
+      },
       {
         "text": "项目",
         "pagePath": "pages/index/main",

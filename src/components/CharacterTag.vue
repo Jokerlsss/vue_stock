@@ -23,9 +23,9 @@ export default {
   border: 1px solid #3399ff;
   color: #3399ff;
   width: auto;
-  font-size: 28rpx;
+  font-size: 24rpx;
   border-radius: 15rpx;
   padding: 5rpx 15rpx;
-  height: 40rpx;
+  height: 30rpx;
 }
 </style>

@@ -15,13 +15,13 @@
     </div>
     <div class="menu">
       <div class="imgDiv">
-        <img src="../../static/images/collect.png" />
+        <img src="../../static/images/collect.png" @click="toMyCollection" />
       </div>
       <div class="menuText">我的收藏</div>
     </div>
     <div class="menu">
       <div class="imgDiv">
-        <img src="../../static/images/test.png" />
+        <img src="../../static/images/test.png" @click="toRiskTest" />
       </div>
       <div class="menuText">风险测试</div>
     </div>
@@ -34,6 +34,16 @@ export default {
     toOprateHistory () {
       wx.navigateTo({
         url: '../oprateHistory/main'
+      })
+    },
+    toMyCollection () {
+      wx.navigateTo({
+        url: '../myCollection/main'
+      })
+    },
+    toRiskTest () {
+      wx.navigateTo({
+        url: '../riskTest/main'
       })
     }
   }

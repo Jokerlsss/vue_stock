@@ -56,6 +56,7 @@ export default {
         { text: '12', value: 12 }
       ],
       option4: [
+        { text: '更多', value: 0 },
         { text: '查看全部', value: 0 }
       ],
       valueDefault: 0
