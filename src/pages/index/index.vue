@@ -91,7 +91,8 @@ export default {
           type: '项目类型',
           asset: '资产',
           dayEarn: '每日收益',
-          hadEarn: '持有收益'
+          hadEarn: '持有收益',
+          code: '102212'
         },
         // 表内容
         {
@@ -99,42 +100,48 @@ export default {
           type: '股',
           asset: 4146,
           dayEarn: '+12',
-          hadEarn: '-41'
+          hadEarn: '-41',
+          code: '102444'
         },
         {
           name: '三全食品',
           type: '基',
           asset: 40621,
           dayEarn: '+432',
-          hadEarn: '-451'
+          hadEarn: '-451',
+          code: '108765'
         },
         {
           name: '鹏华债券',
           type: '定',
           asset: 4333,
           dayEarn: '+110',
-          hadEarn: '-99'
+          hadEarn: '-99',
+          code: '122321'
         },
         {
           name: '汤圆股份',
           type: '金',
           asset: 8204,
           dayEarn: '+304',
-          hadEarn: '-102'
+          hadEarn: '-102',
+          code: '998211'
         },
         {
           name: '余额宝',
           type: '其',
           asset: 900,
           dayEarn: '+41',
-          hadEarn: '-84'
+          hadEarn: '-84',
+          code: '261222'
         },
         {
           name: '上海一汽',
           type: '股',
           asset: 7654,
           dayEarn: '+14',
-          hadEarn: '-11'
+          hadEarn: '-11',
+          code: '362711'
         }
       ]
     }

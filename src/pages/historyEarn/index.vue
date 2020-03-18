@@ -12,16 +12,19 @@
       </div>
     </scroll-view>
     <div class="bottomSpace"></div>
+    <BottomSpace></BottomSpace>
   </div>
 </template>
 
 <script>
 import HistoryEarnSteps from '@/components/historyEarn/HistoryEarnSteps'
 import HistoryEarnTitle from '@/components/historyEarn/HistoryEarnTitle'
+import BottomSpace from '@/components/BottomSpace'
 export default {
   components: {
     HistoryEarnSteps,
-    HistoryEarnTitle
+    HistoryEarnTitle,
+    BottomSpace
   },
   data () {
     return {

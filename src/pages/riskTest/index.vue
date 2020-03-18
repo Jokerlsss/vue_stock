@@ -10,6 +10,8 @@
         :question="testItem.question"
       ></RiskTestQA>
     </scroll-view>
+    <button class="subBtn">提交</button>
+    <BottomSpace></BottomSpace>
     <!-- //TODO: 增加提交按钮 -->
   </div>
 </template>
@@ -17,6 +19,7 @@
 <script>
 import RiskTestTitle from '@/components/RiskTestTitle'
 import RiskTestQA from '@/components/RiskTestQA'
+import BottomSpace from '@/components/BottomSpace'
 export default {
   data () {
     return {
@@ -80,7 +83,8 @@ export default {
   },
   components: {
     RiskTestTitle,
-    RiskTestQA
+    RiskTestQA,
+    BottomSpace
   }
 }
 </script>
@@ -106,5 +110,13 @@ page {
   white-space: nowrap;
   color: white;
   font-family: PingFang SC;
+}
+.subBtn {
+  margin-top: 60rpx;
+  width: 680rpx;
+  height: 80rpx;
+  background-color: #cc6600;
+  color: #ffffff;
+  font-size: 36rpx;
 }
 </style>

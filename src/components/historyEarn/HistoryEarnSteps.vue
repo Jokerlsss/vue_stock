@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="imgDiv">
-      <img src="../../../static/images/steps.png" />
+      <img :src="stepsImg" />
     </div>
     <div class="infoDiv">
       <div class="dateDiv">
@@ -30,7 +30,7 @@ export default {
       stepsImg: '../../../static/images/steps.png'
     }
   },
-  onLoad () {
+  onReady () {
     this.judgeIsEarn()
   },
   methods: {
@@ -38,12 +38,11 @@ export default {
     judgeIsEarn () {
       if (this.earnNum < 0) {
         //   如果为负数，则取正，状态更改为“亏损”
-        // console.log(this.earnNum)
         this.isEarn = false
-        // this.stepsImg = '../../../static/images/lossSteps.png'
+        this.stepsImg = '../../static/images/lossSteps.png'
       } else if (this.earnNum > 0) {
         this.isEarn = true
-        // this.stepsImg = '../../../static/images/earnSteps.png'
+        this.stepsImg = '../../static/images/earnSteps.png'
       } else if (this.earnNum === 0) {
         this.isEarn = true
       }

@@ -123,6 +123,7 @@ export default {
   display: flex;
   align-items: center;
   color: #9898a0;
+  font-size: 24rpx;
 }
 .tips > p {
   margin-left: 30rpx;

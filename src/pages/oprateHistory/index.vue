@@ -12,16 +12,19 @@
       </div>
     </scroll-view>
     <div class="bottomSpace"></div>
+    <BottomSpace></BottomSpace>
   </div>
 </template>
 
 <script>
 import Steps from '@/components/Steps'
 import OprateTitle from '@/components/OprateTitle'
+import BottomSpace from '@/components/BottomSpace'
 export default {
   components: {
     Steps,
-    OprateTitle
+    OprateTitle,
+    BottomSpace
   },
   data () {
     return {

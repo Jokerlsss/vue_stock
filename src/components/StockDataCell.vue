@@ -73,7 +73,8 @@ export default {
     type: '',
     asset: '',
     dayEarn: '',
-    hadEarn: ''
+    hadEarn: '',
+    code: ''
   },
   data () {
     return {
@@ -82,6 +83,7 @@ export default {
       asset: this.asset,
       dayEarn: this.dayEarn,
       hadEarn: this.hadEarn,
+      code: this.code,
       TypeColor: ''
     }
   },
@@ -90,8 +92,9 @@ export default {
   },
   methods: {
     toProjectDetail () {
+      const url = '../projectDetail/main?code=' + this.code
       wx.navigateTo({
-        url: '../projectDetail/main'
+        url: url
       })
     },
     // 控制 tag 颜色

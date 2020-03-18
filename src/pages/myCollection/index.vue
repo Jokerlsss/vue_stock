@@ -4,16 +4,19 @@
     <div class="collectionTable">
       <ScrollTable :financialProjectList="financialProjectList"></ScrollTable>
     </div>
+    <BottomSpace></BottomSpace>
   </div>
 </template>
 
 <script>
 import MyCollectionTitle from '@/components/MyCollectionTitle'
 import ScrollTable from '@/components/ScrollTable'
+import BottomSpace from '@/components/BottomSpace'
 export default {
   components: {
     MyCollectionTitle,
-    ScrollTable
+    ScrollTable,
+    BottomSpace
   },
   // TODO：修改表头
   data () {
