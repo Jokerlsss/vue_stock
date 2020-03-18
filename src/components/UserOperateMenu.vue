@@ -3,7 +3,7 @@
   <div class="container">
     <div class="menu">
       <div class="imgDiv">
-        <img src="../../static/images/whiteearn.png" />
+        <img src="../../static/images/whiteearn.png" @click="toHistoryEarn" />
       </div>
       <div class="menuText">历史收益</div>
     </div>
@@ -44,6 +44,11 @@ export default {
     toRiskTest () {
       wx.navigateTo({
         url: '../riskTest/main'
+      })
+    },
+    toHistoryEarn () {
+      wx.navigateTo({
+        url: '../historyEarn/main'
       })
     }
   }

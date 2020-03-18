@@ -1,13 +1,14 @@
 {
   "pages": [
+    "pages/mine/main",
     "pages/projectDetail/main",
     "pages/recommend/main",
-    "pages/mine/main",
     "pages/index/main",
     "pages/addPro/main",
     "pages/riskTest/main",
     "pages/myCollection/main",
-    "pages/oprateHistory/main"
+    "pages/oprateHistory/main",
+    "pages/historyEarn/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,6 +1,6 @@
 <!-- Description:资产卡片信息 -->
 <template>
-  <div class="container" @click="text" v-if="isShow">
+  <div class="container" @click="toProjectDetail" v-if="isShow">
     <!-- 资产名字 & 类型 -->
     <div class="title">
       <!-- 资产名字 -->
@@ -89,6 +89,11 @@ export default {
     this.getStockType()
   },
   methods: {
+    toProjectDetail () {
+      wx.navigateTo({
+        url: '../projectDetail/main'
+      })
+    },
     // 控制 tag 颜色
     getStockType: function () {
       if (this.type === '股') {
