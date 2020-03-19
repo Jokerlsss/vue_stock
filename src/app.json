@@ -1,9 +1,10 @@
 {
   "pages": [
+    "pages/index/main",
+    "pages/market/main",
     "pages/mine/main",
     "pages/projectDetail/main",
     "pages/recommend/main",
-    "pages/index/main",
     "pages/addPro/main",
     "pages/riskTest/main",
     "pages/myCollection/main",
@@ -22,6 +23,12 @@
     "selectedColor": "#cc6600",
     "borderStyle": "black",
     "list": [
+      {
+        "text": "市场",
+        "pagePath": "pages/market/main",
+        "iconPath": "static/tabs/market.png",
+        "selectedIconPath": "static/tabs/market-active.png"
+      },
       {
         "text": "推荐",
         "pagePath": "pages/recommend/main",
@@ -55,6 +62,8 @@
     "van-radio": "../static/vant/radio/index",
     "van-radio-group": "../static/vant/radio-group/index",
     "van-cell": "../static/vant/cell/index",
-    "van-cell-group": "../static/vant/cell-group/index"
+    "van-cell-group": "../static/vant/cell-group/index",
+    "van-search": "../static/vant/search/index",
+    "van-panel": "../static/vant/panel/index"
   }
 }

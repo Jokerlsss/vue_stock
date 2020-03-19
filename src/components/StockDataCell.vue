@@ -1,46 +1,52 @@
 <!-- Description:资产卡片信息 -->
 <template>
-  <div class="container" @click="toProjectDetail" v-if="isShow">
-    <!-- 资产名字 & 类型 -->
-    <div class="title">
-      <!-- 资产名字 -->
-      <div class="proText">
-        <p class="proName">{{name}}</p>
+  <div class="container" v-if="isShow" @touchstart="touchStart" @touchmove="touchMove">
+    <div class="content" :style="isSlid?Slid:noSlid" @click="toProjectDetail">
+      <!-- 资产名字 & 类型 -->
+      <div class="title">
+        <!-- 资产名字 -->
+        <div class="proText">
+          <p class="proName">{{name}}</p>
+        </div>
+        <!-- 类型标签 -->
+        <div class="proType">
+          <van-tag round :color="TypeColor" size="large" class="typeTag">{{type}}</van-tag>
+        </div>
       </div>
-      <!-- 类型标签 -->
-      <div class="proType">
-        <van-tag round :color="TypeColor" size="large" class="typeTag">{{type}}</van-tag>
+      <!-- 收益详情 -->
+      <div class="info">
+        <!-- 资产 -->
+        <div class="asset">
+          <div class="infoTop assetTitle">
+            <p>资产</p>
+          </div>
+          <div class="infoBottom assetNum">
+            <p>{{asset}}</p>
+          </div>
+        </div>
+        <!-- 今日收益 -->
+        <div class="dayYield">
+          <div class="infoTop dayYieldTitle">
+            <p>今日收益</p>
+          </div>
+          <div class="infoBottom dayYieldNum">
+            <p>{{dayEarn}}</p>
+          </div>
+        </div>
+        <!-- 持有收益 -->
+        <div class="holdYield">
+          <div class="infoTop holdYieldTitle">
+            <p>持有收益</p>
+          </div>
+          <div class="infoBottom holdYieldNum">
+            <p>{{hadEarn}}</p>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- 收益详情 -->
-    <div class="info">
-      <!-- 资产 -->
-      <div class="asset">
-        <div class="infoTop assetTitle">
-          <p>资产</p>
-        </div>
-        <div class="infoBottom assetNum">
-          <p>{{asset}}</p>
-        </div>
-      </div>
-      <!-- 今日收益 -->
-      <div class="dayYield">
-        <div class="infoTop dayYieldTitle">
-          <p>今日收益</p>
-        </div>
-        <div class="infoBottom dayYieldNum">
-          <p>{{dayEarn}}</p>
-        </div>
-      </div>
-      <!-- 持有收益 -->
-      <div class="holdYield">
-        <div class="infoTop holdYieldTitle">
-          <p>持有收益</p>
-        </div>
-        <div class="infoBottom holdYieldNum">
-          <p>{{hadEarn}}</p>
-        </div>
-      </div>
+    <!-- 删除按钮 -->
+    <div class="deleteBtn" @click="deleteProject">
+      <img src="../../static/images/delete.png" />
     </div>
   </div>
 </template>
@@ -84,13 +90,42 @@ export default {
       dayEarn: this.dayEarn,
       hadEarn: this.hadEarn,
       code: this.code,
-      TypeColor: ''
+      TypeColor: '',
+
+      // 滑动单元格
+      clientS: '',
+      clientE: '',
+      isSlid: false,
+      noSlid: 'right:0',
+      // Slid 根据删除按钮的宽度来
+      Slid: 'right:80rpx'
     }
   },
   onLoad () {
     this.getStockType()
   },
   methods: {
+    deleteProject () {
+      console.log('确认删除吗？')
+    },
+    // 滑动单元格
+    touchStart: function (e) {
+      this.clientS = e.mp.changedTouches[0].clientX
+    },
+    touchMove: function (e) {
+      this.clientE = e.mp.changedTouches[0].clientX
+      // distanceX : 距离
+      var distanceX = this.clientE - this.clientS
+      if (distanceX === 0 || distanceX > 0) {
+        // 当单元格处在已滑动时，向右可滑回原状
+        if (this.isSlid === true) {
+          this.isSlid = false
+        }
+      }
+      if (distanceX < 0) {
+        this.isSlid = true
+      }
+    },
     toProjectDetail () {
       const url = '../projectDetail/main?code=' + this.code
       wx.navigateTo({
@@ -121,10 +156,36 @@ export default {
   margin-top: 30rpx;
   width: 680rpx;
   height: 180rpx;
-  background-color: #30323f;
-  border-radius: 20rpx;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 3;
+}
+/* 滑动单元格主体内容 */
+.content {
+  background-color: #30323f;
+  border-radius: 20rpx;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  transition: right 0.3s ease-in-out;
+}
+.deleteBtn {
+  border-radius: 0 20rpx 20rpx 0;
+  z-index: 1;
+  width: 100rpx;
+  height: 100%;
+  background-color: #cc3300;
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+.deleteBtn > img {
+  margin-left: 30rpx;
+  width: 60rpx;
+  height: 60rpx;
 }
 /*---------- 卡片头部 ----------*/
 .title {

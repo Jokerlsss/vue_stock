@@ -111,6 +111,7 @@ export default {
 <style scoped>
 /*--------- 按钮外部主体 ---------*/
 .container {
+  z-index: 99;
   width: 160rpx;
   height: 120rpx;
   background-color: #fff;

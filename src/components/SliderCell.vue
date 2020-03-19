@@ -2,12 +2,17 @@
 <template>
   <div class="container" @touchstart="touchStart" @touchmove="touchMove">
     <div class="content" :style="isSlid?Slid:noSlid"></div>
+
     <div class="btn"></div>
   </div>
 </template>
 
 <script>
+import StockDataCell from '@/components/StockDataCell'
 export default {
+  components: {
+    StockDataCell
+  },
   data () {
     return {
       clientS: '',
