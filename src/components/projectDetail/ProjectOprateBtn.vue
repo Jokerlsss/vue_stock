@@ -80,6 +80,7 @@ export default {
       }
     },
     // TODO: 加上买、卖跳转页面
+    // TODO: 买卖页面用弹出框实现
     toAddProPage () {
       wx.navigateTo({
         url: '../addPro/main'

@@ -83,6 +83,7 @@ export default {
   },
   data () {
     return {
+      userid: 1,
       isShowPopup: false,
       financialProjectList: [
         // 表头
@@ -146,6 +147,9 @@ export default {
       ]
     }
   },
+  onLoad () {
+    // this.getPersonalAssets()
+  },
   methods: {
     closePopup: function () {
       this.isShowPopup = false
@@ -153,6 +157,17 @@ export default {
     openPopup: function () {
       this.isShowPopup = true
     }
+
+    // getPersonalAssets () {
+    //   this.$httpWX.get({
+    //     url: '/personalFinancialAssets/listById',
+    //     data: {
+    //       userID: this.userid
+    //     }
+    //   }).then(res => {
+    //     console.log(res)
+    //   })
+    // }
 
     // TODO-为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
   }
