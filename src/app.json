@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/main",
     "pages/market/main",
+    "pages/index/main",
     "pages/mine/main",
     "pages/projectDetail/main",
     "pages/recommend/main",

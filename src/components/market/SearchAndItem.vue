@@ -6,7 +6,13 @@
       </view>
     </van-search>
     <div class="projectItem">
-      <ProjectItemPanel></ProjectItemPanel>
+      <ProjectItemPanel
+        v-for="(projectItem,index) in productList"
+        :key="index"
+        :productName="projectItem.productName"
+        :productCode="projectItem.productCode"
+        :riskType="projectItem.riskType"
+      ></ProjectItemPanel>
     </div>
   </div>
 </template>
@@ -17,12 +23,23 @@ export default {
   components: {
     ProjectItemPanel
   },
-  props: {
-    test: ''
+  computed: {
+    // true:有数据  false:无数据
+    isListNull () {
+      if (this.productList !== '') {
+        return true
+      } else {
+        return false
+      }
+    }
   },
+  props: {
+    productList: ''
+  },
+  // TODO: 当数据为空时提示
   data () {
     return {
-      test: this.test
+      productList: this.productList
     }
   }
 }
