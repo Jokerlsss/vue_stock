@@ -45,14 +45,20 @@
       </div>
     </div>
     <!-- 删除按钮 -->
-    <div class="deleteBtn" @click="deleteProject">
+    <div class="deleteBtn" @click="openDeleteDialog">
       <img src="../../static/images/delete.png" />
     </div>
+    <!-- 确定删除弹窗 -->
+    <van-dialog id="van-dialog" confirm-button-color="#fff" cancel-button-color="#9898a0" />
+    <!-- 删除成功后的提示 -->
+    <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
 import globalStore from '../stores/global-stores'
+import Dialog from '../../static/vant/dialog/dialog'
+import Toast from '../../static/vant/toast/toast'
 export default {
   // 控制卡片可见性
   computed: {
@@ -105,8 +111,44 @@ export default {
     this.getStockType()
   },
   methods: {
+    // 打开删除项目确定框
+    openDeleteDialog () {
+      this.isSlid = false
+      Dialog.confirm({
+        title: '确定删除该项目吗？',
+        message: this.name,
+        closeOnClickOverlay: true,
+        // 开启异步关闭
+        asyncClose: true,
+        zIndex: 999
+      }).then(() => {
+        // this.deleteProject()
+        setTimeout(() => {
+          Dialog.close()
+          Toast.success('删除成功')
+        }, 200)
+      }).catch(() => {
+        Dialog.close()
+        Toast.fail('删除失败')
+      })
+    },
+    // 删除项目
     deleteProject () {
-      console.log('确认删除吗？')
+      // 传给后端参数为：userID、personalFinancialAssetsID
+      this.$httpWX.post({
+        url: '/personalFinancialAssets/deleteByWrapper',
+        data: {
+          // TODO: 改为全局变量 userID
+          userID: 1,
+          personalFinancialAssetsID: this.personalFinancialAssetsID
+        }
+      }).then(res => {
+        if (res === 1) {
+          console.log('删除项目成功！')
+        } else {
+          console.log('删除失败请重试！')
+        }
+      })
     },
     // 滑动单元格
     touchStart: function (e) {
@@ -159,7 +201,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  z-index: 3;
 }
 /* 滑动单元格主体内容 */
 .content {
@@ -167,13 +208,13 @@ export default {
   border-radius: 20rpx;
   width: 100%;
   height: 100%;
-  position: absolute;
-  z-index: 2;
+  position: relative;
+  z-index: 1;
   transition: right 0.3s ease-in-out;
 }
 .deleteBtn {
   border-radius: 0 20rpx 20rpx 0;
-  z-index: 1;
+  z-index: 0;
   width: 100rpx;
   height: 100%;
   background-color: #cc3300;

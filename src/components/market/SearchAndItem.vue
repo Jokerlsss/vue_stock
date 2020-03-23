@@ -13,28 +13,32 @@
         :productCode="projectItem.productCode"
         :riskType="projectItem.riskType"
       ></ProjectItemPanel>
+      <!-- No Content 页面 -->
+      <NoContentPage v-if="isNoContentPage"></NoContentPage>
     </div>
   </div>
 </template>
 
 <script>
 import ProjectItemPanel from '@/components/market/ProjectItemPanel'
+import NoContentPage from '@/components/NoContentPage'
 export default {
   components: {
-    ProjectItemPanel
+    ProjectItemPanel,
+    NoContentPage
   },
   computed: {
     // true:有数据  false:无数据
-    isListNull () {
-      if (this.productList !== '') {
-        return true
-      } else {
+    isNoContentPage () {
+      if (this.productList.length !== 0) {
         return false
+      } else {
+        return true
       }
     }
   },
   props: {
-    productList: ''
+    productList: []
   },
   // TODO: 当数据为空时提示
   data () {

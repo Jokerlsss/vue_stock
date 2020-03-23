@@ -16,7 +16,7 @@ export default {
 <style scoped>
 .container {
   height: 600rpx;
-  width: 680rpx;
+  width: 100%;
 }
 .imgDiv {
   width: 100%;
