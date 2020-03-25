@@ -42,6 +42,7 @@ export default {
   color: #cccccc;
 }
 .input {
+  color: #fff;
   width: 100%;
   height: 80rpx;
   font-size: 36rpx;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @click="toProjectDetailPage">
     <!-- // TODO: 外边框白线去除 -->
     <van-panel :title="productName" :desc="productCode" :status="riskType"></van-panel>
   </div>
@@ -17,6 +17,15 @@ export default {
       productName: this.productName,
       productCode: this.productCode,
       riskType: this.riskType
+    }
+  },
+  methods: {
+    // 带参数传递到项目详情
+    toProjectDetailPage () {
+      const url = '../projectDetail/main?productCode=' + this.productCode
+      wx.navigateTo({
+        url: url
+      })
     }
   }
 }

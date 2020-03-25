@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/addPro/main",
     "pages/index/main",
     "pages/market/main",
     "pages/mine/main",
     "pages/projectDetail/main",
     "pages/recommend/main",
-    "pages/addPro/main",
     "pages/riskTest/main",
     "pages/myCollection/main",
     "pages/oprateHistory/main",

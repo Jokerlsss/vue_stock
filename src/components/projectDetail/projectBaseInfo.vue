@@ -6,16 +6,16 @@
       <!-- // TODO: 将每个模板拆分为template方便组合 -->
       <div class="baseTop">
         <div class="proName">
-          <p>招商中证混合</p>
+          <p>{{productName}}</p>
         </div>
         <div class="proType">
-          <van-tag round color="#3399FF" size="large" class="typeTag">基</van-tag>
+          <van-tag round :color="productTypeColor" size="large" class="typeTag">{{productTypeShow}}</van-tag>
         </div>
       </div>
       <!-- 底部 -->
       <div class="baseBottom">
         <div class="proCode">
-          <p>100210</p>
+          <p>{{productCode}}</p>
         </div>
         <div class="proRiskType">
           <riskTag :characterType="riskType"></riskTag>
@@ -55,12 +55,48 @@
 <script>
 import riskTag from '@/components/CharacterTag'
 export default {
+  computed: {
+    // 产品类型转换成单字显示
+    productTypeShow () {
+      if (this.productType === '基金') {
+        return '基'
+      } else if (this.productType === '股票') {
+        return '股'
+      } else if (this.productType === '黄金') {
+        return '金'
+      } else if (this.productType === '定期') {
+        return '定'
+      }
+    },
+    // 产品类型tag颜色
+    productTypeColor () {
+      if (this.productType === '股票') {
+        return '#CC3333'
+      } else if (this.productType === '基金') {
+        return '#3399FF'
+      } else if (this.productType === '定期') {
+        return '#009900'
+      } else if (this.productType === '黄金') {
+        return '#FF9900'
+      }
+    }
+  },
+  props: {
+    productName: '',
+    productCode: '',
+    productType: '',
+    riskType: '',
+    popularity: ''
+  },
   components: {
     riskTag
   },
   data () {
     return {
-      riskType: '中风险'
+      productName: this.productName,
+      productCode: this.productCode,
+      productType: this.productType,
+      riskType: this.riskType
     }
   }
 }

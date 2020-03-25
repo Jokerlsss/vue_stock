@@ -2,7 +2,12 @@
   <div class="container">
     <!-- // TODO: 根据是否已买来判断该展现什么样的模块组件出来 -->
     <!-- 项目基础信息 -->
-    <projectBaseInfo></projectBaseInfo>
+    <projectBaseInfo
+      :productName="projectBaseData.productName"
+      :productCode="projectBaseData.productCode"
+      :riskType="projectBaseData.riskType"
+      :productType="projectBaseData.productType"
+    ></projectBaseInfo>
     <!-- 卖出、买入按钮 -->
     <projectOprateBtn></projectOprateBtn>
     <!-- 走势图 -->
@@ -32,9 +37,21 @@ export default {
     ProjectDetailInfo,
     BottomSpace
   },
+  mounted () {
+    // TODO: 根据 code 获取后台数据
+    this.getProjectInfo()
+  },
+  /** 获取从主页跳转过来的活动数据：id和活动名称 */
+  onLoad (option) {
+    this.productCode = option.productCode
+  },
   // TODO: 接收 flag 参数，0 为未买项目，1 为已买项目
   data () {
     return {
+      projectBaseData: '',
+      projectDetailData: '',
+      // TODO: 把控件改成固定 title，通过 invisable 和 type 判断该显示哪些
+      // TODO: 控件判断类型，用不同数组来接收
       detailInfoList: [
         {
           title: '基金经理',
@@ -52,7 +69,29 @@ export default {
     }
   },
   methods: {
-    // TODO: 接收从前端传进来的 code ，用 code 去发起请求查询详细信息
+    getProjectInfo () {
+      this.$httpWX.get({
+        url: '/financialProduct/selectProjectDetail',
+        data: {
+          productCode: this.productCode
+        }
+      }).then(res => {
+        // TODO: 不同类型的项目展现出来的字段不一样，不如使用多页面来展现，就可以省去这些 if 判断
+        console.log(res)
+        this.projectBaseData = res.financialProduct
+        if (this.projectBaseData.productType === '股票') {
+          this.projectDetailData = res.stock
+        } else if (this.projectBaseData.productType === '基金') {
+          this.projectDetailData = res.fund
+        } else if (this.projectBaseData.productType === '定期') {
+          this.projectDetailData = res.regular
+        } else if (this.projectBaseData.productType === '黄金') {
+          this.projectDetailData = res.gold
+        }
+        console.log(this.projectDetailData)
+        console.log(this.projectBaseData)
+      })
+    }
   }
 }
 </script>

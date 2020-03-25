@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <!-- // TODO: 无数据时显示：数据为空 -->
+    <!-- // TODO: 根据返回状态码判断异常并展示给用户看 -->
     <van-tabs :active="active" @change="onChange" swipeable sticky>
       <van-tab title="股票" name="a">
         <SearchAndItem :test="1" :productList="productList"></SearchAndItem>
