@@ -7,6 +7,7 @@
       </view>
     </div>
     <scroll-view class="scrollBox" scroll-y="true">
+      <div v-if="isDataNull" class="nullTip">没有更多数据了</div>
       <div
         class="showDiv"
         v-for="(searchItem,index) in searchList"
@@ -28,6 +29,16 @@
 <script>
 import Dialog from '../../../static/vant/dialog/dialog'
 export default {
+  computed: {
+    //   控制“没有更多数据了”的可见性
+    isDataNull () {
+      if (this.searchList.length === 0) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   methods: {
     searchProject () {
       var isInputNum = this.inputEvent()
@@ -66,13 +77,15 @@ export default {
     chooseProject (e) {
       // 将选中的值进行保存
       this.productName = e.productName
+      this.productCode = e.productCode
+      this.productType = e.productType
       this.openDeleteDialog()
     },
     // 选择项目确定框
     openDeleteDialog () {
       Dialog.confirm({
         title: '确定选择该项目吗？',
-        message: ' ',
+        message: this.productName,
         closeOnClickOverlay: true,
         // 开启异步关闭
         asyncClose: true,
@@ -84,7 +97,8 @@ export default {
           // 在关闭小弹窗的同时，关闭掉最外层弹窗
           this.$emit('onClose')
           // 将选中的值传递给主页面
-          this.$emit('getProductName', this.productName)
+          // TODO: 把类型也传出去
+          this.$emit('getProductName', this.productName, this.productCode, this.productType)
           this.inputValue = ''
           this.searchList = []
         }, 200)
@@ -97,7 +111,9 @@ export default {
     return {
       inputValue: '',
       searchList: [],
-      productName: ''
+      productName: '',
+      productCode: '',
+      productType: ''
     }
   }
 }
@@ -126,8 +142,8 @@ export default {
 
 .searchBtn {
   height: 60rpx;
-  background-color: #333;
-  color: #9898a0;
+  background-color: #ff6600;
+  color: #fff;
   font-size: 26rpx;
 }
 /* 搜索内容单行展示区域 */
@@ -158,10 +174,21 @@ export default {
 }
 /* 滚动容器 */
 .scrollBox {
+  background-color: #12121e;
   height: 90%;
   width: 640rpx;
   white-space: nowrap;
   color: white;
   font-family: PingFang SC;
+}
+/* 当数据为空时的样式 */
+.nullTip {
+  width: 100%;
+  height: 500rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #9898a0;
+  font-size: 28rpx;
 }
 </style>
