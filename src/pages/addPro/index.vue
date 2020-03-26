@@ -5,7 +5,7 @@
         <p>名称</p>
       </div>
       <div class="input">
-        <input placeholder="请选择已购买的投资项目" type="text" @focus="onOpen" />
+        <input v-model="productName" placeholder="请选择已购买的投资项目" type="text" @focus="onOpen" />
       </div>
     </div>
 
@@ -19,13 +19,12 @@
     <BottomSpace></BottomSpace>
     <van-dialog
       use-slot
-      title="标题"
+      title=" "
       :show="showDialog"
-      show-cancel-button
       @close="onClose"
       close-on-click-overlay="true"
     >
-      <BottomSpace></BottomSpace>
+      <ChooseDialog @onClose="onClose" @getProductName="getProductName"></ChooseDialog>
     </van-dialog>
   </div>
 </template>
@@ -33,13 +32,19 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import BottomSpace from '@/components/BottomSpace'
+import ChooseDialog from '@/components/addPro/ChooseDialog'
 export default {
   data () {
     return {
-      showDialog: false
+      showDialog: false,
+      productName: ''
     }
   },
   methods: {
+    // 获取搜索后选中的值
+    getProductName (productName) {
+      this.productName = productName
+    },
     onOpen () {
       this.showDialog = true
     },
@@ -49,7 +54,8 @@ export default {
   },
   components: {
     InputGroup,
-    BottomSpace
+    BottomSpace,
+    ChooseDialog
   }
 }
 </script>
