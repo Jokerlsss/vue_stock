@@ -121,7 +121,13 @@
       closeable="true"
     >
       <!-- // TODO: 设定时间可选跨度 -->
-      <van-datetime-picker type="date" :value="buyTime" @input="timeSelectInput" />
+      <van-datetime-picker
+        type="date"
+        :max-date="maxDate"
+        :min-date="minDate"
+        :value="buyTime"
+        @input="timeSelectInput"
+      />
     </van-popup>
 
     <!-- 确定提交弹窗 -->
@@ -162,6 +168,7 @@ export default {
       // 弹出时间选择器
       showTimeSelect: false,
       showDialog: false,
+      maxDate: new Date().getTime(),
       // buyTime转换为日期格式：仅展示
       showBuyTime: '',
       // 是否弹出确定弹窗
@@ -174,7 +181,9 @@ export default {
       holdingCost: '',
       amountOfAssets: '',
       buyTime: '',
-      note: ''
+      note: '',
+      // 发布项目日期
+      minDate: ''
     }
   },
   methods: {
@@ -230,6 +239,7 @@ export default {
       this.buyTime = e.mp.detail
     },
     // 新增项目记录
+    // TODO: 在新增后把 input 框的值清空
     insertPersonalProject () {
       this.$httpWX.post({
         url: '/personalFinancialAssets/insert',
@@ -251,10 +261,17 @@ export default {
       })
     },
     // 获取搜索后选中的值
-    getProductName (productName, productCode, productType) {
+    getProductName (productName, productCode, productType, dateOfEstablishment) {
       this.productName = productName
       this.productCode = productCode
       this.productType = productType
+      // getTime(): 将发布日期转换成时间戳
+      // TODO 要多加1天
+      // TODO MaxDate比今天会小2天
+      var timestamp = new Date(dateOfEstablishment)
+      this.minDate = timestamp.getTime()
+      // 展示在input框中的值也应该改变
+      this.buyTime = this.minDate
     },
     openDialog () {
       this.showDialog = true

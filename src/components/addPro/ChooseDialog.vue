@@ -51,6 +51,7 @@ export default {
           }
         }).then(res => {
           this.searchList = res
+          console.log(this.searchList)
         })
       } else {
         this.$httpWX.get({
@@ -61,6 +62,7 @@ export default {
           }
         }).then(res => {
           this.searchList = res
+          console.log(this.searchList)
         })
       }
     },
@@ -79,6 +81,7 @@ export default {
       this.productName = e.productName
       this.productCode = e.productCode
       this.productType = e.productType
+      this.dateOfEstablishment = e.dateOfEstablishment
       this.openDeleteDialog()
     },
     // 选择项目确定框
@@ -98,7 +101,7 @@ export default {
           this.$emit('onClose')
           // 将选中的值传递给主页面
           // TODO: 把类型也传出去
-          this.$emit('getProductName', this.productName, this.productCode, this.productType)
+          this.$emit('getProductName', this.productName, this.productCode, this.productType, this.dateOfEstablishment)
           this.inputValue = ''
           this.searchList = []
         }, 200)
@@ -113,7 +116,8 @@ export default {
       searchList: [],
       productName: '',
       productCode: '',
-      productType: ''
+      productType: '',
+      dateOfEstablishment: ''
     }
   }
 }
