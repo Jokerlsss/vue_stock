@@ -5,8 +5,15 @@
       <div class="inputTitle">
         <p>名称</p>
       </div>
+      <!-- // TODO: 设置只读 -->
       <div class="input">
-        <input v-model="productName" placeholder="请选择已购买的投资项目" type="text" @focus="openDialog" />
+        <input
+          v-model="productName"
+          readonly="readonly"
+          placeholder="请选择已购买的投资项目"
+          type="text"
+          @focus="openDialog"
+        />
       </div>
     </div>
 
@@ -62,7 +69,12 @@
         <p>买入时间</p>
       </div>
       <div class="input">
-        <input v-model="buyTime" placeholder="请选择已购买的投资项目" type="text" />
+        <input
+          v-model="showBuyTime"
+          placeholder="请选择已购买的投资项目"
+          type="text"
+          @focus="openShowTimeSelect"
+        />
       </div>
     </div>
 
@@ -85,9 +97,10 @@
     <InputGroup inputTitle="买入时间" placeholder="当日净值由此决定，请谨慎选择"></InputGroup>
     <InputGroup inputTitle="交易平台" placeholder="请选择购买的平台"></InputGroup>-->
     <div class="getBtn">
-      <van-button color="#CC6600" size="large" round>完成</van-button>
+      <van-button color="#CC6600" size="large" round @click="openConfirmDialog">完成</van-button>
     </div>
     <BottomSpace></BottomSpace>
+    <!-- 股票名称选择弹窗 -->
     <van-dialog
       use-slot
       title=" "
@@ -98,6 +111,33 @@
     >
       <ChooseDialog @onClose="onClose" @getProductName="getProductName"></ChooseDialog>
     </van-dialog>
+    <!-- 时间选择器 -->
+    <van-popup
+      :show="showTimeSelect"
+      position="bottom"
+      custom-style="height: 40%;"
+      @close="closeShowTimeSelet"
+      close-on-click-overlay="true"
+      closeable="true"
+    >
+      <!-- // TODO: 设定时间可选跨度 -->
+      <van-datetime-picker type="date" :value="buyTime" @input="timeSelectInput" />
+    </van-popup>
+
+    <!-- 确定提交弹窗 -->
+    <!-- // TODO: 确定提交 -->
+    <van-dialog
+      title="确定新增该项目吗？"
+      :message="productName?productName:' '"
+      :show="isConfirmDialog"
+      @close="closeConfirmDialog"
+      close-on-click-overlay="true"
+      show-confirm-button="true"
+      show-cancel-button="true"
+      @confirm="confirmEvent"
+    ></van-dialog>
+    <!-- 提交成功后的提示 -->
+    <van-toast id="van-toast" />
   </div>
 </template>
 
@@ -105,6 +145,7 @@
 import InputGroup from '@/components/InputGroup'
 import BottomSpace from '@/components/BottomSpace'
 import ChooseDialog from '@/components/addPro/ChooseDialog'
+import Toast from '../../../static/vant/toast/toast'
 export default {
   computed: {
     isShowInput () {
@@ -118,7 +159,13 @@ export default {
   },
   data () {
     return {
+      // 弹出时间选择器
+      showTimeSelect: false,
       showDialog: false,
+      // buyTime转换为日期格式：仅展示
+      showBuyTime: '',
+      // 是否弹出确定弹窗
+      isConfirmDialog: false,
       // 表单信息
       productName: '',
       productCode: '',
@@ -131,12 +178,64 @@ export default {
     }
   },
   methods: {
+    // 确认新增时提交数据到服务器
+    confirmEvent () {
+      this.insertPersonalProject()
+      Toast({
+        type: 'success',
+        message: '提交成功',
+        onClose: () => {
+          // 在提示关闭后，跳转到项目页面
+          this.toProPage()
+        }
+      })
+    },
+
+    // 切换确定提交弹窗可见性
+    openConfirmDialog () {
+      this.isConfirmDialog = true
+    },
+    closeConfirmDialog () {
+      this.isConfirmDialog = false
+    },
+    // 跳转到项目页面
+    toProPage () {
+      wx.switchTab({
+        url: '/pages/index/main'
+      })
+    },
+    // 切换时间选择器可进行
+    openShowTimeSelect () {
+      this.showTimeSelect = true
+    },
+    closeShowTimeSelet () {
+      this.showTimeSelect = false
+    },
+    // 将时间戳转成日期格式
+    timestampToTime (timestamp) {
+      // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var date = new Date(timestamp)
+      var Y = date.getFullYear() + '-'
+      // 0 代表 1月份，因此要加 1
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+      var D = date.getDate() + ' '
+      return Y + M + D
+    },
+    // 选中时间录入文本框中
+    timeSelectInput (e) {
+      console.log(e)
+      // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
+      this.showBuyTime = this.timestampToTime(e.mp.detail)
+      // buyTime = 时间戳
+      this.buyTime = e.mp.detail
+    },
+    // 新增项目记录
     insertPersonalProject () {
       this.$httpWX.post({
         url: '/personalFinancialAssets/insert',
         data: {
           // TODO: 改为全局变量 userID
-          userID: 1,
+          userid: 1,
           productName: this.productName,
           productCode: this.productCode,
           productType: this.productType,
@@ -147,11 +246,8 @@ export default {
           note: this.note
         }
       }).then(res => {
-        if (res === 1) {
-          console.log('删除项目成功！')
-        } else {
-          console.log('删除失败请重试！')
-        }
+        // 当 res 为 1 时则表明新增成功
+        console.log(res)
       })
     },
     // 获取搜索后选中的值
