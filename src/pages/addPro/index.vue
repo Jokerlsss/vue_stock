@@ -190,14 +190,6 @@ export default {
     // 确认新增时提交数据到服务器
     confirmEvent () {
       this.insertPersonalProject()
-      Toast({
-        type: 'success',
-        message: '提交成功',
-        onClose: () => {
-          // 在提示关闭后，跳转到项目页面
-          this.toProPage()
-        }
-      })
     },
 
     // 切换确定提交弹窗可见性
@@ -232,7 +224,6 @@ export default {
     },
     // 选中时间录入文本框中
     timeSelectInput (e) {
-      console.log(e)
       // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
       this.showBuyTime = this.timestampToTime(e.mp.detail)
       // buyTime = 时间戳
@@ -257,7 +248,30 @@ export default {
         }
       }).then(res => {
         // 当 res 为 1 时则表明新增成功
-        console.log(res)
+        if (res === 0) {
+          Toast.fail('您已有该项目\n   新增失败')
+        } else {
+          this.productName = ''
+          this.productCode = ''
+          this.productType = ''
+          this.platform = ''
+          this.holdingCost = ''
+          this.amountOfAssets = ''
+          // TODO: 日期选择框无法置空
+          this.buyTime = ''
+          this.note = ''
+          this.minDate = ''
+          this.maxDate = ''
+          this.showBuyTime = ''
+          Toast({
+            type: 'success',
+            message: '提交成功',
+            onClose: () => {
+              // 在提示关闭后，跳转到项目页面
+              this.toProPage()
+            }
+          })
+        }
       })
     },
     // 获取搜索后选中的值

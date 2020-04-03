@@ -17,14 +17,15 @@
     <ScrollTable :financialProjectList="financialProjectList" v-if="isChangeToScrollTable"></ScrollTable>
     <!-- 项目卡片 -->
     <div v-if="isChangeToScrollTable?false:true">
+      <!-- <DataCell :financialProjectList="financialProjectList"></DataCell> -->
       <StockDataCell
         v-for="(item,index) in financialProjectList"
         :key="index"
-        :name="item.name"
-        :type="item.type"
-        :asset="item.asset"
+        :name="item.productName"
+        :type="item.productType"
+        :asset="item.holdingCost"
         :dayEarn="item.dayEarn"
-        :hadEarn="item.hadEarn"
+        :hadEarn="item.holdEarn"
       ></StockDataCell>
     </div>
     <!-- 添加项目按钮 -->
@@ -38,6 +39,7 @@
 import globalStore from '../../stores/global-stores'
 
 import StockDataCell from '@/components/StockDataCell'
+import DataCell from '@/components/DataCell'
 import AddProBtn from '@/components/AddProBtn'
 import AssetInfo from '@/components/AssetInfo'
 import SliderCell from '@/components/SliderCell'
@@ -56,6 +58,7 @@ export default {
       const NoProjectList = 0
       const UNCHECKED = false
       // 当所有项目筛选为空时，出现 NoContentPage 页面
+      // TODO: 当无数据但仍有 switch 勾选时，不会显示空数据，应该改进
       if (globalStore.state.checkStock === UNCHECKED &&
         globalStore.state.checkFund === UNCHECKED &&
         globalStore.state.checkGold === UNCHECKED &&
@@ -79,76 +82,29 @@ export default {
     ScrollTable,
     PopupContent,
     NoContentPage,
-    BottomSpace
+    BottomSpace,
+    DataCell
   },
   data () {
     return {
       userid: 1,
       isShowPopup: false,
+      List: '',
       financialProjectList: [
         // 表头
         {
-          name: '项目名称',
-          type: '项目类型',
-          asset: '资产',
+          productName: '项目名称',
+          productType: '项目类型',
+          productCode: '',
+          holdingCost: '资产',
           dayEarn: '每日收益',
-          hadEarn: '持有收益',
-          code: '102212'
-        },
-        // 表内容
-        {
-          name: '通用股份',
-          type: '股',
-          asset: 4146,
-          dayEarn: '+12',
-          hadEarn: '-41',
-          code: '102444'
-        },
-        {
-          name: '三全食品',
-          type: '基',
-          asset: 40621,
-          dayEarn: '+432',
-          hadEarn: '-451',
-          code: '108765'
-        },
-        {
-          name: '鹏华债券',
-          type: '定',
-          asset: 4333,
-          dayEarn: '+110',
-          hadEarn: '-99',
-          code: '122321'
-        },
-        {
-          name: '汤圆股份',
-          type: '金',
-          asset: 8204,
-          dayEarn: '+304',
-          hadEarn: '-102',
-          code: '998211'
-        },
-        {
-          name: '余额宝',
-          type: '其',
-          asset: 900,
-          dayEarn: '+41',
-          hadEarn: '-84',
-          code: '261222'
-        },
-        {
-          name: '上海一汽',
-          type: '股',
-          asset: 7654,
-          dayEarn: '+14',
-          hadEarn: '-11',
-          code: '362711'
+          holdEarn: '持有收益'
         }
       ]
     }
   },
-  onLoad () {
-    // this.getPersonalAssets()
+  mounted () {
+    this.getPersonalAssets()
   },
   methods: {
     closePopup: function () {
@@ -156,20 +112,29 @@ export default {
     },
     openPopup: function () {
       this.isShowPopup = true
+    },
+    getPersonalAssets () {
+      this.$httpWX.get({
+        url: '/personalFinancialAssetsVO/listByWrapper',
+        data: {
+          userid: this.userid
+        }
+      }).then(res => {
+        // 保留 this.financialProjectList 的表头，数据在表头后进行 push
+        for (var i = 0; i < res.length; i++) {
+          this.financialProjectList.push(res[i])
+          console.log('res[i]', res[i])
+        }
+      })
     }
-
-    // getPersonalAssets () {
-    //   this.$httpWX.get({
-    //     url: '/personalFinancialAssets/listById',
-    //     data: {
-    //       userID: this.userid
-    //     }
-    //   }).then(res => {
-    //     console.log(res)
-    //   })
+    // async getDataTest () {
+    //   const { data: res } = await this.$httpWX.get(
+    //     `/personalFinancialAssetsVO/listByWrapper?${this.userid}`
+    //   )
+    //   console.log('await:', res)
     // }
 
-    // TODO-为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
+    // ? 为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
   }
 }
 </script>

@@ -7,7 +7,7 @@
         class="projectNameCell"
         v-for="(projectName,proIndex) in projectNameList"
         :key="proIndex"
-      >{{projectName.name}}</div>
+      >{{projectName.productName}}</div>
     </div>
     <!-- <div class="right-ProjectInfo"> -->
     <!-- 滚动 -->
@@ -19,10 +19,10 @@
         :key="infoIndex"
         @click="cellClick"
       >
-        <div class="item">{{projectInfo.type}}</div>
-        <div class="item">{{projectInfo.asset}}</div>
+        <div class="item">{{projectInfo.productType}}</div>
+        <div class="item">{{projectInfo.holdingCost}}</div>
         <div class="item">{{projectInfo.dayEarn}}</div>
-        <div class="item">{{projectInfo.hadEarn}}</div>
+        <div class="item">{{projectInfo.holdEarn}}</div>
       </div>
     </scroll-view>
     <!-- </div> -->

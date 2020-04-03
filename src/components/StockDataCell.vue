@@ -10,7 +10,7 @@
         </div>
         <!-- 类型标签 -->
         <div class="proType">
-          <van-tag round :color="TypeColor" size="large" class="typeTag">{{type}}</van-tag>
+          <van-tag round :color="TypeColor" size="large" class="typeTag">{{typeShow}}</van-tag>
         </div>
       </div>
       <!-- 收益详情 -->
@@ -63,20 +63,37 @@ export default {
   // 控制卡片可见性
   computed: {
     isShow () {
-      if (this.type === '股') {
+      if (this.type === '股票') {
         return globalStore.state.checkStock
       }
-      if (this.type === '基') {
+      if (this.type === '基金') {
         return globalStore.state.checkFund
       }
-      if (this.type === '金') {
+      if (this.type === '黄金') {
         return globalStore.state.checkGold
       }
-      if (this.type === '定') {
+      if (this.type === '定期') {
         return globalStore.state.checkRegular
       }
-      if (this.type === '其') {
+      if (this.type === '其他') {
         return globalStore.state.checkOther
+      }
+    },
+    typeShow () {
+      if (this.type === '股票') {
+        return '股'
+      }
+      if (this.type === '基金') {
+        return '基'
+      }
+      if (this.type === '黄金') {
+        return '金'
+      }
+      if (this.type === '定期') {
+        return '定'
+      }
+      if (this.type === '其他') {
+        return '其'
       }
     }
   },
@@ -168,23 +185,24 @@ export default {
         this.isSlid = true
       }
     },
-    toProjectDetail () {
-      const url = '../projectDetail/main?code=' + this.code
-      wx.navigateTo({
-        url: url
-      })
-    },
+    // toProjectDetail () {
+    //   const url = '../projectDetail/main?code=' + this.code
+    //   wx.navigateTo({
+    //     url: url
+    //   })
+    // },
     // 控制 tag 颜色
+    // TODO: 改变 type 值判断，包括上面的 isShow
     getStockType: function () {
-      if (this.type === '股') {
+      if (this.type === '股票') {
         this.TypeColor = '#CC3333'
-      } else if (this.type === '基') {
+      } else if (this.type === '基金') {
         this.TypeColor = '#3399FF'
-      } else if (this.type === '定') {
+      } else if (this.type === '定期') {
         this.TypeColor = '#009900'
-      } else if (this.type === '金') {
+      } else if (this.type === '黄金') {
         this.TypeColor = '#FF9900'
-      } else if (this.type === '其') {
+      } else if (this.type === '其他') {
         this.TypeColor = '#999999'
       }
     }
