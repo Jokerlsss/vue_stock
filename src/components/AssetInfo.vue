@@ -13,16 +13,16 @@
     <!-- 收益 -->
     <div class="earnings">
       <div class="earnDiv">
-        <div class="earnText">今日收益</div>
-        <div class="earnNum">{{visableFlag?dayAsset:invisableNum}}</div>
+        <div class="earnText">最新收益</div>
+        <div class="earnNum" :style="dayAssetStyle">{{visableFlag?dayAsset:invisableNum}}</div>
       </div>
       <div class="earnDiv">
         <div class="earnText">持有收益</div>
-        <div class="earnNum">{{visableFlag?hadAsset:invisableNum}}</div>
+        <div class="earnNum" :style="hadAssetStyle">{{visableFlag?hadAsset:invisableNum}}</div>
       </div>
       <div class="earnDiv">
         <div class="earnText">累计收益</div>
-        <div class="earnNum">{{visableFlag?totalAsset:invisableNum}}</div>
+        <div class="earnNum" :style="totalAssetStyle">{{visableFlag?totalAsset:invisableNum}}</div>
       </div>
     </div>
   </div>
@@ -34,6 +34,47 @@ export default {
   computed: {
     isChangeToScrollTable () {
       return globalStore.state.isChangeToScrollTable
+    },
+    /** 总资产 */
+    allAsset () {
+      // 保留两位小数
+      let dfTwo = parseFloat(globalStore.state.allAsset).toFixed(2)
+      // 资产不需要正负号和红绿色之分
+      return dfTwo
+    },
+    /** 今日收益 */
+    dayAsset () {
+      let dfTwo = parseFloat(globalStore.state.dayAsset).toFixed(2)
+      // 正红负绿
+      if (dfTwo >= 0) {
+        dfTwo = '+' + dfTwo
+        this.dayAssetStyle = 'color:#FF3300'
+      } else {
+        this.dayAssetStyle = 'color:#009900'
+      }
+      return dfTwo
+    },
+    /** 持有收益 */
+    totalAsset () {
+      let dfTwo = parseFloat(globalStore.state.totalAsset).toFixed(2)
+      if (dfTwo >= 0) {
+        dfTwo = '+' + dfTwo
+        this.totalAssetStyle = 'color:#FF3300'
+      } else {
+        this.totalAssetStyle = 'color:#009900'
+      }
+      return dfTwo
+    },
+    /** 累计收益 */
+    hadAsset () {
+      let dfTwo = parseFloat(globalStore.state.hadAsset).toFixed(2)
+      if (dfTwo >= 0) {
+        dfTwo = '+' + dfTwo
+        this.hadAssetStyle = 'color:#FF3300'
+      } else {
+        this.hadAssetStyle = 'color:#009900'
+      }
+      return dfTwo
     }
   },
   data () {
@@ -42,11 +83,12 @@ export default {
       visableFlag: true,
       visableImg: '../../static/images/visable.png',
       invisableImg: '../../static/images/invisable.png',
-      // 四项收益
-      allAsset: '41115',
-      dayAsset: '+300',
-      totalAsset: '+3400',
-      hadAsset: '+15420',
+
+      // 四项收益样式
+      allAssetStyle: '',
+      dayAssetStyle: '',
+      totalAssetStyle: '',
+      hadAssetStyle: '',
       invisableNum: '****',
       // 切换展示方式
       listShowImg: '../../static/images/list.png',
@@ -55,6 +97,7 @@ export default {
   },
   methods: {
     // 切换资产可见性
+    // TODO: 当不可见的时候，收益的颜色应设置为灰色或白色
     cutVisable () {
       const VISABLE = true
       const UNVISABLE = false

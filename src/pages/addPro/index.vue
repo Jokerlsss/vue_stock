@@ -248,9 +248,7 @@ export default {
         }
       }).then(res => {
         // 当 res 为 1 时则表明新增成功
-        if (res === 0) {
-          Toast.fail('您已有该项目\n   新增失败')
-        } else {
+        if (res === 1) {
           this.productName = ''
           this.productCode = ''
           this.productType = ''
@@ -271,6 +269,8 @@ export default {
               this.toProPage()
             }
           })
+        } else {
+          Toast.fail('您已有该项目\n   新增失败')
         }
       })
     },

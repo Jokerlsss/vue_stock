@@ -27,10 +27,10 @@
         <!-- 今日收益 -->
         <div class="dayYield">
           <div class="infoTop dayYieldTitle">
-            <p>今日收益</p>
+            <p>最新收益</p>
           </div>
           <div class="infoBottom dayYieldNum">
-            <p>{{dayEarn}}</p>
+            <p :style="dayEarnTextColor">{{dayEarnShow}}</p>
           </div>
         </div>
         <!-- 持有收益 -->
@@ -39,7 +39,7 @@
             <p>持有收益</p>
           </div>
           <div class="infoBottom holdYieldNum">
-            <p>{{hadEarn}}</p>
+            <p :style="hadEarnTextColor">{{hadEarnShow}}</p>
           </div>
         </div>
       </div>
@@ -62,6 +62,29 @@ import Toast from '../../static/vant/toast/toast'
 export default {
   // 控制卡片可见性
   computed: {
+    dayEarnTextColor () {
+      var style
+      if (this.dayEarn >= 0) {
+        this.dayEarnShow = '+' + this.dayEarn
+        style = 'color: #FF3300;'
+      } else {
+        this.dayEarnShow = this.dayEarn
+        style = 'color: #009900;'
+      }
+      return style
+    },
+    hadEarnTextColor () {
+      var style
+      // 正数：加号   负数：已经自带负号
+      if (this.hadEarn >= 0) {
+        this.hadEarnShow = '+' + this.hadEarn
+        style = 'color: #FF3300;'
+      } else {
+        this.hadEarnShow = this.hadEarn
+        style = 'color: #009900;'
+      }
+      return style
+    },
     isShow () {
       if (this.type === '股票') {
         return globalStore.state.checkStock
@@ -103,7 +126,11 @@ export default {
     asset: '',
     dayEarn: '',
     hadEarn: '',
-    code: ''
+    code: '',
+    // 为展示用的数据（用于加正负号）
+    assetShow: '',
+    dayEarnShow: '',
+    hadEarnShow: ''
   },
   data () {
     return {
@@ -126,8 +153,35 @@ export default {
   },
   onLoad () {
     this.getStockType()
+
+    // 将资产信息传递到全局变量
+    this.postAssetsToStore()
+    this.postDayEarnToStore()
+    this.postHadEarnToStore()
+  },
+  /** 在控件销毁时清空资产信息，以免重复累加 */
+  beforeDestroy () {
+    globalStore.commit('clearAssetsInfo')
   },
   methods: {
+    // TODO: 切换页面后，收益会变为空
+    // 将 今日收益 & 持有收益 & 资产 & 累计收益 传递给全局变量
+    postAssetsToStore () {
+      if (this.isShow) {
+        globalStore.commit('getAssets', this.asset)
+      }
+    },
+    postDayEarnToStore () {
+      if (this.isShow) {
+        globalStore.commit('getDayEarn', this.dayEarn)
+      }
+    },
+    postHadEarnToStore () {
+      if (this.isShow) {
+        globalStore.commit('getHadEarn', this.hadEarn)
+      }
+    },
+
     // 打开删除项目确定框
     openDeleteDialog () {
       this.isSlid = false
@@ -336,7 +390,7 @@ export default {
 .dayYieldNum {
   display: flex;
   justify-content: center;
-  color: #ff3300;
+  /* color: #ff3300; */
   font-size: 28rpx;
 }
 /* 持有收益 Text */
@@ -350,6 +404,6 @@ export default {
   flex-direction: row-reverse;
   margin-right: 30rpx;
   font-size: 28rpx;
-  color: #009900;
+  /* color: #009900; */
 }
 </style>

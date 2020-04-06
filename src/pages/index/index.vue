@@ -23,7 +23,7 @@
         :key="index"
         :name="item.productName"
         :type="item.productType"
-        :asset="item.holdingCost"
+        :asset="item.holdAssets"
         :dayEarn="item.dayEarn"
         :hadEarn="item.holdEarn"
       ></StockDataCell>
@@ -89,21 +89,23 @@ export default {
     return {
       userid: 1,
       isShowPopup: false,
-      List: '',
       financialProjectList: [
         // 表头
         {
           productName: '项目名称',
           productType: '项目类型',
           productCode: '',
-          holdingCost: '资产',
+          holdAssets: '资产',
           dayEarn: '每日收益',
           holdEarn: '持有收益'
         }
       ]
     }
   },
-  mounted () {
+  // mounted () {
+  //   this.getPersonalAssets()
+  // },
+  onShow () {
     this.getPersonalAssets()
   },
   methods: {
@@ -120,11 +122,23 @@ export default {
           userid: this.userid
         }
       }).then(res => {
+        // 每次获取数据时先清空原有数据，防止 push 重复
+        this.financialProjectList = [
+          // 表头
+          {
+            productName: '项目名称',
+            productType: '项目类型',
+            productCode: '',
+            holdAssets: '资产',
+            dayEarn: '每日收益',
+            holdEarn: '持有收益'
+          }
+        ]
         // 保留 this.financialProjectList 的表头，数据在表头后进行 push
         for (var i = 0; i < res.length; i++) {
           this.financialProjectList.push(res[i])
-          console.log('res[i]', res[i])
         }
+        console.log(res)
       })
     }
     // async getDataTest () {

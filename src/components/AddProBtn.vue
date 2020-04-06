@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <div>
-      <button class="openBtnGroup" hover-class="openBtnGroup_hover" @click="cutBtnGroup">
+      <button class="openBtnGroup" hover-class="openBtnGroup_hover" @click="cutBtnGroupVisable">
         <img
           :src="openBtnGroupImg"
           class="openBtnImg"
@@ -79,7 +79,7 @@ export default {
     }
   },
   methods: {
-    cutBtnGroup: function () {
+    cutBtnGroupVisable: function () {
       const OPEN = true
       const CLOSE = false
       if (this.isOpenBtnGroup === CLOSE) {
@@ -92,17 +92,17 @@ export default {
       wx.navigateTo({
         url: '../addPro/main'
       })
-      this.cutBtnGroup()
+      this.cutBtnGroupVisable()
     },
     // 切换视图
     cutShow () {
       globalStore.commit('isChangeToScrollTable')
-      this.cutBtnGroup()
+      this.cutBtnGroupVisable()
     },
     // 弹出层
     showPopup () {
       this.$emit('showPopup')
-      this.cutBtnGroup()
+      this.cutBtnGroupVisable()
     }
   }
 }

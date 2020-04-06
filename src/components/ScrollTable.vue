@@ -20,7 +20,7 @@
         @click="cellClick"
       >
         <div class="item">{{projectInfo.productType}}</div>
-        <div class="item">{{projectInfo.holdingCost}}</div>
+        <div class="item">{{projectInfo.holdAssets}}</div>
         <div class="item">{{projectInfo.dayEarn}}</div>
         <div class="item">{{projectInfo.holdEarn}}</div>
       </div>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import globalStore from '../stores/global-stores'
 export default {
   computed: {
     // 去除索引为 0 的表头数据
@@ -37,9 +38,17 @@ export default {
       var projectNameList = []
       for (var len = 1; len < this.financialProjectList.length; len++) {
         projectNameList.push(this.financialProjectList[len])
+
+        // 在每次切换之后，将资产信息清空后，生成表格时重新赋值给全局变量并计算
+        globalStore.commit('getAssets', this.financialProjectList[len].holdAssets)
+        globalStore.commit('getDayEarn', this.financialProjectList[len].dayEarn)
+        globalStore.commit('getHadEarn', this.financialProjectList[len].holdEarn)
       }
       return projectNameList
     }
+  },
+  beforeDestroy () {
+    globalStore.commit('clearAssetsInfo')
   },
   props: {
     financialProjectList: ''
