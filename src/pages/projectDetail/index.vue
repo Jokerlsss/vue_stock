@@ -11,7 +11,9 @@
     <!-- 卖出、买入按钮 -->
     <projectOprateBtn></projectOprateBtn>
     <!-- 走势图 -->
-    <projectTrend></projectTrend>
+    <div class="trend">
+      <projectTrend :trendData="trendData"></projectTrend>
+    </div>
     <!-- 详细信息 -->
     <ProjectDetailInfo
       v-for="(detailItem,index) in detailInfoList"
@@ -38,16 +40,23 @@ export default {
     BottomSpace
   },
   mounted () {
-    // TODO: 根据 code 获取后台数据
+    // 根据 code 获取后台数据
     this.getProjectInfo()
   },
   /** 获取从主页跳转过来的活动数据：id和活动名称 */
   onLoad (option) {
     this.productCode = option.productCode
+
+    // 根据 code & time 获取后台数据
+    this.getTrendInfo()
   },
   // TODO: 接收 flag 参数，0 为未买项目，1 为已买项目
   data () {
     return {
+      // 走势图数据
+      trendData: [],
+      // 页签默认选中页面
+      active: 1,
       projectBaseData: '',
       projectDetailData: '',
       // TODO: 把控件改成固定 title，通过 invisable 和 type 判断该显示哪些
@@ -69,6 +78,21 @@ export default {
     }
   },
   methods: {
+    /** 获取走势图数据 */
+    getTrendInfo () {
+      this.$httpWX.get({
+        url: '/financialProduct/selectToTrend',
+        data: {
+          productCode: this.productCode,
+          // time -1:近一月  -3:近三月  -6：近半年  -12:近一年  -36：近三年
+          time: -12
+        }
+      }).then(res => {
+        this.trendData = res.worthList
+        console.log('this.trendData:', this.trendData)
+      })
+    },
+    /** 根据 type 获取项目信息 */
     getProjectInfo () {
       this.$httpWX.get({
         url: '/financialProduct/selectProjectDetail',
@@ -108,5 +132,11 @@ page {
   flex-wrap: wrap;
   justify-content: center;
   font-family: PingFang SC;
+}
+.trend {
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+  height: auto;
+  width: 680rpx;
 }
 </style>

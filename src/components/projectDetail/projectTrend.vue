@@ -7,37 +7,46 @@
 <script>
 import echarts from 'echarts/dist/diy_echarts.min'
 import mpvueEcharts from 'mpvue-echarts'
-function initChart (canvas, width, height) {
-  const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height
-  })
-  canvas.setChart(chart)
-  var option = {
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [{
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
-      type: 'line'
-    }]
-  }
-  chart.setOption(option)
-  return chart
-}
 export default {
+  props: {
+    trendData: ''
+  },
   data () {
     return {
       echarts,
-      onInit: initChart
+      trendData: this.trendData,
+      onInit: this.initChart
     }
   },
   components: {
     mpvueEcharts
+  },
+  mounted () {
+    console.log('this.trendData:', this.trendData)
+  },
+  methods: {
+    initChart (canvas, width, height) {
+      const chart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      })
+      canvas.setChart(chart)
+      var option = {
+        xAxis: {
+          type: 'category'
+          // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          data: this.trendData,
+          type: 'line'
+        }]
+      }
+      chart.setOption(option)
+      return chart
+    }
   }
 }
 </script>
