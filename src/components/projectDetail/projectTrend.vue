@@ -22,7 +22,6 @@ export default {
     mpvueEcharts
   },
   mounted () {
-    console.log('this.trendData:', this.trendData)
   },
   methods: {
     initChart (canvas, width, height) {
