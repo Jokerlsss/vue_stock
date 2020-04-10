@@ -9,7 +9,12 @@
       :productType="projectBaseData.productType"
     ></projectBaseInfo>
     <!-- 卖出、买入按钮 -->
-    <projectOprateBtn></projectOprateBtn>
+    <projectOprateBtn
+      :productName="projectBaseData.productName"
+      :productCode="projectBaseData.productCode"
+      :productType="projectBaseData.productType"
+      :dateOfEstablishment="projectBaseData.dateOfEstablishment"
+    ></projectOprateBtn>
     <!-- 走势图 -->
     <div class="trend">
       <div class="btnDiv">
@@ -174,7 +179,7 @@ export default {
         }
       }).then(res => {
         this.trendData = res.worthList
-        // console.log('this.trendData:', this.trendData)
+        console.log('this.trendData:', this.trendData)
       })
     },
     /** 根据 type 获取项目信息 */
@@ -198,7 +203,7 @@ export default {
           this.projectDetailData = res.gold
         }
         console.log(this.projectDetailData)
-        console.log(this.projectBaseData)
+        console.log('projectBaseData', this.projectBaseData)
       })
     }
   }

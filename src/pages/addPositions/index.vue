@@ -35,15 +35,6 @@
       </div>
     </div>
 
-    <div class="inputGroup">
-      <div class="inputTitle">
-        <p>交易平台</p>
-      </div>
-      <div class="input">
-        <input v-model="platform" placeholder="请选择已购买的投资项目" type="text" />
-      </div>
-    </div>
-
     <!-- 除了股票，其他均为“购入金额” -->
     <div class="inputGroup" v-if="!isShowInput">
       <div class="inputTitle">
@@ -75,15 +66,6 @@
           type="text"
           @focus="openShowTimeSelect"
         />
-      </div>
-    </div>
-
-    <div class="inputGroup">
-      <div class="inputTitle">
-        <p>备注</p>
-      </div>
-      <div class="input">
-        <input v-model="note" placeholder="请选择已购买的投资项目" type="text" />
       </div>
     </div>
 
@@ -151,7 +133,7 @@
 import InputGroup from '@/components/InputGroup'
 import BottomSpace from '@/components/BottomSpace'
 import ChooseDialog from '@/components/addPro/ChooseDialog'
-import Toast from '../../../static/vant/toast/toast'
+// import Toast from '../../../static/vant/toast/toast'
 export default {
   computed: {
     isShowInput () {
@@ -261,37 +243,36 @@ export default {
     // 新增项目记录
     insertPersonalProject () {
       this.$httpWX.post({
-        url: '/personalFinancialAssets/insert',
+        url: '/personalFinancialAssets/addPositions',
         data: {
           // TODO: 改为全局变量 userID
           userid: 1,
           productName: this.productName,
           productCode: this.productCode,
           productType: this.productType,
-          platform: this.platform,
           holdingCost: this.holdingCost,
           amountOfAssets: this.amountOfAssets,
-          buyTime: this.buyTime,
-          note: this.note
+          buyTime: this.buyTime
         }
       }).then(res => {
-        // 当 res 为 1 时则表明新增成功
-        if (res === 1) {
-          Toast({
-            type: 'success',
-            message: '提交成功',
-            onClose: () => {
-              // 在提示关闭后，跳转到项目页面
-              this.toProPage()
-            }
-          })
-        } else if (res === 2) {
-          // 个人资产存在时，返回码为（res：2）
-          // TODO: 添加确定框询问是否跳转到加仓页面
-          Toast.fail('您已有该项目\n   新增失败')
-        } else {
-          Toast.fail('出现了错误')
-        }
+        console.log(res)
+        // // 当 res 为 1 时则表明新增成功
+        // if (res === 1) {
+        //   Toast({
+        //     type: 'success',
+        //     message: '提交成功',
+        //     onClose: () => {
+        //       // 在提示关闭后，跳转到项目页面
+        //       this.toProPage()
+        //     }
+        //   })
+        // } else if (res === 2) {
+        //   // 个人资产存在时，返回码为（res：2）
+        //   // TODO: 添加确定框询问是否跳转到加仓页面
+        //   Toast.fail('您已有该项目\n   新增失败')
+        // } else {
+        //   Toast.fail('出现了错误')
+        // }
       })
     },
     // 获取搜索后选中的值

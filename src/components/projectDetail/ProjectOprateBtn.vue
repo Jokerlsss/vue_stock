@@ -25,6 +25,7 @@
         class="cutShowBtn"
         hover-class="btnGroup_hover"
         :style="isOpenBtnGroup?cutShowSlideStyle:cutShowNoSlideStyle"
+        @click="toAddPro"
       >
         <img :src="buyImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
@@ -33,7 +34,6 @@
         class="oprateBtn"
         hover-class="btnGroup_hover"
         :style="isOpenBtnGroup?addBtnSlideStyle:addBtnNoSlideStyle"
-        @click="toAddProPage"
       >
         <img :src="addProBtnImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
@@ -43,8 +43,20 @@
 
 <script>
 export default {
+  props: {
+    productName: '',
+    productCode: '',
+    productType: '',
+    dateOfEstablishment: ''
+  },
   data () {
     return {
+      // 从项目详情中传递过来的三个参数
+      productName: this.productName,
+      productCode: this.productCode,
+      productType: this.productType,
+      dateOfEstablishment: this.dateOfEstablishment,
+
       isOpenBtnGroup: false,
       // 设置按钮组展开前和展开后的样式
       popupBtnSlideStyle: 'bottom:410rpx;opacity:0.9',
@@ -79,13 +91,35 @@ export default {
         this.isOpenBtnGroup = CLOSE
       }
     },
-    // TODO: 加上买、卖跳转页面
-    // TODO: 买卖页面用弹出框实现
-    toAddProPage () {
-      wx.navigateTo({
-        url: '../addPro/main'
+    // 带参数传递到买入页面
+    toAddPro () {
+      this.$httpWX.get({
+        url: '/personalFinancialAssets/isExist',
+        data: {
+          // TODO: 改为全局变量 userID
+          userID: 1,
+          productCode: this.productCode
+        }
+      }).then(res => {
+        // 是否存在  存在：1   不存在：0
+        if (res === 1) {
+          // 存在时，跳转到加仓页面
+          const url = '../addPositions/main?productCode=' + this.productCode + '&productType=' + this.productType + '&productName=' + this.productName + '&dateOfEstablishment=' + this.dateOfEstablishment
+          wx.navigateTo({
+            url: url
+          })
+          // 关闭按钮组
+          this.cutBtnGroup()
+        } else {
+          // 不存在时，跳转到添加项目页面
+          const url = '../addPro/main?productCode=' + this.productCode + '&productType=' + this.productType + '&productName=' + this.productName + '&dateOfEstablishment=' + this.dateOfEstablishment
+          wx.navigateTo({
+            url: url
+          })
+          // 关闭按钮组
+          this.cutBtnGroup()
+        }
       })
-      this.cutBtnGroup()
     }
   }
 }

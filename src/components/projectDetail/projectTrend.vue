@@ -21,6 +21,12 @@ export default {
   components: {
     mpvueEcharts
   },
+  // watch: {
+  //   // 监听当 trendData 发生变化时，触发 initChart 函数
+  //   trendData () {
+  //     this.initChart()
+  //   }
+  // },
   mounted () {
   },
   methods: {
