@@ -21,11 +21,12 @@
       <StockDataCell
         v-for="(item,index) in financialProjectList"
         :key="index"
-        :name="item.productName"
-        :type="item.productType"
+        :productName="item.productName"
+        :productType="item.productType"
         :asset="item.holdAssets"
         :dayEarn="item.dayEarn"
         :hadEarn="item.holdEarn"
+        :productCode="item.productCode"
       ></StockDataCell>
     </div>
     <!-- 添加项目按钮 -->

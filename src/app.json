@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/market/main",
+    "pages/sellPro/main",
     "pages/addPositions/main",
     "pages/index/main",
     "pages/addPro/main",

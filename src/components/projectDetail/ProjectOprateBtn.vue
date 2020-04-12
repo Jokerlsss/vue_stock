@@ -13,13 +13,13 @@
     <!-- 按钮组 -->
     <div>
       <!-- 卖出按钮 -->
-      <button
+      <!-- <button
         class="popupBtn"
         hover-class="btnGroup_hover"
         :style="isOpenBtnGroup?popupBtnSlideStyle:popupBtnNoSlideStyle"
       >
         <img :src="sellImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
-      </button>
+      </button>-->
       <!-- 买入按钮 -->
       <button
         class="cutShowBtn"
@@ -34,28 +34,33 @@
         class="oprateBtn"
         hover-class="btnGroup_hover"
         :style="isOpenBtnGroup?addBtnSlideStyle:addBtnNoSlideStyle"
+        @click="toSellPage"
       >
-        <img :src="addProBtnImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
+        <img :src="sellImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
     </div>
   </div>
 </template>
 
 <script>
+// TODO: 增加Toast节点
+import Toast from '../../../dist/wx/static/vant/toast/toast'
 export default {
   props: {
     productName: '',
     productCode: '',
     productType: '',
-    dateOfEstablishment: ''
+    dateOfEstablishment: '',
+    amountOfAssets: ''
   },
   data () {
     return {
-      // 从项目详情中传递过来的三个参数
+      // 从项目详情中传递过来的参数
       productName: this.productName,
       productCode: this.productCode,
       productType: this.productType,
       dateOfEstablishment: this.dateOfEstablishment,
+      amountOfAssets: this.amountOfAssets,
 
       isOpenBtnGroup: false,
       // 设置按钮组展开前和展开后的样式
@@ -117,6 +122,31 @@ export default {
             url: url
           })
           // 关闭按钮组
+          this.cutBtnGroup()
+        }
+      })
+    },
+    // 带参数传递到卖出界面
+    toSellPage () {
+      this.$httpWX.get({
+        url: '/personalFinancialAssets/isExist',
+        data: {
+          // TODO: 改为全局变量 userID
+          userID: 1,
+          productCode: this.productCode
+        }
+      }).then(res => {
+        // 是否存在  存在：1   不存在：0
+        if (res === 1) {
+          // 存在时，跳转到卖出页面
+          const url = '../sellPro/main?productCode=' + this.productCode + '&productType=' + this.productType + '&productName=' + this.productName + '&dateOfEstablishment=' + this.dateOfEstablishment + '&amountOfAssets=' + this.amountOfAssets
+          wx.navigateTo({
+            url: url
+          })
+          // 关闭按钮组
+          this.cutBtnGroup()
+        } else {
+          Toast.fail('未拥有该资产')
           this.cutBtnGroup()
         }
       })

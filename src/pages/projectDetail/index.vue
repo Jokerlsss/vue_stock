@@ -14,6 +14,7 @@
       :productCode="projectBaseData.productCode"
       :productType="projectBaseData.productType"
       :dateOfEstablishment="projectBaseData.dateOfEstablishment"
+      :amountOfAssets="personalFinancialAssets.amountOfAssets"
     ></projectOprateBtn>
     <!-- 走势图 -->
     <div class="trend">
@@ -80,9 +81,10 @@ export default {
   /** 获取从主页跳转过来的活动数据：id和活动名称 */
   onLoad (option) {
     this.productCode = option.productCode
-
+    console.log('productCode', this.productCode)
     // 根据 code & time 获取后台数据
     this.getTrendInfo()
+    this.getPersonalAssets()
   },
   // TODO: 接收 flag 参数，0 为未买项目，1 为已买项目
   data () {
@@ -100,6 +102,7 @@ export default {
 
       projectBaseData: '',
       projectDetailData: '',
+      personalFinancialAssets: '',
       // TODO: 把控件改成固定 title，通过 invisable 和 type 判断该显示哪些
       // TODO: 控件判断类型，用不同数组来接收
       detailInfoList: [
@@ -167,6 +170,18 @@ export default {
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = true
       this.getTrendInfo()
+    },
+    /** 获取个人资产数据 */
+    getPersonalAssets () {
+      this.$httpWX.get({
+        url: '/personalFinancialAssets/selectOne',
+        data: {
+          productCode: this.productCode,
+          userid: 1
+        }
+      }).then(res => {
+        this.personalFinancialAssets = res
+      })
     },
     /** 获取走势图数据 */
     getTrendInfo () {

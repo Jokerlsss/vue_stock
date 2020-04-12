@@ -6,7 +6,7 @@
       <div class="title">
         <!-- 资产名字 -->
         <div class="proText">
-          <p class="proName">{{name}}</p>
+          <p class="proName">{{productName}}</p>
         </div>
         <!-- 类型标签 -->
         <div class="proType">
@@ -86,61 +86,61 @@ export default {
       return style
     },
     isShow () {
-      if (this.type === '股票') {
+      if (this.productType === '股票') {
         return globalStore.state.checkStock
       }
-      if (this.type === '基金') {
+      if (this.productType === '基金') {
         return globalStore.state.checkFund
       }
-      if (this.type === '黄金') {
+      if (this.productType === '黄金') {
         return globalStore.state.checkGold
       }
-      if (this.type === '定期') {
+      if (this.productType === '定期') {
         return globalStore.state.checkRegular
       }
-      if (this.type === '其他') {
+      if (this.productType === '其他') {
         return globalStore.state.checkOther
       }
     },
     typeShow () {
-      if (this.type === '股票') {
+      if (this.productType === '股票') {
         return '股'
       }
-      if (this.type === '基金') {
+      if (this.productType === '基金') {
         return '基'
       }
-      if (this.type === '黄金') {
+      if (this.productType === '黄金') {
         return '金'
       }
-      if (this.type === '定期') {
+      if (this.productType === '定期') {
         return '定'
       }
-      if (this.type === '其他') {
+      if (this.productType === '其他') {
         return '其'
       }
     }
   },
   props: {
-    name: '',
-    type: '',
+    productName: '',
+    productType: '',
     asset: '',
     dayEarn: '',
     hadEarn: '',
-    code: '',
-    // 为展示用的数据（用于加正负号）
-    assetShow: '',
-    dayEarnShow: '',
-    hadEarnShow: ''
+    productCode: ''
   },
   data () {
     return {
-      name: this.name,
-      type: this.type,
+      productName: this.productName,
+      productType: this.productType,
       asset: this.asset,
       dayEarn: this.dayEarn,
       hadEarn: this.hadEarn,
-      code: this.code,
+      productCode: this.productCode,
       TypeColor: '',
+
+      // 为展示用的数据（用于加正负号）
+      dayEarnShow: '',
+      hadEarnShow: '',
 
       // 滑动单元格
       clientS: '',
@@ -164,7 +164,6 @@ export default {
     globalStore.commit('clearAssetsInfo')
   },
   methods: {
-    // TODO: 切换页面后，收益会变为空
     // 将 今日收益 & 持有收益 & 资产 & 累计收益 传递给全局变量
     postAssetsToStore () {
       if (this.isShow) {
@@ -187,7 +186,7 @@ export default {
       this.isSlid = false
       Dialog.confirm({
         title: '确定删除该项目吗？',
-        message: this.name,
+        message: this.productName,
         closeOnClickOverlay: true,
         // 开启异步关闭
         asyncClose: true,
@@ -239,24 +238,23 @@ export default {
         this.isSlid = true
       }
     },
-    // toProjectDetail () {
-    //   const url = '../projectDetail/main?code=' + this.code
-    //   wx.navigateTo({
-    //     url: url
-    //   })
-    // },
+    toProjectDetail () {
+      const url = '../projectDetail/main?productCode=' + this.productCode
+      wx.navigateTo({
+        url: url
+      })
+    },
     // 控制 tag 颜色
-    // TODO: 改变 type 值判断，包括上面的 isShow
     getStockType: function () {
-      if (this.type === '股票') {
+      if (this.productType === '股票') {
         this.TypeColor = '#CC3333'
-      } else if (this.type === '基金') {
+      } else if (this.productType === '基金') {
         this.TypeColor = '#3399FF'
-      } else if (this.type === '定期') {
+      } else if (this.productType === '定期') {
         this.TypeColor = '#009900'
-      } else if (this.type === '黄金') {
+      } else if (this.productType === '黄金') {
         this.TypeColor = '#FF9900'
-      } else if (this.type === '其他') {
+      } else if (this.productType === '其他') {
         this.TypeColor = '#999999'
       }
     }

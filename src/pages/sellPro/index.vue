@@ -36,28 +36,30 @@
     </div>
 
     <!-- 除了股票，其他均为“购入金额” -->
-    <div class="inputGroup" v-if="!isShowInput">
+    <!-- <div class="inputGroup" v-if="!isShowInput">
       <div class="inputTitle">
         <p>购入金额</p>
       </div>
       <div class="input">
         <input v-model="holdingCost" placeholder="请选择已购买的投资项目" type="text" />
       </div>
-    </div>
+    </div>-->
 
-    <!-- 只有股票是“持有份额” -->
-    <div class="inputGroup" v-if="isShowInput">
+    <!-- 卖出时，按份额卖出 -->
+    <!-- // TODO: 设置最大可卖出量（增加接口查询该资产拥有多少份额） -->
+    <!-- // TODO: 增加 1/4 仓 、1/2 仓、全仓等选项来快速提阿尼额 -->
+    <div class="inputGroup">
       <div class="inputTitle">
-        <p>持有份额</p>
+        <p>卖出份额</p>
       </div>
       <div class="input">
-        <input v-model="amountOfAssets" placeholder="请选择已购买的投资项目" type="text" />
+        <input v-model="amountOfAssets" placeholder="请输入要卖出的份额" type="text" />
       </div>
     </div>
 
     <div class="inputGroup">
       <div class="inputTitle">
-        <p>买入时间</p>
+        <p>卖出时间</p>
       </div>
       <div class="input">
         <input
@@ -76,7 +78,7 @@
 
     <!-- <InputGroup inputTitle="名称" placeholder="请选择已购买的投资项目"></InputGroup>
     <InputGroup inputTitle="金额" placeholder="请输入购买金额"></InputGroup>
-    <InputGroup inputTitle="买入时间" placeholder="当日净值由此决定，请谨慎选择"></InputGroup>
+    <InputGroup inputTitle="卖出时间" placeholder="当日净值由此决定，请谨慎选择"></InputGroup>
     <InputGroup inputTitle="交易平台" placeholder="请选择购买的平台"></InputGroup>-->
     <div class="getBtn">
       <van-button color="#CC6600" size="large" round @click="openConfirmDialog">完成</van-button>
@@ -133,17 +135,9 @@
 import InputGroup from '@/components/InputGroup'
 import BottomSpace from '@/components/BottomSpace'
 import ChooseDialog from '@/components/addPro/ChooseDialog'
-import Toast from '../../../static/vant/toast/toast'
+// import Toast from '../../../static/vant/toast/toast'
 export default {
   computed: {
-    isShowInput () {
-      if (this.productType === '股票') {
-        return true
-      } else {
-        return false
-      }
-    }
-
   },
   data () {
     return {
@@ -173,17 +167,22 @@ export default {
     this.productCode = option.productCode
     this.productName = option.productName
     this.productType = option.productType
+    // TODO：限制最大份额到input上
+    // TODO: 增加仓位选择
+    this.amountOfAssets = option.amountOfAssets
 
     // getTime(): 将发布日期转换成时间戳
     var timestamp = new Date(option.dateOfEstablishment)
     this.minDate = timestamp.getTime()
     console.log(this.minDate)
     // 展示在 input 框中的日期
+
+    // ? 卖出时间需要是今天吗？
     this.buyTime = this.minDate
 
     // 根据 code & time 获取后台数据
   },
-  // onUnload:页面在点击返回箭头时触发
+  //   onUnload:页面在点击返回箭头时触发
   onUnload () {
     this.productName = ''
     this.productCode = ''
@@ -243,7 +242,7 @@ export default {
     // 新增项目记录
     insertPersonalProject () {
       this.$httpWX.post({
-        url: '/personalFinancialAssets/addPositions',
+        url: '/personalFinancialAssets/sellPro',
         data: {
           // TODO: 改为全局变量 userID
           userid: 1,
@@ -255,19 +254,20 @@ export default {
           buyTime: this.buyTime
         }
       }).then(res => {
-        // 当 res 为 1 时则表明加仓成功
-        if (res === 1) {
-          Toast({
-            type: 'success',
-            message: '提交成功',
-            onClose: () => {
-              // 在提示关闭后，跳转到项目页面
-              this.toProPage()
-            }
-          })
-        } else {
-          Toast.fail('出现了错误')
-        }
+        console.log(res)
+        // // 当 res 为 1 时则表明加仓成功
+        // if (res === 1) {
+        //   Toast({
+        //     type: 'success',
+        //     message: '提交成功',
+        //     onClose: () => {
+        //       // 在提示关闭后，跳转到项目页面
+        //       this.toProPage()
+        //     }
+        //   })
+        // } else {
+        //   Toast.fail('出现了错误')
+        // }
       })
     },
     // 获取搜索后选中的值
