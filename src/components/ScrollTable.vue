@@ -51,11 +51,13 @@ export default {
     globalStore.commit('clearAssetsInfo')
   },
   props: {
-    financialProjectList: ''
+    financialProjectList: '',
+    totalEarn: ''
   },
   data () {
     return {
-      financialProjectList: this.financialProjectList
+      financialProjectList: this.financialProjectList,
+      totalEarn: this.totalEarn
     }
   },
   methods: {

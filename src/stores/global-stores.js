@@ -20,12 +20,10 @@ export default new Vuex.Store({
         hadAsset: 0
     },
     mutations: {
-
-        // 在切换卡片时，清空资产数据防止重复累加
+        // 在切换卡片时，清空资产数据防止重复累加（累计收益除外，累计收益无累加操作）
         clearAssetsInfo: (state) => {
             state.allAsset = 0
             state.dayAsset = 0
-            state.totalEarn = 0
             state.hadAsset = 0
         },
         // 累计收益

@@ -45,44 +45,59 @@ export default {
   },
   data () {
     return {
+      userid: 1,
       isSuggestionVisable: false,
       visablesuggestionImg: '../../static/images/up.png',
       inVisableSuggestionImg: '../../static/images/down.png',
       proportionOfAssets: [
-        {
-          projectItem: '股票',
-          assetItem: '51324',
-          progressItem: '51%',
-          proportionItem: '51%'
-        },
-        {
-          projectItem: '基金',
-          assetItem: '4032.1',
-          progressItem: '3.6%',
-          proportionItem: '3.6%'
-        },
-        {
-          projectItem: '黄金',
-          assetItem: '201',
-          progressItem: '0.4%',
-          proportionItem: '0.4%'
-        },
-        {
-          projectItem: '定期',
-          assetItem: '40000',
-          progressItem: '42%',
-          proportionItem: '42%'
-        },
-        {
-          projectItem: '其他',
-          assetItem: '3201.24',
-          progressItem: '3%',
-          proportionItem: '3%'
-        }
+        // {
+        //   projectItem: '股票',
+        //   assetItem: '51324',
+        //   progressItem: '51%',
+        //   proportionItem: '51%'
+        // },
+        // {
+        //   projectItem: '基金',
+        //   assetItem: '4032.1',
+        //   progressItem: '3.6%',
+        //   proportionItem: '3.6%'
+        // },
+        // {
+        //   projectItem: '黄金',
+        //   assetItem: '201',
+        //   progressItem: '0.4%',
+        //   proportionItem: '0.4%'
+        // },
+        // {
+        //   projectItem: '定期',
+        //   assetItem: '40000',
+        //   progressItem: '42%',
+        //   proportionItem: '42%'
+        // },
+        // {
+        //   projectItem: '其他',
+        //   assetItem: '3201.24',
+        //   progressItem: '3%',
+        //   proportionItem: '3%'
+        // }
       ]
     }
   },
+  onLoad () {
+    this.getTotalEarn()
+  },
   methods: {
+    getTotalEarn () {
+      this.$httpWX.get({
+        url: '/personalFinancialAssets/getSumOfAssets',
+        data: {
+          userid: this.userid
+        }
+      }).then(res => {
+        this.proportionOfAssets = res
+      })
+    },
+    // 切换建议可见性
     cutSuggestionVisable () {
       if (this.isSuggestionVisable === true) {
         this.isSuggestionVisable = false
@@ -145,7 +160,7 @@ export default {
 }
 /* 资产 */
 .asset {
-  width: 210rpx;
+  width: 250rpx;
   display: flex;
   flex-wrap: wrap;
 }
@@ -161,7 +176,7 @@ export default {
 .proportionProgress {
   display: flex;
   flex-wrap: wrap;
-  width: 260rpx;
+  width: 220rpx;
   height: 100%;
 }
 /* 进度条 item */
@@ -176,6 +191,7 @@ export default {
 /* 占比值 */
 .proportionNum {
   width: 100rpx;
+  margin-right: 20rpx;
   height: 100%;
   display: flex;
   flex-wrap: wrap;

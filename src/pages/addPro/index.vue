@@ -290,7 +290,7 @@ export default {
           // TODO: 添加确定框询问是否跳转到加仓页面
           Toast.fail('您已有该项目\n   新增失败')
         } else {
-          Toast.fail('出现了错误')
+          Toast.fail('周末不可购入')
         }
       })
     },

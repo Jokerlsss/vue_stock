@@ -14,7 +14,11 @@
     <!-- No Content 页面 -->
     <NoContentPage v-if="isNoContentPage"></NoContentPage>
     <!-- 滚动表格 -->
-    <ScrollTable :financialProjectList="financialProjectList" v-if="isChangeToScrollTable"></ScrollTable>
+    <ScrollTable
+      :totalEarn="totalEarn"
+      :financialProjectList="financialProjectList"
+      v-if="isChangeToScrollTable"
+    ></ScrollTable>
     <!-- 项目卡片 -->
     <div v-if="isChangeToScrollTable?false:true">
       <!-- <DataCell :financialProjectList="financialProjectList"></DataCell> -->
@@ -127,8 +131,11 @@ export default {
           userid: this.userid
         }
       }).then(res => {
-        this.totalEarn = res
-        console.log('index-this.totalEarn', this.totalEarn)
+        if (res.status === 500) {
+          this.totalEarn = 0
+        } else {
+          this.totalEarn = res
+        }
         globalStore.commit('getTotalEarn', this.totalEarn)
       })
     },
