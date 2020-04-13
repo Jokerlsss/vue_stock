@@ -91,6 +91,7 @@ export default {
     return {
       userid: 1,
       isShowPopup: false,
+      totalEarn: 0,
       financialProjectList: [
         // 表头
         {
@@ -109,6 +110,7 @@ export default {
   // },
   onShow () {
     this.getPersonalAssets()
+    this.getTotalEarn()
   },
   methods: {
     closePopup: function () {
@@ -117,6 +119,20 @@ export default {
     openPopup: function () {
       this.isShowPopup = true
     },
+    // 获取累计收益
+    getTotalEarn () {
+      this.$httpWX.get({
+        url: '/personalFinancialAssets/getTotalEarn',
+        data: {
+          userid: this.userid
+        }
+      }).then(res => {
+        this.totalEarn = res
+        console.log('index-this.totalEarn', this.totalEarn)
+        globalStore.commit('getTotalEarn', this.totalEarn)
+      })
+    },
+    // 获取个人资产
     getPersonalAssets () {
       this.$httpWX.get({
         url: '/personalFinancialAssetsVO/listByWrapper',

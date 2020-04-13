@@ -16,19 +16,23 @@ export default new Vuex.Store({
         // 个人资产信息
         allAsset: 0,
         dayAsset: 0,
-        totalAsset: 0,
+        totalEarn: 0,
         hadAsset: 0
     },
     mutations: {
+
         // 在切换卡片时，清空资产数据防止重复累加
         clearAssetsInfo: (state) => {
             state.allAsset = 0
             state.dayAsset = 0
-            state.totalAsset = 0
+            state.totalEarn = 0
             state.hadAsset = 0
         },
+        // 累计收益
+        getTotalEarn: (state, totalEarn) => {
+            state.totalEarn = parseFloat(totalEarn)
+        },
         // 接收资产信息并累加
-        // TODO：添加 累计收益 的计算方法
         getAssets: (state, assets) => {
             // 做数学运算时去除表头中文
             if (assets !== '资产') {
@@ -44,6 +48,12 @@ export default new Vuex.Store({
             }
             console.log('dayEarn:', state.dayAsset)
         },
+        // getTotalAsset: (state, totalAsset) => {
+        //     if (totalAsset !== '累计收益') {
+        //         // 保留两位小数
+        //         state.totalAsset += parseFloat(totalAsset)
+        //     }
+        // },
         getHadEarn: (state, hadEarn) => {
             if (hadEarn !== '持有收益') {
                 // 保留两位小数

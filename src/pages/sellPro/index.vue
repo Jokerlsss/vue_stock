@@ -63,7 +63,7 @@
       </div>
       <div class="input">
         <input
-          v-model="showBuyTime"
+          v-model="showSellTime"
           placeholder="请选择已购买的投资项目"
           type="text"
           @focus="openShowTimeSelect"
@@ -109,7 +109,7 @@
         type="date"
         :max-date="maxDate"
         :min-date="minDate"
-        :value="buyTime"
+        :value="sellTime"
         @input="timeSelectInput"
       />
     </van-popup>
@@ -145,8 +145,8 @@ export default {
       showTimeSelect: false,
       showDialog: false,
       maxDate: new Date().getTime(),
-      // buyTime转换为日期格式：仅展示
-      showBuyTime: '',
+      // SellTime转换为日期格式：仅展示
+      showSellTime: '',
       // 是否弹出确定弹窗
       isConfirmDialog: false,
       // 表单信息
@@ -156,7 +156,7 @@ export default {
       platform: '',
       holdingCost: '',
       amountOfAssets: '',
-      buyTime: '',
+      sellTime: '',
       note: '',
       // 发布项目日期
       minDate: ''
@@ -178,7 +178,7 @@ export default {
     // 展示在 input 框中的日期
 
     // ? 卖出时间需要是今天吗？
-    this.buyTime = this.minDate
+    this.sellTime = this.minDate
 
     // 根据 code & time 获取后台数据
   },
@@ -190,16 +190,16 @@ export default {
     this.platform = ''
     this.holdingCost = ''
     this.amountOfAssets = ''
-    this.buyTime = ''
+    this.sellTime = ''
     this.note = ''
     this.minDate = ''
     this.maxDate = new Date().getTime()
-    this.showBuyTime = ''
+    this.showSellTime = ''
   },
   methods: {
     // 确认新增时提交数据到服务器
     confirmEvent () {
-      this.insertPersonalProject()
+      this.sellProject()
     },
 
     // 切换确定提交弹窗可见性
@@ -235,12 +235,12 @@ export default {
     // 选中时间录入文本框中
     timeSelectInput (e) {
       // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
-      this.showBuyTime = this.timestampToTime(e.mp.detail)
-      // buyTime = 时间戳
-      this.buyTime = e.mp.detail
+      this.showSellTime = this.timestampToTime(e.mp.detail)
+      // sellTime = 时间戳
+      this.sellTime = e.mp.detail
     },
-    // 新增项目记录
-    insertPersonalProject () {
+    // 卖出项目记录
+    sellProject () {
       this.$httpWX.post({
         url: '/personalFinancialAssets/sellPro',
         data: {
@@ -251,10 +251,9 @@ export default {
           productType: this.productType,
           holdingCost: this.holdingCost,
           amountOfAssets: this.amountOfAssets,
-          buyTime: this.buyTime
+          sellTime: this.sellTime
         }
       }).then(res => {
-        console.log(res)
         // 当 res 为 1 时则表明加仓成功
         if (res === 1) {
           Toast({
@@ -266,7 +265,7 @@ export default {
             }
           })
         } else if (res === 401) {
-          Toast.fail('份额超出最大值')
+          Toast.fail('份额超最大值')
         } else {
           Toast.fail('周末不能卖出')
         }
@@ -281,7 +280,7 @@ export default {
       var timestamp = new Date(dateOfEstablishment)
       this.minDate = timestamp.getTime()
       // 展示在input框中的值也应该改变
-      this.buyTime = this.minDate
+      this.sellTime = this.minDate
     },
     openDialog () {
       this.showDialog = true

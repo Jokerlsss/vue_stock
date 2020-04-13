@@ -22,7 +22,7 @@
       </div>
       <div class="earnDiv">
         <div class="earnText">累计收益</div>
-        <div class="earnNum" :style="totalAssetStyle">{{visableFlag?totalAsset:invisableNum}}</div>
+        <div class="earnNum" :style="totalEarnStyle">{{visableFlag?totalEarn:invisableNum}}</div>
       </div>
     </div>
   </div>
@@ -54,18 +54,18 @@ export default {
       }
       return dfTwo
     },
-    /** 持有收益 */
-    totalAsset () {
-      let dfTwo = parseFloat(globalStore.state.totalAsset).toFixed(2)
+    /** 累计收益 */
+    totalEarn () {
+      let dfTwo = parseFloat(globalStore.state.totalEarn).toFixed(2)
       if (dfTwo >= 0) {
         dfTwo = '+' + dfTwo
-        this.totalAssetStyle = 'color:#FF3300'
+        this.totalEarnStyle = 'color:#FF3300'
       } else {
-        this.totalAssetStyle = 'color:#009900'
+        this.totalEarnStyle = 'color:#009900'
       }
       return dfTwo
     },
-    /** 累计收益 */
+    /** 持有收益 */
     hadAsset () {
       let dfTwo = parseFloat(globalStore.state.hadAsset).toFixed(2)
       if (dfTwo >= 0) {
@@ -87,7 +87,7 @@ export default {
       // 四项收益样式
       allAssetStyle: '',
       dayAssetStyle: '',
-      totalAssetStyle: '',
+      totalEarnStyle: '',
       hadAssetStyle: '',
       invisableNum: '****',
       // 切换展示方式
