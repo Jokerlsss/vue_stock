@@ -56,7 +56,8 @@ export default {
     isNoContentPage () {
       const ShowNoContentPage = true
       const NotShowNoContentPage = false
-      const NoProjectList = 0
+      // NoProjectList = 1 的 1 为表头，即只有表头时，判断数组为空
+      const NoProjectList = 1
       const UNCHECKED = false
       // 当所有项目筛选为空时，出现 NoContentPage 页面
       // TODO: 当无数据但仍有 switch 勾选时，不会显示空数据，应该改进

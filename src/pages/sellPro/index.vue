@@ -117,7 +117,7 @@
     <!-- 确定提交弹窗 -->
     <!-- // TODO: 确定提交 -->
     <van-dialog
-      title="确定新增该项目吗？"
+      title="确定卖出该项目吗？"
       :message="productName?productName:' '"
       :show="isConfirmDialog"
       @close="closeConfirmDialog"
@@ -135,7 +135,7 @@
 import InputGroup from '@/components/InputGroup'
 import BottomSpace from '@/components/BottomSpace'
 import ChooseDialog from '@/components/addPro/ChooseDialog'
-// import Toast from '../../../static/vant/toast/toast'
+import Toast from '../../../static/vant/toast/toast'
 export default {
   computed: {
   },
@@ -255,19 +255,21 @@ export default {
         }
       }).then(res => {
         console.log(res)
-        // // 当 res 为 1 时则表明加仓成功
-        // if (res === 1) {
-        //   Toast({
-        //     type: 'success',
-        //     message: '提交成功',
-        //     onClose: () => {
-        //       // 在提示关闭后，跳转到项目页面
-        //       this.toProPage()
-        //     }
-        //   })
-        // } else {
-        //   Toast.fail('出现了错误')
-        // }
+        // 当 res 为 1 时则表明加仓成功
+        if (res === 1) {
+          Toast({
+            type: 'success',
+            message: '卖出成功',
+            onClose: () => {
+              // 在提示关闭后，跳转到项目页面
+              this.toProPage()
+            }
+          })
+        } else if (res === 401) {
+          Toast.fail('份额超出最大值')
+        } else {
+          Toast.fail('周末不能卖出')
+        }
       })
     },
     // 获取搜索后选中的值
