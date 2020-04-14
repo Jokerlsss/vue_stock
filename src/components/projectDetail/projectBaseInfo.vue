@@ -54,6 +54,7 @@
 
 <script>
 import riskTag from '@/components/CharacterTag'
+import projectPersonalInfo from '@/components/projectDetail/ProjectPersonalInfo'
 export default {
   computed: {
     // 产品类型转换成单字显示
@@ -89,7 +90,8 @@ export default {
     popularity: ''
   },
   components: {
-    riskTag
+    riskTag,
+    projectPersonalInfo
   },
   data () {
     return {

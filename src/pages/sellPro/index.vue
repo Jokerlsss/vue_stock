@@ -241,6 +241,7 @@ export default {
     },
     // 卖出项目记录
     sellProject () {
+      console.log(this.sellTime)
       this.$httpWX.post({
         url: '/personalFinancialAssets/sellPro',
         data: {
@@ -251,7 +252,8 @@ export default {
           productType: this.productType,
           holdingCost: this.holdingCost,
           amountOfAssets: this.amountOfAssets,
-          sellTime: this.sellTime
+          // buyTime 是为了与后端表字段连接起来
+          buyTime: this.sellTime
         }
       }).then(res => {
         // 当 res 为 1 时则表明加仓成功

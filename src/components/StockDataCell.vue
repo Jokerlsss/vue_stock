@@ -238,8 +238,10 @@ export default {
         this.isSlid = true
       }
     },
+    // 跳转到持有资产的详情页
+    // TODO: 在跳转到详情页的时候关闭按钮组（如果按钮组打开着的话）
     toProjectDetail () {
-      const url = '../projectDetail/main?productCode=' + this.productCode
+      const url = '../projectDetailHad/main?productCode=' + this.productCode
       wx.navigateTo({
         url: url
       })

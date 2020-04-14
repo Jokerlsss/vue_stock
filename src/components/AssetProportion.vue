@@ -87,6 +87,7 @@ export default {
     this.getTotalEarn()
   },
   methods: {
+    // 获取各类型资产
     getTotalEarn () {
       this.$httpWX.get({
         url: '/personalFinancialAssets/getSumOfAssets',

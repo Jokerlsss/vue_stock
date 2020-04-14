@@ -9,25 +9,25 @@
     </div>
     <div class="contentDiv">
       <div class="contentItem">
-        <div class="contentTip">累计收益最高(截止2-21)</div>
+        <div class="contentTip">累计收益最高(截止 {{deadLine}})</div>
         <div class="contentInfo">
           <div class="projectName">
-            <p>招商中证白酒C</p>
+            <p>{{totalEarnProductName}}</p>
           </div>
           <div class="projectAsset">
-            <p>+44121</p>
+            <p :style="totalEarnTextColor">{{totalEarnShow}}</p>
           </div>
         </div>
       </div>
       <!-- // TODO: 当没有项目购入时，显示：您还没有创建资产 -->
       <div class="contentItem">
-        <div class="contentTip">持有收益最高(截止2-21)</div>
+        <div class="contentTip">持有收益最高(截止 {{deadLine}})</div>
         <div class="contentInfo">
           <div class="projectName">
-            <p>招商中证白酒C</p>
+            <p>{{holdEarnProductName}}</p>
           </div>
           <div class="projectAsset">
-            <p>+204</p>
+            <p :style="holdEarnTextColor">{{holdEarnShow}}</p>
             <p></p>
           </div>
         </div>
@@ -38,7 +38,97 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      today: new Date().getTime(),
+      userid: 1,
+      // 累计收益字段
+      totalEarnProductCode: '',
+      totalEarnProductName: '',
+      totalEarnProductEarn: '',
+      totalEarnShow: '',
+      // 持有收益字段
+      holdEarnProductCode: '',
+      holdEarnProductName: '',
+      holdEarnProductEarn: '',
+      holdEarnShow: ''
+    }
+  },
+  computed: {
+    // 截止日期
+    deadLine () {
+      return this.timestampToTime(this.today)
+    },
+    holdEarnTextColor () {
+      var style
+      // 正数：加号   负数：已经自带负号
+      if (this.holdEarnProductEarn >= 0) {
+        this.holdEarnShow = '+' + this.holdEarnProductEarn
+        style = 'color: #FF3300;'
+      } else {
+        this.holdEarnShow = this.holdEarnProductEarn
+        style = 'color: #009900;'
+      }
+      return style
+    },
+    totalEarnTextColor () {
+      var style
+      // 正数：加号   负数：已经自带负号
+      if (this.totalEarnProductEarn >= 0) {
+        this.totalEarnShow = '+' + this.totalEarnProductEarn
+        style = 'color: #FF3300;'
+      } else {
+        this.totalEarnShow = this.totalEarnProductEarn
+        style = 'color: #009900;'
+      }
+      return style
+    }
+  },
+  onLoad () {
+    this.getAceOfAssets()
+  },
+  methods: {
+    // 将截止日期日渐戳转换为日期
+    timestampToTime (timestamp) {
+      // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var date = new Date(timestamp)
+      var Y = date.getFullYear() + '-'
+      // 0 代表 1月份，因此要加 1
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+      var D = date.getDate() + ' '
+      return Y + M + D
+    },
+    // 获取王牌资产信息
+    getAceOfAssets () {
+      this.$httpWX.get({
+        url: '/personalFinancialAssets/getAceOfAssets',
+        data: {
+          userid: this.userid
+        }
+      }).then(res => {
+        /**
+         * {
+            "productCode": "102888",
+            "totalEarn": 348,
+            "productName": "股票2"
+           },
+           {
+            "productCode": "102888",
+            "holdEarn": 348,
+            "productName": "股票2"
+           }
+         */
+        // 累计收益字段
+        this.totalEarnProductCode = res[0].productCode
+        this.totalEarnProductName = res[0].productName
+        this.totalEarnProductEarn = res[0].totalEarn
+        // 持有收益字段
+        this.holdEarnProductCode = res[1].productCode
+        this.holdEarnProductName = res[1].productName
+        this.holdEarnProductEarn = res[1].holdEarn
+      })
+    }
+  }
 }
 </script>
 

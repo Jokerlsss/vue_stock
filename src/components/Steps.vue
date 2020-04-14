@@ -5,7 +5,12 @@
     </div>
     <div class="infoDiv">
       <div class="dateDiv">
-        <p>{{operateDate}}</p>
+        <div class="date">
+          <p>{{operateDate}}</p>
+        </div>
+        <div class="assetsDiv">
+          <p class="totalAssets">203941.32</p>
+        </div>
       </div>
       <div class="oprateDiv">
         <p>{{operateDesc}}</p>
@@ -64,6 +69,20 @@ export default {
   font-size: 24rpx;
   height: 50%;
   width: 100%;
+}
+.date {
+  width: 70%;
+}
+.assetsDiv {
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 30rpx;
+}
+/* 操作后更新新的资产 */
+.totalAssets {
+  font-size: 24rpx;
+  color: #9898a0;
 }
 /* 操作信息详情 */
 .oprateDiv {

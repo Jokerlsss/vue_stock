@@ -2,6 +2,7 @@
   <div class="container">
     <HistoryEarnTitle></HistoryEarnTitle>
     <scroll-view class="scrollBox" scroll-y="true">
+      <!-- // TODO: 增加数据为空页面 -->
       <div class="earnSteps">
         <HistoryEarnSteps
           v-for="(earnItem,index) in earnList"
