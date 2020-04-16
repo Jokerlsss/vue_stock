@@ -6,8 +6,11 @@
         <Steps
           v-for="(oprateItem,index) in stepsList"
           :key="index"
-          :operateDate="oprateItem.operateDate"
-          :operateDesc="oprateItem.operateDesc"
+          :operatingdate="oprateItem.operatingdate"
+          :operationName="oprateItem.operationName"
+          :productName="oprateItem.productName"
+          :oprateAmount="oprateItem.oprateAmount"
+          :holdAssets="oprateItem.holdAssets"
         ></Steps>
       </div>
     </scroll-view>
@@ -28,54 +31,33 @@ export default {
   },
   data () {
     return {
+      userid: 1,
       stepsList: [
-        {
-          operateDate: '2020-3-11 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-10 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-9 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-8 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        }, {
-          operateDate: '2020-3-11 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-10 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-9 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-8 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        }, {
-          operateDate: '2020-3-11 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-10 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-9 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        },
-        {
-          operateDate: '2020-3-8 14:23:21',
-          operateDesc: '加仓 招商中证白酒 5000 元'
-        }
+        // {
+        //   operateDate: '2020-3-11 14:23:21',
+        //   operateDesc: '加仓 招商中证白酒 5000 元'
+        // },
+        // {
+        //   operateDate: '2020-3-10 14:23:21',
+        //   operateDesc: '加仓 招商中证白酒 5000 元'
+        // }
       ]
+    }
+  },
+  onLoad () {
+    this.getHistoryOperate()
+  },
+  methods: {
+    getHistoryOperate () {
+      this.$httpWX.get({
+        url: '/historicalOperation/listForPersonal',
+        data: {
+          userid: this.userid
+        }
+      }).then(res => {
+        console.log(res)
+        this.stepsList = res
+      })
     }
   }
 }

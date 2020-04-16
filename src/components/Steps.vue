@@ -1,19 +1,20 @@
 <template>
   <div class="container">
     <div class="imgDiv">
+      <!-- '加仓 招商中证白酒 5000 元' -->
       <img src="../../static/images/steps.png" />
     </div>
     <div class="infoDiv">
       <div class="dateDiv">
         <div class="date">
-          <p>{{operateDate}}</p>
+          <p>{{timestampToTime}}</p>
         </div>
         <div class="assetsDiv">
-          <p class="totalAssets">203941.32</p>
+          <p class="totalAssets">{{holdAssets}}</p>
         </div>
       </div>
       <div class="oprateDiv">
-        <p>{{operateDesc}}</p>
+        <p>{{operationName}} {{productName}} {{oprateAmount}} 元</p>
       </div>
     </div>
   </div>
@@ -21,14 +22,27 @@
 
 <script>
 export default {
+  computed: {
+    // 将Date转换为日期标准格式
+    timestampToTime () {
+      var moment = require('moment')
+      return moment(this.operatingdate).format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
   props: {
-    operateDate: '',
-    operateDesc: ''
+    operatingdate: '',
+    operationName: '',
+    productName: '',
+    oprateAmount: '',
+    holdAssets: ''
   },
   data () {
     return {
-      operateDate: this.operateDate,
-      operateDesc: this.operateDesc
+      operatingdate: this.operatingdate,
+      operationName: this.operationName,
+      productName: this.productName,
+      oprateAmount: this.oprateAmount,
+      holdAssets: this.holdAssets
     }
   }
 }
