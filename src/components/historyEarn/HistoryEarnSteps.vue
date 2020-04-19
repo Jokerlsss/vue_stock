@@ -5,10 +5,10 @@
     </div>
     <div class="infoDiv">
       <div class="dateDiv">
-        <p>{{earnDate}}</p>
+        <p>{{timestampToTime}}</p>
       </div>
       <div class="oprateDiv">
-        <p>{{isEarn?earnText:lossText}}{{earnNum}} 元</p>
+        <p>{{isEarn?earnText:lossText}}{{dayEarn}} 元</p>
       </div>
     </div>
   </div>
@@ -17,13 +17,20 @@
 <script>
 export default {
   props: {
-    earnDate: '',
-    earnNum: ''
+    dayEarn: '',
+    earningsdate: ''
+  },
+  computed: {
+    // 将Date转换为日期标准格式
+    timestampToTime () {
+      var moment = require('moment')
+      return moment(this.earningsdate).format('YYYY-MM-DD')
+    }
   },
   data () {
     return {
-      earnDate: this.earnDate,
-      earnNum: this.earnNum,
+      dayEarn: this.dayEarn,
+      earningsdate: this.earningsdate,
       earnText: '收入: ',
       lossText: '亏损: ',
       isEarn: true,
@@ -34,16 +41,16 @@ export default {
     this.judgeIsEarn()
   },
   methods: {
-    // TODO: 根据收益来生成不同的图片
+    // 根据是否亏损来展示不同的进度图（红 & 绿）
     judgeIsEarn () {
-      if (this.earnNum < 0) {
+      if (this.dayEarn < 0) {
         //   如果为负数，则取正，状态更改为“亏损”
         this.isEarn = false
         this.stepsImg = '../../static/images/lossSteps.png'
-      } else if (this.earnNum > 0) {
+      } else if (this.dayEarn > 0) {
         this.isEarn = true
         this.stepsImg = '../../static/images/earnSteps.png'
-      } else if (this.earnNum === 0) {
+      } else if (this.dayEarn === 0) {
         this.isEarn = true
       }
     }

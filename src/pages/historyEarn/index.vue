@@ -7,8 +7,8 @@
         <HistoryEarnSteps
           v-for="(earnItem,index) in earnList"
           :key="index"
-          :earnDate="earnItem.earnDate"
-          :earnNum="earnItem.earnNum"
+          :dayEarn="earnItem.dayEarn"
+          :earningsdate="earnItem.earningsdate"
         ></HistoryEarnSteps>
       </div>
     </scroll-view>
@@ -29,20 +29,24 @@ export default {
   },
   data () {
     return {
-      earnList: [
-        {
-          earnDate: '2020-3-11',
-          earnNum: 1000
-        },
-        {
-          earnDate: '2020-3-10',
-          earnNum: -100
-        },
-        {
-          earnDate: '2020-3-9',
-          earnNum: 3020
+      userid: 1,
+      earnList: ''
+    }
+  },
+  onShow () {
+    this.getHistoryEarn()
+  },
+  methods: {
+    // get：历史收益数据
+    getHistoryEarn () {
+      this.$httpWX.get({
+        url: '/historyEarnings/getHistoryEarn',
+        data: {
+          userid: this.userid
         }
-      ]
+      }).then(res => {
+        this.earnList = res
+      })
     }
   }
 }
