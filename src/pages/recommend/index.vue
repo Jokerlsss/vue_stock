@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- // TODO: 传productType过去，到控件中去获取后台数据 -->
     <RecommendCell
       v-for="(recommendItem,index) in recommendList"
       :key="index"
@@ -8,6 +9,7 @@
       :oneYearProductName="recommendItem.oneYearProductName"
       :threeYearProductEarn="recommendItem.threeYearProductEarn"
       :threeYearProductName="recommendItem.threeYearProductName"
+      :productType="recommendItem.productType"
     ></RecommendCell>
     <BottomSpace></BottomSpace>
   </div>
@@ -26,6 +28,7 @@ export default {
       recommendList: [
         {
           title: '指数好基',
+          productType: '基金',
           oneYearProductEarn: '+122.4',
           oneYearProductName: '招商中证白酒C',
           threeYearProductEarn: '+233',
@@ -33,13 +36,15 @@ export default {
         },
         {
           title: '收益好股',
+          productType: '股票',
           oneYearProductEarn: '+144.4',
           oneYearProductName: '三全食品',
           threeYearProductEarn: '+131',
           threeYearProductName: '博思科技'
         },
         {
-          title: '稳健定期',
+          title: '保值黄金',
+          productType: '黄金',
           oneYearProductEarn: '+10.4',
           oneYearProductName: '健康保险',
           threeYearProductEarn: '+11',

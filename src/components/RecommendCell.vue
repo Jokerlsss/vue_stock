@@ -15,10 +15,10 @@
         </div>
         <div class="product">
           <div class="productName">
-            <p>{{oneYearProductName}}</p>
+            <p>{{oneYearList.oneProductName}}</p>
           </div>
           <div class="productEarn">
-            <p>{{oneYearProductEarn}}%</p>
+            <p :style="oneProductEarnStyle">{{oneProductEarnRateShow}}%</p>
           </div>
         </div>
       </div>
@@ -29,10 +29,10 @@
           </div>
           <div class="product">
             <div class="productName">
-              <p>{{threeYearProductName}}</p>
+              <p>{{threeYearList.threeProductName}}</p>
             </div>
             <div class="productEarn">
-              <p>{{threeYearProductEarn}}%</p>
+              <p :style="threeProductEarnStyle">{{threeProductEarnRateShow}}%</p>
             </div>
           </div>
         </div>
@@ -45,18 +45,70 @@
 export default {
   props: {
     title: '',
-    oneYearProductEarn: '',
-    oneYearProductName: '',
-    threeYearProductEarn: '',
-    threeYearProductName: ''
+    productType: ''
+  },
+  computed: {
+    title () {
+      if (this.productType === '股票') {
+        return '收益好股'
+      } else if (this.productType === '黄金') {
+        return '保值黄金'
+      } else if (this.productType === '基金') {
+        return '指数好基'
+      }
+    },
+    oneProductEarnStyle () {
+      var style
+      // 根据正负来决定红绿色 & 正负号
+      if (this.oneYearList.oneProductEarnRate > 0) {
+        this.oneProductEarnRateShow = '+' + this.oneYearList.oneProductEarnRate
+        style = 'color: #FF3300;'
+      } else {
+        this.oneProductEarnRateShow = this.oneYearList.oneProductEarnRate
+        style = 'color: #009900;'
+      }
+      return style
+    },
+    threeProductEarnStyle () {
+      var style
+      if (this.threeYearList.threeProductEarnRate > 0) {
+        this.threeProductEarnRateShow = '+' + this.threeYearList.threeProductEarnRate
+        style = 'color: #FF3300;'
+      } else {
+        this.threeProductEarnRateShow = this.threeYearList.threeProductEarnRate
+        style = 'color: #009900;'
+      }
+      return style
+    }
   },
   data () {
     return {
-      title: '',
-      oneYearProductEarn: this.oneYearProductEarn,
-      threeYearProductEarn: this.threeYearProductEarn,
-      oneYearProductName: this.oneYearProductName,
-      threeYearProductName: this.threeYearProductName
+      // 标题：指数好基
+      productType: this.productType,
+      // 一年 & 三年收益的 List
+      oneYearList: '',
+      threeYearList: '',
+
+      oneProductEarnRateShow: '',
+      threeProductEarnRateShow: ''
+    }
+  },
+  onLoad () {
+    this.getTotalEarn()
+  },
+  methods: {
+    // TODO: 当项目为空时，显示 “--  --”
+    getTotalEarn () {
+      this.$httpWX.get({
+        url: '/financialProduct/selectRecommendAssets',
+        data: {
+          productType: this.productType
+        }
+      }).then(res => {
+        this.oneYearList = res[0]
+        this.threeYearList = res[1]
+        console.log(this.oneYearList)
+      })
     }
   }
 }

@@ -195,6 +195,9 @@ export default {
     this.minDate = ''
     this.maxDate = new Date().getTime()
     this.showSellTime = ''
+    // 关闭已打开的弹窗
+    this.onClose()
+    this.closeConfirmDialog()
   },
   methods: {
     // 确认新增时提交数据到服务器
@@ -215,7 +218,7 @@ export default {
         url: '/pages/index/main'
       })
     },
-    // 切换时间选择器可进行
+    // 切换时间选择器可见性
     openShowTimeSelect () {
       this.showTimeSelect = true
     },
