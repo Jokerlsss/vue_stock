@@ -1,20 +1,20 @@
 <template>
   <div class="container">
     <div class="question">
-      <p @click="comeon">问题{{QdataName}}：{{question}}</p>
+      <p>问题{{questionid}}：{{questionContent}}</p>
     </div>
     <div class="answer">
       <van-radio-group :value="radio" @change="onChange">
         <van-cell-group>
           <van-cell
-            :title="answerItem.answerText"
+            :title="answerItem.answercontent"
             clickable
-            :data-name="answerItem.AdataName"
+            :data-name="answerItem.answerid"
             @click="onClick"
             v-for="(answerItem,index) in answerList"
             :key="index"
           >
-            <van-radio slot="right-icon" :name="answerItem.AdataName" />
+            <van-radio slot="right-icon" :name="answerItem.answerid" />
           </van-cell>
         </van-cell-group>
       </van-radio-group>
@@ -25,30 +25,26 @@
 <script>
 export default {
   props: {
-    QdataName: '',
-    question: '',
+    questionContent: '',
+    questionid: '',
     answerList: ''
   },
   data () {
     return {
       radio: '',
+      questionid: this.questionid,
       answerList: this.answerList,
-      QdataName: this.QdataName,
-      question: this.question
+      questionContent: this.questionContent
     }
   },
   methods: {
-    comeon () {
-      console.log(this.answerList)
-      console.log(this.QdataName)
-      console.log(this.question)
-    },
+    // TODO 直接
     onChange (event) {
-      this.setData({
-        radio: event.detail
-      })
+      console.log('onChange:', event.detail)
+      this.radio = event.detail
     },
     onClick (event) {
+      console.log('onClick', event.currentTarget.dataset.name)
       this.radio = event.currentTarget.dataset.name
     }
   }
@@ -66,8 +62,10 @@ export default {
   font-family: PingFang SC;
 }
 .question {
-  height: 70rpx;
-  font-size: 32rpx;
+  width: auto;
+  min-height: 70rpx;
+  height: auto;
+  font-size: 30rpx;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
