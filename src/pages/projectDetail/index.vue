@@ -7,6 +7,9 @@
       :productCode="projectBaseData.productCode"
       :riskType="projectBaseData.riskType"
       :productType="projectBaseData.productType"
+      :issuePrice="projectDetailData.issuePrice"
+      :popularity="projectBaseData.popularity"
+      :dailyChange="dailyChange"
     ></projectBaseInfo>
     <!-- 卖出、买入按钮 -->
     <projectOprateBtn
@@ -47,7 +50,7 @@
         >近三年</button>
       </div>
       <!-- 走势图 -->
-      <projectTrend :trendData="trendData"></projectTrend>
+      <projectTrend :productCode="productCode" ref="changeTrend"></projectTrend>
     </div>
     <!-- 详细信息 -->
     <ProjectDetailInfo
@@ -81,14 +84,14 @@ export default {
   /** 获取从主页跳转过来的活动数据：id和活动名称 */
   onLoad (option) {
     this.productCode = option.productCode
-    console.log('productCode', this.productCode)
     // 根据 code & time 获取后台数据
-    this.getTrendInfo()
+    // this.getTrendInfo()
     this.getPersonalAssets()
   },
   // TODO: 接收 flag 参数，0 为未买项目，1 为已买项目
   data () {
     return {
+      dailyChange: '',
       // 走势图数据
       trendData: [],
       // time：默认查询近一个月，即取 -1
@@ -132,7 +135,8 @@ export default {
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
       // 获取走势图
-      this.getTrendInfo()
+      this.$refs['changeTrend'].getTrendInfo(this.time)
+      // this.getTrendInfo()
     },
     changeActiveStatusThreeMonth () {
       // time ：-3 为 前三个月~现在
@@ -142,7 +146,8 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
-      this.getTrendInfo()
+      // this.getTrendInfo()
+      this.$refs['changeTrend'].getTrendInfo(this.time)
     },
     changeActiveStatusSixMonth () {
       this.time = -6
@@ -151,7 +156,8 @@ export default {
       this.activeStatusSixMonth = true
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
-      this.getTrendInfo()
+      // this.getTrendInfo()
+      this.$refs['changeTrend'].getTrendInfo(this.time)
     },
     changeActiveStatusOneYear () {
       this.time = -12
@@ -160,7 +166,8 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = true
       this.activeStatusThreeYear = false
-      this.getTrendInfo()
+      // this.getTrendInfo()
+      this.$refs['changeTrend'].getTrendInfo(this.time)
     },
     changeActiveStatusThreeYear () {
       this.time = -36
@@ -169,7 +176,8 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = true
-      this.getTrendInfo()
+      // this.getTrendInfo()
+      this.$refs['changeTrend'].getTrendInfo(this.time)
     },
     /** 获取个人资产数据 */
     getPersonalAssets () {
@@ -183,21 +191,21 @@ export default {
         this.personalFinancialAssets = res
       })
     },
-    /** 获取走势图数据 */
-    getTrendInfo () {
-      this.$httpWX.get({
-        url: '/financialProduct/selectToTrend',
-        data: {
-          productCode: this.productCode,
-          // time -1:近一月  -3:近三月  -6：近半年  -12:近一年  -36：近三年
-          time: this.time
-        }
-      }).then(res => {
-        this.trendData = res.worthList
-        console.log('this.trendData:', this.trendData)
-      })
-    },
-    /** 根据 type 获取项目信息 */
+    // /** 获取走势图数据 */
+    // getTrendInfo () {
+    //   this.$httpWX.get({
+    //     url: '/financialProduct/selectToTrend',
+    //     data: {
+    //       productCode: this.productCode,
+    //       // time -1:近一月  -3:近三月  -6：近半年  -12:近一年  -36：近三年
+    //       time: this.time
+    //     }
+    //   }).then(res => {
+    //     this.trendData = res.worthList
+    //     console.log('this.trendData:', this.trendData)
+    //   })
+    // },
+    /** 根据 productCode 获取项目信息 */
     getProjectInfo () {
       this.$httpWX.get({
         url: '/financialProduct/selectProjectDetail',
@@ -206,7 +214,7 @@ export default {
         }
       }).then(res => {
         // TODO: 不同类型的项目展现出来的字段不一样，不如使用多页面来展现，就可以省去这些 if 判断
-        console.log(res)
+        console.log('res', res)
         this.projectBaseData = res.financialProduct
         if (this.projectBaseData.productType === '股票') {
           this.projectDetailData = res.stock
@@ -217,7 +225,9 @@ export default {
         } else if (this.projectBaseData.productType === '黄金') {
           this.projectDetailData = res.gold
         }
-        console.log(this.projectDetailData)
+        // 最新的涨跌幅
+        this.dailyChange = res.dailyChange
+        console.log('this.projectDetailData', this.projectDetailData)
         console.log('projectBaseData', this.projectBaseData)
       })
     }
@@ -239,6 +249,7 @@ page {
   font-family: PingFang SC;
 }
 .trend {
+  z-index: 0;
   margin-top: 50rpx;
   height: auto;
   width: 680rpx;

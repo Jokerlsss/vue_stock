@@ -38,13 +38,13 @@ export default {
     }
   },
   methods: {
-    // TODO 直接
+    // TODO 每次选中答案将答案选项加到全局变量中，存为List，等提交的时候，将该List提交到后端
     onChange (event) {
       console.log('onChange:', event.detail)
       this.radio = event.detail
     },
     onClick (event) {
-      console.log('onClick', event.currentTarget.dataset.name)
+      console.log('onClick', event.currentTarget.dataset)
       this.radio = event.currentTarget.dataset.name
     }
   }

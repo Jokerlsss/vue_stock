@@ -241,7 +241,8 @@ export default {
     // 跳转到持有资产的详情页
     // TODO: 在跳转到详情页的时候关闭按钮组（如果按钮组打开着的话）
     toProjectDetail () {
-      const url = '../projectDetailHad/main?productCode=' + this.productCode
+      /** 将资产、日收益、拥有收益、产品代码传递到详情页 */
+      const url = '../projectDetailHad/main?productCode=' + this.productCode + '&asset=' + this.asset + '&dayEarnShow=' + this.dayEarnShow + '&hadEarnShow=' + this.hadEarnShow
       wx.navigateTo({
         url: url
       })

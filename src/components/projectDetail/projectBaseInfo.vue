@@ -26,10 +26,10 @@
     <div class="dynamicInfo">
       <div class="infoCell">
         <div class="title">
-          <p>涨跌幅</p>
+          <p>日涨跌幅</p>
         </div>
         <div class="num">
-          <p>4.5%</p>
+          <p>{{dailyChange}}%</p>
         </div>
       </div>
       <div class="infoCell">
@@ -37,7 +37,7 @@
           <p>净值</p>
         </div>
         <div class="num">
-          <p>2.9378</p>
+          <p>{{issuePrice}}</p>
         </div>
       </div>
       <div class="infoCell">
@@ -45,7 +45,7 @@
           <p>人气</p>
         </div>
         <div class="num">
-          <p>3012</p>
+          <p>{{popularity}}</p>
         </div>
       </div>
     </div>
@@ -87,7 +87,9 @@ export default {
     productCode: '',
     productType: '',
     riskType: '',
-    popularity: ''
+    popularity: '',
+    issuePrice: '',
+    dailyChange: ''
   },
   components: {
     riskTag,
@@ -98,7 +100,10 @@ export default {
       productName: this.productName,
       productCode: this.productCode,
       productType: this.productType,
-      riskType: this.riskType
+      riskType: this.riskType,
+      popularity: this.popularity,
+      issuePrice: this.issuePrice,
+      dailyChange: this.dailyChange
     }
   }
 }

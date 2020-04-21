@@ -7,6 +7,9 @@
       :productCode="projectBaseData.productCode"
       :riskType="projectBaseData.riskType"
       :productType="projectBaseData.productType"
+      :issuePrice="projectDetailData.issuePrice"
+      :popularity="projectBaseData.popularity"
+      :dailyChange="dailyChange"
     ></projectBaseInfo>
     <!-- <ProjectPersonalInfo></ProjectPersonalInfo> -->
     <!-- 卖出、买入按钮 -->
@@ -48,7 +51,7 @@
         >近三年</button>
       </div>
       <!-- 走势图 -->
-      <projectTrend :trendData="trendData"></projectTrend>
+      <projectTrend :productCode="productCode" ref="changeTrend"></projectTrend>
     </div>
     <!-- 详细信息 -->
     <ProjectDetailInfo
@@ -81,17 +84,42 @@ export default {
     // 根据 code 获取后台数据
     this.getProjectInfo()
   },
-  /** 获取从主页跳转过来的活动数据：id和活动名称 */
+  /** 获取从主页跳转过来的数据：productCode & hadEarnShow & asset & dayEarnShow */
   onLoad (option) {
     this.productCode = option.productCode
-    console.log('productCode', this.productCode)
+
+    this.dayEarnShow = option.dayEarnShow
+    this.asset = option.asset
+    this.hadEarnShow = option.hadEarnShow
+
+    this.detailInfoList = [
+      {
+        title: '个人资产',
+        info: this.asset + '元'
+      },
+      {
+        title: '今日收益',
+        info: this.dayEarnShow + '元'
+      },
+      {
+        title: '持有收益',
+        info: this.hadEarnShow + '元'
+      }
+    ]
+    console.log('detailInfoList', this.detailInfoList)
     // 根据 code & time 获取后台数据
-    this.getTrendInfo()
+    // this.getTrendInfo()
     this.getPersonalAssets()
   },
   // TODO: 接收 flag 参数，0 为未买项目，1 为已买项目
   data () {
     return {
+      // 用户的个人资产信息
+      dayEarnShow: '',
+      asset: '',
+      hadEarnShow: '',
+
+      dailyChange: '',
       // 走势图数据
       trendData: [],
       // time：默认查询近一个月，即取 -1
@@ -109,18 +137,18 @@ export default {
       // TODO: 把控件改成固定 title，通过 invisable 和 type 判断该显示哪些
       // TODO: 控件判断类型，用不同数组来接收
       detailInfoList: [
-        {
-          title: '基金经理',
-          info: '张三'
-        },
-        {
-          title: '成立时间',
-          info: '2017-3-4'
-        },
-        {
-          title: '资产规模',
-          info: '10亿'
-        }
+        // {
+        //   title: '个人资产',
+        //   info: this.asset
+        // },
+        // {
+        //   title: '今日收益',
+        //   info: this.dayEarnShow
+        // },
+        // {
+        //   title: '持有收益',
+        //   info: this.hadEarnShow
+        // }
       ]
     }
   },
@@ -135,7 +163,7 @@ export default {
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
       // 获取走势图
-      this.getTrendInfo()
+      // this.getTrendInfo()
     },
     changeActiveStatusThreeMonth () {
       // time ：-3 为 前三个月~现在
@@ -145,7 +173,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
-      this.getTrendInfo()
+      // this.getTrendInfo()
     },
     changeActiveStatusSixMonth () {
       this.time = -6
@@ -154,7 +182,7 @@ export default {
       this.activeStatusSixMonth = true
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
-      this.getTrendInfo()
+      // this.getTrendInfo()
     },
     changeActiveStatusOneYear () {
       this.time = -12
@@ -163,7 +191,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = true
       this.activeStatusThreeYear = false
-      this.getTrendInfo()
+      // this.getTrendInfo()
     },
     changeActiveStatusThreeYear () {
       this.time = -36
@@ -172,7 +200,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = true
-      this.getTrendInfo()
+      // this.getTrendInfo()
     },
     /** 获取个人资产数据 */
     getPersonalAssets () {
@@ -220,6 +248,8 @@ export default {
         } else if (this.projectBaseData.productType === '黄金') {
           this.projectDetailData = res.gold
         }
+        // 最新的涨跌幅
+        this.dailyChange = res.dailyChange
         console.log(this.projectDetailData)
         console.log('projectBaseData', this.projectBaseData)
       })
