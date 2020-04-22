@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import globalStore from '../stores/global-stores'
 export default {
   props: {
     questionContent: '',
@@ -37,6 +38,10 @@ export default {
       questionContent: this.questionContent
     }
   },
+  onUnload () {
+    this.clearRadio()
+    globalStore.state.finish = 0
+  },
   methods: {
     // TODO 每次选中答案将答案选项加到全局变量中，存为List，等提交的时候，将该List提交到后端
     onChange (event) {
@@ -44,8 +49,15 @@ export default {
       this.radio = event.detail
     },
     onClick (event) {
-      console.log('onClick', event.currentTarget.dataset)
+      // 将 answerid 传递给全局变量
+      const answerid = event.currentTarget.dataset.name
+      globalStore.commit('chooseAnswer', answerid)
+      // 选中值
       this.radio = event.currentTarget.dataset.name
+      console.log('onClick', answerid)
+    },
+    clearRadio () {
+      this.radio = ''
     }
   }
 }

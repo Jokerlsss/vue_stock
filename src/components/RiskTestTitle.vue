@@ -22,16 +22,21 @@
 </template>
 
 <script>
+import globalStore from '../stores/global-stores'
 export default {
   computed: {
     circleText () {
       const temp = this.circleValue + '%'
+      console.log(temp)
       return temp
+    },
+    circleValue () {
+      // 八道题，除以8之后是以百分数表示
+      return globalStore.state.finish / 8 * 100
     }
   },
   data () {
     return {
-      circleValue: 50
     }
   }
 }

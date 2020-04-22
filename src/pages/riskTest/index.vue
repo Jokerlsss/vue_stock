@@ -8,77 +8,28 @@
         :answerList="testItem.answerList"
         :questionid="testItem.questionid"
         :questionContent="testItem.questionContent"
+        ref="riskTestQA"
       ></RiskTestQA>
     </scroll-view>
-    <button class="subBtn">提交</button>
+    <button class="subBtn" @click="commitEvent">提交</button>
     <BottomSpace></BottomSpace>
-    <!-- //TODO: 增加提交按钮 -->
+    <!-- 提交成功后的提示 -->
+    <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
+import globalStore from '../../stores/global-stores'
+
+import Toast from '../../../static/vant/toast/toast'
 import RiskTestTitle from '@/components/RiskTestTitle'
 import RiskTestQA from '@/components/RiskTestQA'
 import BottomSpace from '@/components/BottomSpace'
 export default {
   data () {
     return {
-      QAlist: [
-        // {
-        //   QdataName: '1',
-        //   question: '您投资中可耐受何种程度的风险波动？',
-        //   answer: [
-        //     {
-        //       AdataName: '1-1',
-        //       answerText: '实现资产大幅增长，愿承担很大投资风险'
-        //     },
-        //     {
-        //       AdataName: '1-2',
-        //       answerText: '这是答案1-2'
-        //     },
-        //     {
-        //       AdataName: '1-3',
-        //       answerText: '这是答案1-3'
-        //     }
-        //   ]
-        // },
-        // {
-        //   QdataName: '2',
-        //   question: '这个是问题2',
-        //   answer: [
-        //     {
-        //       AdataName: '2-1',
-        //       answerText: '这是答案2-1'
-        //     },
-        //     {
-        //       AdataName: '2-2',
-        //       answerText: '这是答案2-2'
-        //     },
-        //     {
-        //       AdataName: '2-3',
-        //       answerText: '这是答案2-3'
-        //     }
-        //   ]
-        // },
-        // {
-        //   QdataName: '3',
-        //   question: '这个是问题3',
-        //   answer: [
-        //     {
-        //       AdataName: '3-1',
-        //       answerText: '这是答案3-1'
-        //     },
-        //     {
-        //       AdataName: '3-2',
-        //       answerText: '这是答案3-2'
-        //     },
-        //     {
-        //       AdataName: '3-3',
-        //       answerText: '这是答案3-3'
-        //     }
-        //   ]
-        // }
-      ]
+      userid: 1,
+      QAlist: []
     }
   },
   components: {
@@ -90,6 +41,43 @@ export default {
     this.getQA()
   },
   methods: {
+    commitEvent () {
+      if (globalStore.state.finish === 8) {
+        globalStore.commit('commitAnswer')
+        // TODO 清空 radio 已选的值
+        this.$httpWX.get({
+          url: '/answer/commitAnswer',
+          data: {
+            answerList: globalStore.state.answerList,
+            userid: this.userid
+          }
+        }).then(res => {
+          /** 清空所有 radio 选项 */
+          // this.$refs['riskTestQA'].clearRadio()
+          console.log(res)
+          Toast({
+            type: 'success',
+            message: ' 提交成功\n\n您是' + res + '型',
+            onClose: () => {
+              // 在提示关闭后，跳转到项目页面
+              this.toMinePage()
+            }
+          })
+          // TODO 提交成功后，清空答案数组
+        })
+      } else {
+        Toast({
+          type: 'fail',
+          message: '请填完整'
+        })
+      }
+    },
+    /** 跳转到个人主页 */
+    toMinePage () {
+      wx.switchTab({
+        url: '/pages/mine/main'
+      })
+    },
     // TODO 提交问卷时，需要传入 userid
     getQA () {
       this.$httpWX.get({
