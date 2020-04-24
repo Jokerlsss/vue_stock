@@ -51,7 +51,7 @@
         >近三年</button>
       </div>
       <!-- 走势图 -->
-      <projectTrend :productCode="productCode" ref="changeTrend"></projectTrend>
+      <projectTrend :trendData="trendData"></projectTrend>
     </div>
     <!-- 详细信息 -->
     <ProjectDetailInfo
@@ -87,7 +87,7 @@ export default {
   /** 获取从主页跳转过来的数据：productCode & hadEarnShow & asset & dayEarnShow */
   onLoad (option) {
     this.productCode = option.productCode
-
+    console.log('this.productCode', this.productCode)
     this.dayEarnShow = option.dayEarnShow
     this.asset = option.asset
     this.hadEarnShow = option.hadEarnShow
@@ -108,7 +108,7 @@ export default {
     ]
     console.log('detailInfoList', this.detailInfoList)
     // 根据 code & time 获取后台数据
-    // this.getTrendInfo()
+    this.getTrendInfo()
     this.getPersonalAssets()
   },
   // TODO: 接收 flag 参数，0 为未买项目，1 为已买项目
@@ -163,7 +163,7 @@ export default {
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
       // 获取走势图
-      // this.getTrendInfo()
+      this.getTrendInfo()
     },
     changeActiveStatusThreeMonth () {
       // time ：-3 为 前三个月~现在
@@ -173,7 +173,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
-      // this.getTrendInfo()
+      this.getTrendInfo()
     },
     changeActiveStatusSixMonth () {
       this.time = -6
@@ -182,7 +182,7 @@ export default {
       this.activeStatusSixMonth = true
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
-      // this.getTrendInfo()
+      this.getTrendInfo()
     },
     changeActiveStatusOneYear () {
       this.time = -12
@@ -191,7 +191,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = true
       this.activeStatusThreeYear = false
-      // this.getTrendInfo()
+      this.getTrendInfo()
     },
     changeActiveStatusThreeYear () {
       this.time = -36
@@ -200,7 +200,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = true
-      // this.getTrendInfo()
+      this.getTrendInfo()
     },
     /** 获取个人资产数据 */
     getPersonalAssets () {

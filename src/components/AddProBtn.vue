@@ -43,6 +43,15 @@
       >
         <img :src="addProBtnImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
+      <!-- 进入对比项目页面按钮 -->
+      <button
+        class="addProBtn"
+        hover-class="btnGroup_hover"
+        :style="isOpenBtnGroup?toCompareSlidBtnStyle:toCompareNOSlidBtnStyle"
+        @click="toComparePage"
+      >
+        <img :src="compareBtnImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
+      </button>
     </div>
   </div>
 </template>
@@ -58,6 +67,10 @@ export default {
   data () {
     return {
       isOpenBtnGroup: false,
+
+      toCompareSlidBtnStyle: 'bottom:530rpx;opacity:0.9',
+      toCompareNOSlidBtnStyle: 'bottom:40rpx;opacity:0.4',
+
       popupBtnSlideStyle: 'bottom:410rpx;opacity:0.9',
       popupBtnNoSlideStyle: 'bottom:40rpx;opacity:0.4',
 
@@ -75,7 +88,8 @@ export default {
 
       openBtnGroupImg: '../../static/images/up.png',
       popupBtnImg: '../../static/images/select.png',
-      addProBtnImg: '../../static/images/addPro.png'
+      addProBtnImg: '../../static/images/addPro.png',
+      compareBtnImg: '../../static/images/compare.png'
     }
   },
   methods: {
@@ -87,6 +101,12 @@ export default {
       } else {
         this.isOpenBtnGroup = CLOSE
       }
+    },
+    toComparePage () {
+      wx.navigateTo({
+        url: '../productCompare/main'
+      })
+      this.cutBtnGroupVisable()
     },
     toAddProPage () {
       wx.navigateTo({

@@ -50,7 +50,7 @@
         >近三年</button>
       </div>
       <!-- 走势图 -->
-      <projectTrend :productCode="productCode" ref="changeTrend"></projectTrend>
+      <projectTrend :trendData="trendData" ref="changeTrend"></projectTrend>
     </div>
     <!-- 详细信息 -->
     <ProjectDetailInfo
@@ -85,7 +85,7 @@ export default {
   onLoad (option) {
     this.productCode = option.productCode
     // 根据 code & time 获取后台数据
-    // this.getTrendInfo()
+    this.getTrendInfo()
     this.getPersonalAssets()
   },
   // TODO: 接收 flag 参数，0 为未买项目，1 为已买项目
@@ -135,8 +135,7 @@ export default {
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
       // 获取走势图
-      this.$refs['changeTrend'].getTrendInfo(this.time)
-      // this.getTrendInfo()
+      this.getTrendInfo()
     },
     changeActiveStatusThreeMonth () {
       // time ：-3 为 前三个月~现在
@@ -146,8 +145,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
-      // this.getTrendInfo()
-      this.$refs['changeTrend'].getTrendInfo(this.time)
+      this.getTrendInfo()
     },
     changeActiveStatusSixMonth () {
       this.time = -6
@@ -156,8 +154,7 @@ export default {
       this.activeStatusSixMonth = true
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = false
-      // this.getTrendInfo()
-      this.$refs['changeTrend'].getTrendInfo(this.time)
+      this.getTrendInfo()
     },
     changeActiveStatusOneYear () {
       this.time = -12
@@ -166,8 +163,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = true
       this.activeStatusThreeYear = false
-      // this.getTrendInfo()
-      this.$refs['changeTrend'].getTrendInfo(this.time)
+      this.getTrendInfo()
     },
     changeActiveStatusThreeYear () {
       this.time = -36
@@ -176,8 +172,7 @@ export default {
       this.activeStatusSixMonth = false
       this.activeStatusOneYear = false
       this.activeStatusThreeYear = true
-      // this.getTrendInfo()
-      this.$refs['changeTrend'].getTrendInfo(this.time)
+      this.getTrendInfo()
     },
     /** 获取个人资产数据 */
     getPersonalAssets () {
@@ -192,19 +187,19 @@ export default {
       })
     },
     // /** 获取走势图数据 */
-    // getTrendInfo () {
-    //   this.$httpWX.get({
-    //     url: '/financialProduct/selectToTrend',
-    //     data: {
-    //       productCode: this.productCode,
-    //       // time -1:近一月  -3:近三月  -6：近半年  -12:近一年  -36：近三年
-    //       time: this.time
-    //     }
-    //   }).then(res => {
-    //     this.trendData = res.worthList
-    //     console.log('this.trendData:', this.trendData)
-    //   })
-    // },
+    getTrendInfo () {
+      this.$httpWX.get({
+        url: '/financialProduct/selectToTrend',
+        data: {
+          productCode: this.productCode,
+          // time -1:近一月  -3:近三月  -6：近半年  -12:近一年  -36：近三年
+          time: this.time
+        }
+      }).then(res => {
+        this.trendData = res.worthList
+        console.log('this.trendData:', this.trendData)
+      })
+    },
     /** 根据 productCode 获取项目信息 */
     getProjectInfo () {
       this.$httpWX.get({
