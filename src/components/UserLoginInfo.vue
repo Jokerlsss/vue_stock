@@ -4,10 +4,10 @@
     <div class="userImg">
       <van-image fit="cover" round width="80rpx" height="80rpx" src="../../images/user.png" />
     </div>
-    <div class="userName">Joker-ls</div>
+    <div class="userName">{{username}}</div>
     <div class="userCharacter">
       <!-- <van-tag type="primary" size="large" round>稳健</van-tag> -->
-      <CharacterTag characterType="稳健"></CharacterTag>
+      <CharacterTag :characterType="characterType"></CharacterTag>
     </div>
   </div>
 </template>
@@ -17,6 +17,30 @@ import CharacterTag from '@/components/CharacterTag'
 export default {
   components: {
     CharacterTag
+  },
+  data () {
+    return {
+      userid: 1,
+      characterType: '',
+      username: ''
+    }
+  },
+  onLoad () {
+    this.getUserInfo()
+  },
+  methods: {
+    getUserInfo () {
+      this.$httpWX.get({
+        url: '/user/loadById',
+        data: {
+          userID: this.userid
+        }
+      }).then(res => {
+        this.characterType = res.inertmentCharacter
+        this.username = res.username
+        console.log(res)
+      })
+    }
   }
 }
 </script>

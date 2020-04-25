@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/market/main",
     "pages/index/main",
     "pages/productCompare/main",
     "pages/mine/main",
-    "pages/market/main",
     "pages/oprateHistory/main",
     "pages/projectDetailHad/main",
     "pages/sellPro/main",

@@ -5,7 +5,7 @@
       <div class="productName">
         <!-- 选择项目 -->
         <div class="leftProduct" @click="openDialog1">
-          <span>{{productName1===''?'点此选择项目一':productName1}}</span>
+          <span>{{productName1===''?'点此选择':productNameOne}}</span>
         </div>
         <!-- 选择项目的弹窗 -->
         <van-dialog
@@ -28,7 +28,7 @@
             type="text"
             @focus="openDialog2"
           />-->
-          <span>{{productName2===''?'点此选择项目二':productName2}}</span>
+          <span>{{productName2===''?'点此选择':productNameTwo}}</span>
         </div>
         <!-- 选择项目的弹窗 -->
         <van-dialog
@@ -49,6 +49,7 @@
         <div class="middle">项目\n类型</div>
         <div class="rightProduct">{{productType2}}</div>
       </div>
+
       <!-- 对比数据详情区域 -->
       <!-- <div class="compareDetail">
         <div class="leftProduct"></div>
@@ -58,50 +59,71 @@
       <!-- 对比数据详情区域 -->
       <!-- // TODO 更高的值加上颜色高亮 -->
       <!-- // TODO 加上 % -->
+
       <div class="compareDetail">
+        <div class="leftProduct">{{dateOfEstablishmentOne}}</div>
+        <div class="middle">发布\n日期</div>
+        <div class="rightProduct">{{dateOfEstablishmentTwo}}</div>
+      </div>
+      <div class="compareDetail">
+        <div class="leftProduct">{{productOneList.riskType}}</div>
+        <div class="middle">风险\n等级</div>
+        <div class="rightProduct">{{productTwoList.riskType}}</div>
+      </div>
+      <div class="compareDetail">
+        <div class="leftProduct">{{productOneList.popularity}}</div>
+        <div class="middle">人气</div>
+        <div class="rightProduct">{{productTwoList.popularity}}</div>
+      </div>
+      <div class="compareDetail">
+        <!-- 当收益为 null 或 收益为 undefined 时，显示'--' -->
         <div
           class="leftProduct"
-        >{{productOneList.oneMonthEarn===0?'--':productOneList.oneMonthEarn}}</div>
+        >{{productOneList.oneMonthEarn===null||productOneList.oneMonthEarn===undefined?'--':productOneList.oneMonthEarn+'%'}}</div>
         <div class="middle">一月\n收益</div>
         <div
           class="rightProduct"
-        >{{productTwoList.oneMonthEarn===0?'--':productTwoList.oneMonthEarn}}</div>
+        >{{productTwoList.oneMonthEarn===null||productTwoList.oneMonthEarn===undefined?'--':productTwoList.oneMonthEarn+'%'}}</div>
       </div>
       <!-- 对比数据详情区域 -->
       <div class="compareDetail">
         <div
           class="leftProduct"
-        >{{productOneList.threeMonthEarn===0?'--':productOneList.threeMonthEarn}}</div>
+        >{{productOneList.threeMonthEarn===null||productOneList.threeMonthEarn===undefined?'--':productOneList.threeMonthEarn+'%'}}</div>
         <div class="middle">三月\n收益</div>
         <div
           class="rightProduct"
-        >{{productTwoList.threeMonthEarn===0?'--':productTwoList.threeMonthEarn}}</div>
+        >{{productTwoList.threeMonthEarn===null||productTwoList.threeMonthEarn===undefined?'--':productTwoList.threeMonthEarn+'%'}}</div>
       </div>
       <!-- 对比数据详情区域 -->
       <div class="compareDetail">
         <div
           class="leftProduct"
-        >{{productOneList.sixMonthEarn===0?'--':productOneList.sixMonthEarn}}</div>
+        >{{productOneList.sixMonthEarn===null||productOneList.sixMonthEarn===undefined?'--':productOneList.sixMonthEarn+'%'}}</div>
         <div class="middle">六月\n收益</div>
         <div
           class="rightProduct"
-        >{{productTwoList.sixMonthEarn===0?'--':productTwoList.sixMonthEarn}}</div>
-      </div>
-      <!-- 对比数据详情区域 -->
-      <div class="compareDetail">
-        <div class="leftProduct">{{productOneList.oneYearEarn===0?'--':productOneList.oneYearEarn}}</div>
-        <div class="middle">一年\n收益</div>
-        <div class="rightProduct">{{productTwoList.oneYearEarn===0?'--':productTwoList.oneYearEarn}}</div>
+        >{{productTwoList.sixMonthEarn===null||productTwoList.sixMonthEarn===undefined?'--':productTwoList.sixMonthEarn+'%'}}</div>
       </div>
       <!-- 对比数据详情区域 -->
       <div class="compareDetail">
         <div
           class="leftProduct"
-        >{{productOneList.threeYearEarn===0?'--':productOneList.threeYearEarn}}</div>
+        >{{productOneList.oneYearEarn===null||productOneList.oneYearEarn===undefined?'--':productOneList.oneYearEarn+'%'}}</div>
+        <div class="middle">一年\n收益</div>
+        <div
+          class="rightProduct"
+        >{{productTwoList.oneYearEarn===null||productTwoList.oneYearEarn===undefined?'--':productTwoList.oneYearEarn+'%'}}</div>
+      </div>
+      <!-- 对比数据详情区域 -->
+      <div class="compareDetail">
+        <div
+          class="leftProduct"
+        >{{productOneList.threeYearEarn===null||productOneList.threeYearEarn===undefined?'--':productOneList.threeYearEarn+'%'}}</div>
         <div class="middle">三年\n收益</div>
         <div
           class="rightProduct"
-        >{{productTwoList.threeYearEarn===0?'--':productTwoList.threeYearEarn}}</div>
+        >{{productTwoList.threeYearEarn===null||productTwoList.threeYearEarn===undefined?'--':productTwoList.threeYearEarn+'%'}}</div>
       </div>
     </scroll-view>
     <button class="clearBtn" @click="clearEvent">重置</button>
@@ -111,6 +133,38 @@
 <script>
 import ChooseDialog from '@/components/productCompare/ChooseDialogCompare'
 export default {
+  computed: {
+    // 转换日期格式：Date -> String
+    dateOfEstablishmentOne () {
+      if (this.productOneList.dateOfEstablishment === undefined) {
+        return ''
+      } else {
+        return this.timestampToTime(this.productOneList.dateOfEstablishment)
+      }
+    },
+    dateOfEstablishmentTwo () {
+      if (this.productTwoList.dateOfEstablishment === undefined) {
+        return ''
+      } else {
+        return this.timestampToTime(this.productTwoList.dateOfEstablishment)
+      }
+    },
+    // 超出长度部分用...代替
+    productNameOne () {
+      if (this.productName1 !== '' && this.productName1.length > 5) {
+        return this.productName1.substring(0, 5) + '...'
+      } else {
+        return this.productName1
+      }
+    },
+    productNameTwo () {
+      if (this.productName2 !== '' && this.productName2.length > 5) {
+        return this.productName2.substring(0, 5) + '...'
+      } else {
+        return this.productName2
+      }
+    }
+  },
   components: {
     ChooseDialog
   },
@@ -146,6 +200,12 @@ export default {
     this.productType2 = ''
   },
   methods: {
+    // Date -> String
+    timestampToTime (date) {
+      var moment = require('moment')
+      return moment(date).format('YYYY-MM-DD')
+    },
+    // 重置
     clearEvent () {
       this.productTwoList = ''
       this.productOneList = ''
@@ -244,7 +304,7 @@ page {
 /** 产品名称选择区 */
 .productName {
   width: 100%;
-  height: 80rpx;
+  height: 120rpx;
   /* background-color: brown; */
   display: flex;
   flex-wrap: nowrap;
@@ -252,10 +312,12 @@ page {
 .leftProduct > span {
   font-size: 32rpx;
   font-weight: bold;
+  color: #ff6600;
 }
 .rightProduct > span {
   font-size: 32rpx;
   font-weight: bold;
+  color: #ff6600;
 }
 /** 具体信息div */
 .leftProduct {
