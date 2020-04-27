@@ -3,7 +3,7 @@
   <div class="container">
     <!-- 标题 -->
     <div class="titleDiv">
-      <p class="titleText">资产占比(按资产类型)</p>
+      <p class="titleText">资产占比(按风险)</p>
     </div>
     <!-- 名称、金额、占比图、占比数值 -->
     <div class="content" v-for="(projectItem,itemIndex) in proportionOfAssets" :key="itemIndex">
@@ -24,16 +24,21 @@
       </div>
     </div>
     <!-- 建议 -->
-    <!-- <div class="viewSuggestion" @click="cutSuggestionVisable">
+    <div class="viewSuggestion" @click="cutSuggestionVisable">
       <van-transition :show="isSuggestionVisable" name="fade-down" duration="500">
         <div class="visableSuggestion" v-if="isSuggestionVisable">
-          <p>过于激进</p>
+          <div class="suggestionResult">
+            <p>{{suggestion.result}}</p>
+          </div>
+          <div class="suggestionContent">
+            <p>{{suggestion.suggestions}}</p>
+          </div>
         </div>
       </van-transition>
       <div class="inVisableSuggestion" v-if="true">
         <img :src="isSuggestionVisable?visablesuggestionImg:inVisableSuggestionImg" />
       </div>
-    </div>-->
+    </div>
   </div>
 </template>
 
@@ -49,6 +54,7 @@ export default {
       isSuggestionVisable: false,
       visablesuggestionImg: '../../static/images/up.png',
       inVisableSuggestionImg: '../../static/images/down.png',
+      suggestion: '',
       proportionOfAssets: [
         // {
         //   projectItem: '股票',
@@ -90,12 +96,15 @@ export default {
     // 获取各类型资产
     getTotalEarn () {
       this.$httpWX.get({
-        url: '/personalFinancialAssets/getSumOfAssets',
+        url: '/personalFinancialAssets/getAssetsFromRisk',
         data: {
           userid: this.userid
         }
       }).then(res => {
-        this.proportionOfAssets = res
+        console.log(res)
+        this.proportionOfAssets = res.assetsList
+        this.suggestion = res.suggestion
+        console.log(this.suggestion)
       })
     },
     // 切换建议可见性
@@ -225,11 +234,22 @@ export default {
   height: auto;
   background-color: #191b2a;
   color: #ff6600;
-  text-align: center;
+  /* text-align: center; */
   font-size: 28rpx;
   width: 100%;
 }
 .visableSuggestion > p {
   margin: 20rpx;
+}
+/** 建议内容 */
+.suggestionContent {
+  display: flex;
+  color: #f3f3f3;
+  margin: 30rpx;
+}
+/** 建议结果 如：过于激进 */
+.suggestionResult {
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -3,6 +3,7 @@
     <UserLoginInfo></UserLoginInfo>
     <UserOperateMenu></UserOperateMenu>
     <AssetProportion></AssetProportion>
+    <AssetProportionFromRisk></AssetProportionFromRisk>
     <AceAsset></AceAsset>
     <BottomSpace></BottomSpace>
   </div>
@@ -12,6 +13,7 @@
 import UserLoginInfo from '@/components/UserLoginInfo'
 import UserOperateMenu from '@/components/UserOperateMenu'
 import AssetProportion from '@/components/AssetProportion'
+import AssetProportionFromRisk from '@/components/AssetProportionFromRisk'
 import AceAsset from '@/components/AceAsset'
 import BottomSpace from '@/components/BottomSpace'
 export default {
@@ -20,7 +22,11 @@ export default {
     UserOperateMenu,
     AssetProportion,
     AceAsset,
-    BottomSpace
+    BottomSpace,
+    AssetProportionFromRisk
+  },
+  methods: {
+
   }
 }
 </script>
