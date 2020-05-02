@@ -79,7 +79,7 @@ export default {
   },
   mounted () {
     // 根据 code 获取后台数据
-    this.getProjectInfo()
+    // this.getProjectInfo()
   },
   /** 获取从主页跳转过来的活动数据：id和活动名称 */
   onLoad (option) {
@@ -87,10 +87,16 @@ export default {
     // 根据 code & time 获取后台数据
     this.getTrendInfo()
     this.getPersonalAssets()
+
+    this.getProjectInfo()
   },
   // TODO: 接收 flag 参数，0 为未买项目，1 为已买项目
   data () {
     return {
+      // 发布日期、所属公司 -> 详情信息
+      dateOfEstablishment: '',
+      publisher: '',
+
       dailyChange: '',
       // 走势图数据
       trendData: [],
@@ -108,20 +114,7 @@ export default {
       personalFinancialAssets: '',
       // TODO: 把控件改成固定 title，通过 invisable 和 type 判断该显示哪些
       // TODO: 控件判断类型，用不同数组来接收
-      detailInfoList: [
-        {
-          title: '基金经理',
-          info: '张三'
-        },
-        {
-          title: '成立时间',
-          info: '2017-3-4'
-        },
-        {
-          title: '资产规模',
-          info: '10亿'
-        }
-      ]
+      detailInfoList: ''
     }
   },
   methods: {
@@ -222,9 +215,27 @@ export default {
         }
         // 最新的涨跌幅
         this.dailyChange = res.dailyChange
+        // 发布日期、所属公司 -> 详情信息
+        this.dateOfEstablishment = this.projectBaseData.dateOfEstablishment
+        this.publisher = this.projectBaseData.publisher
+        var temp = [{
+          title: '发布时间',
+          info: this.timestampToTime(this.dateOfEstablishment)
+        },
+        {
+          title: '所属公司',
+          info: this.publisher
+        }]
+        this.detailInfoList = temp
         console.log('this.projectDetailData', this.projectDetailData)
         console.log('projectBaseData', this.projectBaseData)
+        console.log('detailInfoList', this.detailInfoList)
       })
+    },
+    // 日期格式 -> String 格式
+    timestampToTime (value) {
+      var moment = require('moment')
+      return moment(value).format('YYYY-MM-DD')
     }
   }
 }

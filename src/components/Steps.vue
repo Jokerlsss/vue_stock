@@ -10,7 +10,7 @@
           <p>{{timestampToTime}}</p>
         </div>
         <div class="assetsDiv">
-          <p class="totalAssets">{{holdAssets}}</p>
+          <p class="totalAssets">剩：{{holdAssets}}元</p>
         </div>
       </div>
       <div class="oprateDiv">

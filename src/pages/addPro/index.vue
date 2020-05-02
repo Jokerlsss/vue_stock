@@ -22,7 +22,7 @@
         <p>项目代码</p>
       </div>
       <div class="input">
-        <input v-model="productCode" type="text" />
+        <input v-model="productCode" type="text" disabled />
       </div>
     </div>
 
@@ -31,7 +31,7 @@
         <p>项目类型</p>
       </div>
       <div class="input">
-        <input v-model="productType" type="text" />
+        <input v-model="productType" type="text" disabled />
       </div>
     </div>
 
@@ -40,7 +40,7 @@
         <p>交易平台</p>
       </div>
       <div class="input">
-        <input v-model="platform" placeholder="请选择已购买的投资项目" type="text" />
+        <input v-model="platform" placeholder="选填" type="text" />
       </div>
     </div>
 
@@ -50,7 +50,7 @@
         <p>购入金额</p>
       </div>
       <div class="input">
-        <input v-model="holdingCost" placeholder="请选择已购买的投资项目" type="text" />
+        <input v-model="holdingCost" placeholder="请填入正整数" type="text" @input="moneyCheck()" />
       </div>
     </div>
 
@@ -60,7 +60,7 @@
         <p>持有份额</p>
       </div>
       <div class="input">
-        <input v-model="amountOfAssets" placeholder="请选择已购买的投资项目" type="text" />
+        <input v-model="amountOfAssets" placeholder="请填入正整数" type="text" @input="amountCheck()" />
       </div>
     </div>
 
@@ -68,13 +68,9 @@
       <div class="inputTitle">
         <p>买入时间</p>
       </div>
+      <!-- // TODO 设置默认今天 -->
       <div class="input">
-        <input
-          v-model="showBuyTime"
-          placeholder="请选择已购买的投资项目"
-          type="text"
-          @focus="openShowTimeSelect"
-        />
+        <input v-model="showBuyTime" type="text" @focus="openShowTimeSelect" disabled />
       </div>
     </div>
 
@@ -83,7 +79,7 @@
         <p>备注</p>
       </div>
       <div class="input">
-        <input v-model="note" placeholder="请选择已购买的投资项目" type="text" />
+        <input v-model="note" placeholder="选填" type="text" />
       </div>
     </div>
 
@@ -170,7 +166,7 @@ export default {
       showDialog: false,
       maxDate: new Date().getTime(),
       // buyTime转换为日期格式：仅展示
-      showBuyTime: '',
+      showBuyTime: this.timestampToTime(new Date().getTime()),
       // 是否弹出确定弹窗
       isConfirmDialog: false,
       // 表单信息
@@ -180,7 +176,7 @@ export default {
       platform: '',
       holdingCost: '',
       amountOfAssets: '',
-      buyTime: '',
+      buyTime: new Date().getTime(),
       note: '',
       // 发布项目日期
       minDate: ''
@@ -197,7 +193,7 @@ export default {
     this.minDate = timestamp.getTime()
     console.log(this.minDate)
     // 展示在 input 框中的日期
-    this.buyTime = this.minDate
+    // this.buyTime = this.minDate
 
     // 根据 code & time 获取后台数据
   },
@@ -209,13 +205,29 @@ export default {
     this.platform = ''
     this.holdingCost = ''
     this.amountOfAssets = ''
-    this.buyTime = ''
+    this.buyTime = new Date().getTime()
     this.note = ''
     this.minDate = ''
     this.maxDate = new Date().getTime()
     this.showBuyTime = ''
   },
   methods: {
+    // 份额数字校验
+    amountCheck () {
+      // 校验规则：非零的正整数
+      var reg = /^[1-9]\d*$/
+      if (!reg.test(this.amountOfAssets)) {
+        this.amountOfAssets = ''
+      }
+    },
+    // 金额数字校验
+    moneyCheck () {
+      // 校验规则：非零的正整数
+      var reg = /^[1-9]\d*$/
+      if (!reg.test(this.holdingCost)) {
+        this.holdingCost = ''
+      }
+    },
     // 确认新增时提交数据到服务器
     confirmEvent () {
       this.insertPersonalProject()
@@ -252,12 +264,12 @@ export default {
       return Y + M + D
     },
     // 选中时间录入文本框中
-    timeSelectInput (e) {
-      // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
-      this.showBuyTime = this.timestampToTime(e.mp.detail)
-      // buyTime = 时间戳
-      this.buyTime = e.mp.detail
-    },
+    // timeSelectInput (e) {
+    //   // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
+    //   this.showBuyTime = this.timestampToTime(e.mp.detail)
+    //   // buyTime = 时间戳
+    //   this.buyTime = e.mp.detail
+    // },
     // 新增项目记录
     insertPersonalProject () {
       this.$httpWX.post({
@@ -303,7 +315,7 @@ export default {
       var timestamp = new Date(dateOfEstablishment)
       this.minDate = timestamp.getTime()
       // 展示在input框中的值也应该改变
-      this.buyTime = this.minDate
+      // this.buyTime = this.minDate
     },
     openDialog () {
       this.showDialog = true

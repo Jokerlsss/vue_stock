@@ -8,7 +8,7 @@
         <p>{{title}}</p>
       </div>
     </div>
-    <div class="contentDiv">
+    <div class="contentDiv" @click="toDetailPageOne">
       <div class="earningsCell">
         <div class="tips">
           <p>近一年收益率</p>
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div class="earningsCell">
+      <div class="earningsCell" @click="toDetailPageThree">
         <div class="earningsCell">
           <div class="tips">
             <p>近三年收益率</p>
@@ -108,6 +108,22 @@ export default {
         this.oneYearList = res[0]
         this.threeYearList = res[1]
         console.log(this.oneYearList)
+        console.log(this.threeYearList)
+        console.log(this.oneYearList.oneProductCode)
+        console.log(this.threeYearList.threeProductCode)
+      })
+    },
+    // 跳转到详情页
+    toDetailPageOne () {
+      const url = '../projectDetail/main?productCode=' + this.oneYearList.oneProductCode
+      wx.navigateTo({
+        url: url
+      })
+    },
+    toDetailPageThree () {
+      const url = '../projectDetail/main?productCode=' + this.threeYearList.threeProductCode
+      wx.navigateTo({
+        url: url
       })
     }
   }

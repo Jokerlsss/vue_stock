@@ -5,15 +5,8 @@
       <div class="inputTitle">
         <p>名称</p>
       </div>
-      <!-- // TODO: 设置只读 -->
       <div class="input">
-        <input
-          v-model="productName"
-          readonly="readonly"
-          placeholder="请选择已购买的投资项目"
-          type="text"
-          @focus="openDialog"
-        />
+        <input v-model="productName" readonly="readonly" disabled type="text" @focus="openDialog" />
       </div>
     </div>
 
@@ -22,7 +15,7 @@
         <p>项目代码</p>
       </div>
       <div class="input">
-        <input v-model="productCode" type="text" />
+        <input v-model="productCode" type="text" disabled />
       </div>
     </div>
 
@@ -31,7 +24,7 @@
         <p>项目类型</p>
       </div>
       <div class="input">
-        <input v-model="productType" type="text" />
+        <input v-model="productType" type="text" disabled />
       </div>
     </div>
 
@@ -41,7 +34,7 @@
         <p>购入金额</p>
       </div>
       <div class="input">
-        <input v-model="holdingCost" placeholder="请选择已购买的投资项目" type="text" />
+        <input v-model="holdingCost" placeholder="请输入整数" type="text" @input="moneyCheck()" />
       </div>
     </div>
 
@@ -51,7 +44,7 @@
         <p>持有份额</p>
       </div>
       <div class="input">
-        <input v-model="amountOfAssets" placeholder="请选择已购买的投资项目" type="text" />
+        <input v-model="amountOfAssets" placeholder="请输入整数" type="text" @input="amountCheck()" />
       </div>
     </div>
 
@@ -65,6 +58,7 @@
           placeholder="请选择已购买的投资项目"
           type="text"
           @focus="openShowTimeSelect"
+          disabled
         />
       </div>
     </div>
@@ -152,7 +146,7 @@ export default {
       showDialog: false,
       maxDate: new Date().getTime(),
       // buyTime转换为日期格式：仅展示
-      showBuyTime: '',
+      showBuyTime: this.timestampToTime(new Date().getTime()),
       // 是否弹出确定弹窗
       isConfirmDialog: false,
       // 表单信息
@@ -198,6 +192,22 @@ export default {
     this.showBuyTime = ''
   },
   methods: {
+    // 份额数字校验
+    amountCheck () {
+      // 校验规则：非零的正整数
+      var reg = /^[1-9]\d*$/
+      if (!reg.test(this.amountOfAssets)) {
+        this.amountOfAssets = ''
+      }
+    },
+    // 金额数字校验
+    moneyCheck () {
+      // 校验规则：非零的正整数
+      var reg = /^[1-9]\d*$/
+      if (!reg.test(this.holdingCost)) {
+        this.holdingCost = ''
+      }
+    },
     // 确认新增时提交数据到服务器
     confirmEvent () {
       this.insertPersonalProject()
@@ -234,12 +244,12 @@ export default {
       return Y + M + D
     },
     // 选中时间录入文本框中
-    timeSelectInput (e) {
-      // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
-      this.showBuyTime = this.timestampToTime(e.mp.detail)
-      // buyTime = 时间戳
-      this.buyTime = e.mp.detail
-    },
+    // timeSelectInput (e) {
+    //   // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
+    //   this.showBuyTime = this.timestampToTime(e.mp.detail)
+    //   // buyTime = 时间戳
+    //   this.buyTime = e.mp.detail
+    // },
     // 新增项目记录
     insertPersonalProject () {
       this.$httpWX.post({

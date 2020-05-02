@@ -5,7 +5,6 @@
       <div class="inputTitle">
         <p>名称</p>
       </div>
-      <!-- // TODO: 设置只读 -->
       <div class="input">
         <input
           v-model="productName"
@@ -15,14 +14,13 @@
           @focus="openDialog"
         />
       </div>
-    </div>
-
+    </div>s
     <div class="inputGroup">
       <div class="inputTitle">
         <p>项目代码</p>
       </div>
       <div class="input">
-        <input v-model="productCode" type="text" />
+        <input v-model="productCode" type="text" disabled />
       </div>
     </div>
 
@@ -31,7 +29,7 @@
         <p>项目类型</p>
       </div>
       <div class="input">
-        <input v-model="productType" type="text" />
+        <input v-model="productType" type="text" disabled="true" />
       </div>
     </div>
 
@@ -53,7 +51,12 @@
         <p>卖出份额</p>
       </div>
       <div class="input">
-        <input v-model="amountOfAssets" placeholder="请输入要卖出的份额" type="text" />
+        <input
+          v-model="amountOfAssets"
+          :placeholder="'最多可卖出'+maxAmountOfAssets+'份'"
+          type="text"
+          @input="inputCheck"
+        />
       </div>
     </div>
 
@@ -61,12 +64,14 @@
       <div class="inputTitle">
         <p>卖出时间</p>
       </div>
+      <!-- // TODO 设置默认今天 -->
       <div class="input">
         <input
           v-model="showSellTime"
           placeholder="请选择已购买的投资项目"
           type="text"
           @focus="openShowTimeSelect"
+          disabled
         />
       </div>
     </div>
@@ -104,7 +109,6 @@
       close-on-click-overlay="true"
       closeable="true"
     >
-      <!-- // TODO: 设定时间可选跨度 -->
       <van-datetime-picker
         type="date"
         :max-date="maxDate"
@@ -146,7 +150,7 @@ export default {
       showDialog: false,
       maxDate: new Date().getTime(),
       // SellTime转换为日期格式：仅展示
-      showSellTime: '',
+      showSellTime: this.timestampToTime(new Date().getTime()),
       // 是否弹出确定弹窗
       isConfirmDialog: false,
       // 表单信息
@@ -156,7 +160,8 @@ export default {
       platform: '',
       holdingCost: '',
       amountOfAssets: '',
-      sellTime: '',
+      maxAmountOfAssets: '',
+      sellTime: new Date().getTime(),
       note: '',
       // 发布项目日期
       minDate: ''
@@ -170,6 +175,8 @@ export default {
     // TODO：限制最大份额到input上
     // TODO: 增加仓位选择
     this.amountOfAssets = option.amountOfAssets
+    // 将传过来的份额作为最大份额控制最大卖出份额
+    this.maxAmountOfAssets = this.amountOfAssets
 
     // getTime(): 将发布日期转换成时间戳
     var timestamp = new Date(option.dateOfEstablishment)
@@ -190,7 +197,8 @@ export default {
     this.platform = ''
     this.holdingCost = ''
     this.amountOfAssets = ''
-    this.sellTime = ''
+    this.maxAmountOfAssets = ''
+    this.sellTime = new Date().getTime()
     this.note = ''
     this.minDate = ''
     this.maxDate = new Date().getTime()
@@ -200,6 +208,18 @@ export default {
     this.closeConfirmDialog()
   },
   methods: {
+    // 份额数字校验
+    inputCheck () {
+      // // 校验规则：非零开头的最多带四位小数的数字
+      // // 汉字校验
+      // var reg1 = /^[\u4e00-\u9fa5]{0,}$/
+      // // 英文校验
+      // var reg2 = /^[A-Za-z]+$/
+      // TODO 当卖出额>最大值时 或 输入为汉字 或 输入为英文 时为错误输入值
+      if ((this.amountOfAssets - this.maxAmountOfAssets) > 0) {
+        this.amountOfAssets = this.maxAmountOfAssets
+      }
+    },
     // 确认新增时提交数据到服务器
     confirmEvent () {
       this.sellProject()
@@ -236,15 +256,15 @@ export default {
       return Y + M + D
     },
     // 选中时间录入文本框中
-    timeSelectInput (e) {
-      // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
-      this.showSellTime = this.timestampToTime(e.mp.detail)
-      // sellTime = 时间戳
-      this.sellTime = e.mp.detail
-    },
+    // timeSelectInput (e) {
+    //   // 将时间戳转换成日期格式：仅展示用，提交时仍用时间戳提交
+    //   this.showSellTime = this.timestampToTime(e.mp.detail)
+    //   // sellTime = 时间戳
+    //   this.sellTime = e.mp.detail
+    // },
     // 卖出项目记录
     sellProject () {
-      console.log(this.sellTime)
+      // console.log(this.sellTime)
       this.$httpWX.post({
         url: '/personalFinancialAssets/sellPro',
         data: {
@@ -259,7 +279,7 @@ export default {
           buyTime: this.sellTime
         }
       }).then(res => {
-        // 当 res 为 1 时则表明加仓成功
+        // 当 res 为 1 时则表明卖出成功
         if (res === 1) {
           Toast({
             type: 'success',

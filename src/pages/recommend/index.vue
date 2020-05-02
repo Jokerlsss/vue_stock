@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <!-- // TODO: 传productType过去，到控件中去获取后台数据 -->
     <RecommendCell
       v-for="(recommendItem,index) in recommendList"
       :key="index"
