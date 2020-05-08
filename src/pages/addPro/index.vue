@@ -88,10 +88,6 @@
     <!-- 股票：项目代码、用户ID、交易平台、持有份额（需转换成购入金额）、*持仓成本（持有单价*持有份额）、买入时间、备注 -->
     <!-- 黄金：项目代码、用户ID、交易平台、购入金额（需转换成持有份额）、*持仓成本（持有单价*持有份额）、买入时间、备注 -->
 
-    <!-- <InputGroup inputTitle="名称" placeholder="请选择已购买的投资项目"></InputGroup>
-    <InputGroup inputTitle="金额" placeholder="请输入购买金额"></InputGroup>
-    <InputGroup inputTitle="买入时间" placeholder="当日净值由此决定，请谨慎选择"></InputGroup>
-    <InputGroup inputTitle="交易平台" placeholder="请选择购买的平台"></InputGroup>-->
     <div class="getBtn">
       <van-button color="#CC6600" size="large" round @click="openConfirmDialog">完成</van-button>
     </div>
