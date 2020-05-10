@@ -21,7 +21,6 @@
     ></ScrollTable>
     <!-- 项目卡片 -->
     <div v-if="isChangeToScrollTable?false:true">
-      <!-- <DataCell :financialProjectList="financialProjectList"></DataCell> -->
       <StockDataCell
         v-for="(item,index) in financialProjectList"
         :key="index"
@@ -103,7 +102,7 @@ export default {
           productType: '项目类型',
           productCode: '',
           holdAssets: '资产',
-          dayEarn: '每日收益',
+          dayEarn: '最新收益',
           holdEarn: '持有收益'
         }
       ]
@@ -155,7 +154,7 @@ export default {
             productType: '项目类型',
             productCode: '',
             holdAssets: '资产',
-            dayEarn: '每日收益',
+            dayEarn: '最新收益',
             holdEarn: '持有收益'
           }
         ]

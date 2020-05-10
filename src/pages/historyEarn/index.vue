@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <HistoryEarnTitle></HistoryEarnTitle>
+    <HistoryEarnTitle @getMonthOfEarn="getMonthOfEarn" @getHistoryEarn="getHistoryEarn"></HistoryEarnTitle>
     <scroll-view class="scrollBox" scroll-y="true">
       <!-- // TODO: 增加数据为空页面 -->
       <div class="earnSteps">
@@ -47,6 +47,23 @@ export default {
       }).then(res => {
         this.earnList = res
       })
+    },
+    /** 根据选择的月份来获取历史收益记录 */
+    getMonthOfEarn (month) {
+      // month:3 => 选择项中的默认项：月份
+      if (month === 3) {
+        this.getHistoryEarn()
+      } else {
+        this.$httpWX.get({
+          url: '/historyEarnings/getMonthOfEarn',
+          data: {
+            userid: this.userid,
+            month: month
+          }
+        }).then(res => {
+          this.earnList = res
+        })
+      }
     }
   }
 }

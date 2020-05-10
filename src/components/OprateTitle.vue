@@ -5,11 +5,14 @@
     </div>
     <div class="filterDiv">
       <van-dropdown-menu>
-        <van-dropdown-item :value="valueDefault" :options="option1" />
-        <van-dropdown-item :value="valueDefault" :options="option2" disabled />
-        <van-dropdown-item :value="valueDefault" :options="option3" disabled />
-        <van-dropdown-item :value="valueDefault" :options="option4" />
+        <van-dropdown-item
+          :value="monthDefault"
+          title="月份"
+          :options="option1"
+          @change="selectMonth"
+        />
       </van-dropdown-menu>
+      <button class="confirmBtn" @click="getAllOperate">查看全部</button>
     </div>
   </div>
 </template>
@@ -18,48 +21,26 @@
 export default {
   data () {
     return {
-      // 年份展示近三年
       option1: [
-        { text: '年份', value: 0 },
-        { text: '2020', value: 1 },
-        { text: '2019', value: 2 },
-        { text: '2018', value: 3 }
+        { text: '本月', value: 0 },
+        { text: '上月份', value: 1 },
+        { text: '前月份', value: 2 }
       ],
       option2: [
-        { text: '月份', value: 0 },
-        { text: '1', value: 1 },
-        { text: '2', value: 2 },
-        { text: '3', value: 3 },
-        { text: '4', value: 4 },
-        { text: '5', value: 5 },
-        { text: '6', value: 6 },
-        { text: '7', value: 7 },
-        { text: '8', value: 8 },
-        { text: '9', value: 9 },
-        { text: '10', value: 10 },
-        { text: '11', value: 11 },
-        { text: '12', value: 12 }
+        { text: '查看全部', value: 1 }
       ],
-      option3: [
-        { text: '天', value: 0 },
-        { text: '1', value: 1 },
-        { text: '2', value: 2 },
-        { text: '3', value: 3 },
-        { text: '4', value: 4 },
-        { text: '5', value: 5 },
-        { text: '6', value: 6 },
-        { text: '7', value: 7 },
-        { text: '8', value: 8 },
-        { text: '9', value: 9 },
-        { text: '10', value: 10 },
-        { text: '11', value: 11 },
-        { text: '12', value: 12 }
-      ],
-      option4: [
-        { text: '更多', value: 0 },
-        { text: '查看全部', value: 0 }
-      ],
-      valueDefault: 0
+      monthDefault: 3,
+      getAllDefault: 3
+    }
+  },
+  methods: {
+    selectMonth (e) {
+      const month = e.mp.detail
+      this.$emit('getMonthOfOperate', month)
+    },
+    // 查看全部
+    getAllOperate () {
+      this.$emit('getHistoryOperate')
     }
   }
 }
@@ -94,5 +75,14 @@ export default {
   height: auto;
   width: 100%;
   background-color: #30323f;
+}
+
+/** 下拉框中的确认按钮 */
+.confirmBtn {
+  background-color: #191b2a;
+  width: 100%;
+  font-size: 32rpx;
+  color: #9898a0;
+  text-align: center;
 }
 </style>

@@ -37,6 +37,7 @@
 
 <script>
 import Toast from '../../../static/vant/toast/toast'
+import globalStore from '../../stores/global-stores'
 export default {
   data () {
     return {
@@ -49,32 +50,54 @@ export default {
     }
   },
   methods: {
+    // 登录
     login () {
+      // 判空
+      // TODO 如何判断用户输入纯空格
+      if (this.userName === '' || this.userPassword === '') {
+        Toast.fail('信息未填')
+      } else {
+        this.$httpWX.get({
+          url: '/user/login',
+          data: {
+            userName: this.userName,
+            userPassword: this.userPassword
+          }
+        }).then(res => {
+          // res:1 => 登录成功
+          // res:0 => 无该用户，需要注册
+          // res:2 => 密码错误
+          console.log('登录', res)
+
+          if (res === 1) {
+            this.getUserInfo()
+            Toast({
+              type: 'success',
+              message: '登录成功',
+              onClose: () => {
+                this.toMarket()
+              }
+            })
+          } else if (res === 2) {
+            Toast.fail('密码错误')
+          } else if (res === 0) {
+            this.isConfirmDialog = true
+          }
+        })
+      }
+    },
+    // 登录成功后，获取到当前用户的信息并保存到全局变量中
+    getUserInfo () {
       this.$httpWX.get({
-        url: '/user/login',
+        url: '/user/loadUserByName',
         data: {
-          userName: this.userName,
-          userPassword: this.userPassword
+          userName: this.userName
         }
       }).then(res => {
-        // res:1 => 登录成功
-        // res:0 => 无该用户，需要注册
-        // res:2 => 密码错误
-        console.log('登录', res)
-
-        if (res === 1) {
-          Toast({
-            type: 'success',
-            message: '登录成功',
-            onClose: () => {
-              this.toMarket()
-            }
-          })
-        } else if (res === 2) {
-          Toast.fail('密码错误')
-        } else if (res === 0) {
-          this.isConfirmDialog = true
-        }
+        // 投资性格、用户id、用户名
+        globalStore.commit('changeInvestmentCharacter', res.investmentCharacter)
+        globalStore.commit('changeUserId', res.userID)
+        globalStore.commit('changeUserName', res.username)
       })
     },
     // 注册

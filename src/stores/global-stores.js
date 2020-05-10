@@ -32,9 +32,23 @@ export default new Vuex.Store({
         // 答卷完成度
         finish: 0,
         // 答案数组
-        answerList: []
+        answerList: [],
+        // 用户信息
+        userName: '',
+        userID: '',
+        investmentCharacter: ''
     },
     mutations: {
+        /** 将用户信息保存在全局变量中 */
+        changeUserName: (state, param) => {
+            state.userName = param
+        },
+        changeInvestmentCharacter: (state, param) => {
+            state.investmentCharacter = param
+        },
+        changeUserId: (state, param) => {
+            state.userID = param
+        },
         /** 风险测评：点击提交时触发（清空所有答案选项 & 完成度），将答案整合成数组（便于提交后端） */
         commitAnswer: (state) => {
             state.answerList = []

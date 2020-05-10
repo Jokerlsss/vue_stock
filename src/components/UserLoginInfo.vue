@@ -14,33 +14,34 @@
 
 <script>
 import CharacterTag from '@/components/CharacterTag'
+import globalStore from '../stores/global-stores'
 export default {
   components: {
     CharacterTag
   },
   data () {
     return {
-      userid: 1,
-      characterType: '',
-      username: ''
+      userid: globalStore.state.userID,
+      characterType: globalStore.state.investmentCharacter,
+      username: globalStore.state.userName
     }
   },
   onLoad () {
-    this.getUserInfo()
+    // this.getUserInfo()
   },
   methods: {
-    getUserInfo () {
-      this.$httpWX.get({
-        url: '/user/loadById',
-        data: {
-          userID: this.userid
-        }
-      }).then(res => {
-        this.characterType = res.inertmentCharacter
-        this.username = res.username
-        console.log(res)
-      })
-    }
+    // getUserInfo () {
+    //   this.$httpWX.get({
+    //     url: '/user/loadById',
+    //     data: {
+    //       userID: this.userid
+    //     }
+    //   }).then(res => {
+    //     this.characterType = res.inertmentCharacter
+    //     this.username = res.username
+    //     console.log(res)
+    //   })
+    // }
   }
 }
 </script>

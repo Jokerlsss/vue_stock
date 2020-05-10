@@ -89,7 +89,7 @@
     <!-- 黄金：项目代码、用户ID、交易平台、购入金额（需转换成持有份额）、*持仓成本（持有单价*持有份额）、买入时间、备注 -->
 
     <div class="getBtn">
-      <van-button color="#CC6600" size="large" round @click="openConfirmDialog">完成</van-button>
+      <van-button color="#CC6600" size="large" round @click="commitEvent()">完成</van-button>
     </div>
     <BottomSpace></BottomSpace>
     <!-- 股票名称选择弹窗 -->
@@ -125,7 +125,7 @@
     <!-- 确定提交弹窗 -->
     <!-- // TODO: 确定提交 -->
     <van-dialog
-      title="确定新增该项目吗？"
+      title="新增后不能删改"
       :message="productName?productName:' '"
       :show="isConfirmDialog"
       @close="closeConfirmDialog"
@@ -205,9 +205,50 @@ export default {
     this.note = ''
     this.minDate = ''
     this.maxDate = new Date().getTime()
-    this.showBuyTime = ''
+    // this.showBuyTime = ''
   },
   methods: {
+    // 周末校验
+    isWorkday () {
+      var nowDate = new Date()
+      if (nowDate.getDay() === 0 || nowDate.getDay() === 6) {
+        return false
+      } else {
+        return true
+      }
+    },
+    // 判空校验
+    isNull () {
+      if (this.productType === undefined) {
+        return false
+      } else if (this.productType === '股票') {
+        if (this.productName === '' || this.productCode === '' || this.productType === '' || this.amountOfAssets === '') {
+          return false
+        } else {
+          return true
+        }
+      } else if (this.productType === '黄金' || this.productType === '基金') {
+        /** 黄金、基金：份额为空，金额有值 */
+        if (this.productName === '' || this.productCode === '' || this.productType === '' || this.holdingCost === '') {
+          return false
+        } else {
+          return true
+        }
+      }
+    },
+    // 提交事件
+    commitEvent () {
+      const isWorkday = this.isWorkday()
+      const isNull = this.isNull()
+      if (isNull === false) {
+        Toast.fail('请完善信息')
+      } else if (isWorkday === false) {
+        Toast.fail('周末不能新增')
+      } else if (isNull === true && isWorkday === true) {
+        // 打开确认添加弹窗
+        this.openConfirmDialog()
+      }
+    },
     // 份额数字校验
     amountCheck () {
       // 校验规则：非零的正整数

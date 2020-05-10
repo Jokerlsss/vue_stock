@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <OprateTitle></OprateTitle>
+    <OprateTitle @getMonthOfOperate="getMonthOfOperate" @getHistoryOperate="getHistoryOperate"></OprateTitle>
     <scroll-view class="scrollBox" scroll-y="true">
       <div class="Steps">
         <Steps
@@ -56,6 +56,18 @@ export default {
         }
       }).then(res => {
         console.log(res)
+        this.stepsList = res
+      })
+    },
+    // 根据下拉框选项选择近几月历史操作
+    getMonthOfOperate (month) {
+      this.$httpWX.get({
+        url: '/historicalOperation/getMonthOfOperate',
+        data: {
+          userid: this.userid,
+          month: month
+        }
+      }).then(res => {
         this.stepsList = res
       })
     }

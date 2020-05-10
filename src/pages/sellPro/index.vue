@@ -68,7 +68,7 @@
       <div class="input">
         <input
           v-model="showSellTime"
-          placeholder="请选择已购买的投资项目"
+          placeholder="请选择卖出时间"
           type="text"
           @focus="openShowTimeSelect"
           disabled
@@ -86,7 +86,7 @@
     <InputGroup inputTitle="卖出时间" placeholder="当日净值由此决定，请谨慎选择"></InputGroup>
     <InputGroup inputTitle="交易平台" placeholder="请选择购买的平台"></InputGroup>-->
     <div class="getBtn">
-      <van-button color="#CC6600" size="large" round @click="openConfirmDialog">完成</van-button>
+      <van-button color="#CC6600" size="large" round @click="commitEvent()">完成</van-button>
     </div>
     <BottomSpace></BottomSpace>
     <!-- 股票名称选择弹窗 -->
@@ -202,19 +202,61 @@ export default {
     this.note = ''
     this.minDate = ''
     this.maxDate = new Date().getTime()
-    this.showSellTime = ''
+    // this.showSellTime = ''
     // 关闭已打开的弹窗
     this.onClose()
     this.closeConfirmDialog()
   },
   methods: {
-    // 份额数字校验
+    // 周末校验
+    isWorkday () {
+      var nowDate = new Date()
+      if (nowDate.getDay() === 0 || nowDate.getDay() === 6) {
+        return false
+      } else {
+        return true
+      }
+    },
+    // 判空校验
+    isNull () {
+      if (this.productType === undefined) {
+        return false
+      } else if (this.productType === '股票' || this.productType === '黄金' || this.productType === '基金') {
+        if (this.productName === '' || this.productCode === '' || this.productType === '' || this.amountOfAssets === '') {
+          return false
+        } else {
+          return true
+        }
+      }
+    },
+    // 判空校验
+    commitEvent () {
+      const isWorkday = this.isWorkday()
+      const isNull = this.isNull()
+      const isNumber = this.numberCheck()
+      if (isNull === false) {
+        Toast.fail('请完善信息')
+      } else if (isNumber === false) {
+        Toast.fail('错误的输入')
+        this.amountOfAssets = this.maxAmountOfAssets
+      } else if (isWorkday === false) {
+        Toast.fail('周末不能卖出')
+      } else if (isNull === true && isWorkday === true) {
+        // 打开确认添加弹窗
+        this.openConfirmDialog()
+      }
+    },
+    // 数字校验
+    numberCheck () {
+      var reg = /^[0-9]+(.[0-9]{1,2})?$/
+      if (reg.test(this.amountOfAssets)) {
+        return true
+      } else {
+        return false
+      }
+    },
+    // 份额最大值校验
     inputCheck () {
-      // // 校验规则：非零开头的最多带四位小数的数字
-      // // 汉字校验
-      // var reg1 = /^[\u4e00-\u9fa5]{0,}$/
-      // // 英文校验
-      // var reg2 = /^[A-Za-z]+$/
       // TODO 当卖出额>最大值时 或 输入为汉字 或 输入为英文 时为错误输入值
       if ((this.amountOfAssets - this.maxAmountOfAssets) > 0) {
         this.amountOfAssets = this.maxAmountOfAssets
