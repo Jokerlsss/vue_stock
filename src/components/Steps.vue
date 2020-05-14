@@ -10,7 +10,10 @@
           <p>{{timestampToTime}}</p>
         </div>
         <div class="assetsDiv">
-          <p class="totalAssets">剩：{{holdAssets}}元</p>
+          <p class="totalAssets">
+            剩：
+            <span>{{holdAssets}}</span>元
+          </p>
         </div>
       </div>
       <div class="oprateDiv">
@@ -97,6 +100,9 @@ export default {
 .totalAssets {
   font-size: 24rpx;
   color: #9898a0;
+}
+.totalAssets > span {
+  color: #ff6600;
 }
 /* 操作信息详情 */
 .oprateDiv {

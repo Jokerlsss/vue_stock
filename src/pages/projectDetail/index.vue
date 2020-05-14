@@ -21,8 +21,7 @@
     ></projectOprateBtn>
     <!-- 走势图 -->
     <div class="trend">
-      <div class="btnDiv">
-        <!-- // TODO: 当按钮处于激活态时，应该禁用(禁用的样式如何修改) -->
+      <!-- <div class="btnDiv">
         <button
           class="chooseBtn"
           :class="{'active':activeStatusOneMonth}"
@@ -48,7 +47,9 @@
           :class="{'active':activeStatusThreeYear}"
           @click="changeActiveStatusThreeYear"
         >近三年</button>
-      </div>
+      </div>-->
+
+      <div class="btnDiv">近一月净值涨跌</div>
       <!-- 走势图 -->
       <projectTrend :trendData="trendData" ref="changeTrend"></projectTrend>
     </div>
@@ -264,6 +265,8 @@ page {
 .btnDiv {
   width: 100%;
   display: flex;
+  color: #9898a0;
+  justify-content: center;
 }
 .chooseBtn {
   border-radius: 0;

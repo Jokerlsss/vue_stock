@@ -159,9 +159,14 @@ export default {
     this.postDayEarnToStore()
     this.postHadEarnToStore()
   },
+  mounted () {
+    // this.postAssetsToStore()
+    // this.postDayEarnToStore()
+    // this.postHadEarnToStore()
+  },
   /** 在控件销毁时清空资产信息，以免重复累加 */
   beforeDestroy () {
-    globalStore.commit('clearAssetsInfo')
+    // globalStore.commit('clearAssetsInfo')
   },
   methods: {
     // 将 今日收益 & 持有收益 & 资产 & 累计收益 传递给全局变量

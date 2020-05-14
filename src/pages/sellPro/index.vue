@@ -248,7 +248,8 @@ export default {
     },
     // 数字校验
     numberCheck () {
-      var reg = /^[0-9]+(.[0-9]{1,2})?$/
+      // 正则：非零开头的最多带四位小数的数字
+      var reg = /^([1-9][0-9]*)+(\.[0-9]{1,4})?$/
       if (reg.test(this.amountOfAssets)) {
         return true
       } else {

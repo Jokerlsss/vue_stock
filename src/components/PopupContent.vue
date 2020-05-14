@@ -16,14 +16,14 @@
         <van-tag round color="#FF9900" size="large" class="typeTag">金</van-tag>
         <van-switch :checked="checkGold" @change="changeGold" class="switch" size="48rpx" />
       </div>
-      <div class="typeSwitchCell">
+      <!-- <div class="typeSwitchCell">
         <van-tag round color="#009900" size="large" class="typeTag">定</van-tag>
         <van-switch :checked="checkRegular" @change="changeRegular" class="switch" size="48rpx" />
       </div>
       <div class="typeSwitchCell">
         <van-tag round color="#999999" size="large" class="typeTag">其</van-tag>
         <van-switch :checked="checkOther" @change="changeOther" class="switch" size="48rpx" />
-      </div>
+      </div>-->
       <!-- 底部空白处 -->
       <div class="bottomSpace"></div>
     </div>
@@ -44,13 +44,13 @@ export default {
     },
     checkGold () {
       return globalStore.state.checkGold
-    },
-    checkRegular () {
-      return globalStore.state.checkRegular
-    },
-    checkOther () {
-      return globalStore.state.checkOther
     }
+    // checkRegular () {
+    //   return globalStore.state.checkRegular
+    // },
+    // checkOther () {
+    //   return globalStore.state.checkOther
+    // }
   },
   data () {
     return {
@@ -66,13 +66,13 @@ export default {
     },
     changeGold () {
       globalStore.commit('changeGold')
-    },
-    changeRegular () {
-      globalStore.commit('changeRegular')
-    },
-    changeOther () {
-      globalStore.commit('changeOther')
     }
+    // changeRegular () {
+    //   globalStore.commit('changeRegular')
+    // },
+    // changeOther () {
+    //   globalStore.commit('changeOther')
+    // }
   }
 }
 </script>

@@ -67,7 +67,6 @@ export default {
           // res:1 => 登录成功
           // res:0 => 无该用户，需要注册
           // res:2 => 密码错误
-          console.log('登录', res)
 
           if (res === 1) {
             this.getUserInfo()
@@ -95,7 +94,7 @@ export default {
         }
       }).then(res => {
         // 投资性格、用户id、用户名
-        globalStore.commit('changeInvestmentCharacter', res.investmentCharacter)
+        // globalStore.commit('changeInvestmentCharacter', res.investmentCharacter)
         globalStore.commit('changeUserId', res.userID)
         globalStore.commit('changeUserName', res.username)
       })
@@ -109,7 +108,6 @@ export default {
           userPassword: this.userPassword
         }
       }).then(res => {
-        console.log('注册：', res)
         // 注册后并登录
         this.login()
       })

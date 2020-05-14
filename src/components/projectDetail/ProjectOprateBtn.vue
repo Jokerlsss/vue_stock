@@ -38,6 +38,8 @@
       >
         <img :src="sellImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
+      <!-- 进入卖出页面失败后的提示 -->
+      <van-toast id="van-toast" />
     </div>
   </div>
 </template>

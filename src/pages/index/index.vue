@@ -10,7 +10,7 @@
       <PopupContent></PopupContent>
     </van-popup>
     <!-- 顶部资产明细 -->
-    <AssetInfo></AssetInfo>
+    <AssetInfo :allAssets="allAssets" :dayEarn="dayEarn" :holdEarn="holdEarn"></AssetInfo>
     <!-- No Content 页面 -->
     <NoContentPage v-if="isNoContentPage"></NoContentPage>
     <!-- 滚动表格 -->
@@ -66,9 +66,7 @@ export default {
       // TODO: 当无数据但仍有 switch 勾选时，不会显示空数据，应该改进
       if (globalStore.state.checkStock === UNCHECKED &&
         globalStore.state.checkFund === UNCHECKED &&
-        globalStore.state.checkGold === UNCHECKED &&
-        globalStore.state.checkRegular === UNCHECKED &&
-        globalStore.state.checkOther === UNCHECKED) {
+        globalStore.state.checkGold === UNCHECKED) {
         return ShowNoContentPage
       }
       // 当前页面无项目时，出现 NoContentPage 页面
@@ -95,6 +93,12 @@ export default {
       userid: 1,
       isShowPopup: false,
       totalEarn: 0,
+
+      // assetsInfo => 总资产、总最新收益、总持有收益
+      allAssets: 0,
+      dayEarn: 0,
+      holdEarn: 0,
+
       financialProjectList: [
         // 表头
         {
@@ -114,6 +118,8 @@ export default {
   onShow () {
     this.getPersonalAssets()
     this.getTotalEarn()
+    this.getAssetsInfo()
+    console.log('index onShow')
   },
   methods: {
     closePopup: function () {
@@ -121,6 +127,24 @@ export default {
     },
     openPopup: function () {
       this.isShowPopup = true
+    },
+    getAssetsInfo () {
+      this.$httpWX.get({
+        url: '/personalFinancialAssets/getAssetsInfo',
+        data: {
+          userid: this.userid
+        }
+      }).then(res => {
+        if (res.status === 500) {
+          this.allAssets = 0
+          this.dayEarn = 0
+          this.holdEarn = 0
+        } else {
+          this.allAssets = res.allAssets
+          this.dayEarn = res.dayEarn
+          this.holdEarn = res.holdEarn
+        }
+      })
     },
     // 获取累计收益
     getTotalEarn () {

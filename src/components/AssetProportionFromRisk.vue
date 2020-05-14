@@ -6,7 +6,11 @@
       <p class="titleText">资产占比(按风险)</p>
     </div>
     <!-- 名称、金额、占比图、占比数值 -->
-    <div class="content" v-for="(projectItem,itemIndex) in proportionOfAssets" :key="itemIndex">
+    <div
+      class="content"
+      v-for="(projectItem,itemIndex) in proportionOfAssetsByRisk"
+      :key="itemIndex"
+    >
       <div class="project">
         <div class="projectItem">{{projectItem.projectItem}}</div>
       </div>
@@ -54,59 +58,53 @@ export default {
       isSuggestionVisable: false,
       visablesuggestionImg: '../../static/images/up.png',
       inVisableSuggestionImg: '../../static/images/down.png',
-      suggestion: '',
-      proportionOfAssets: [
-        // {
-        //   projectItem: '股票',
-        //   assetItem: '51324',
-        //   progressItem: '51%',
-        //   proportionItem: '51%'
-        // },
-        // {
-        //   projectItem: '基金',
-        //   assetItem: '4032.1',
-        //   progressItem: '3.6%',
-        //   proportionItem: '3.6%'
-        // },
-        // {
-        //   projectItem: '黄金',
-        //   assetItem: '201',
-        //   progressItem: '0.4%',
-        //   proportionItem: '0.4%'
-        // },
-        // {
-        //   projectItem: '定期',
-        //   assetItem: '40000',
-        //   progressItem: '42%',
-        //   proportionItem: '42%'
-        // },
-        // {
-        //   projectItem: '其他',
-        //   assetItem: '3201.24',
-        //   progressItem: '3%',
-        //   proportionItem: '3%'
-        // }
-      ]
+      // proportionOfAssets: [
+      // {
+      //   projectItem: '股票',
+      //   assetItem: '51324',
+      //   progressItem: '51%',
+      //   proportionItem: '51%'
+      // },
+      // {
+      //   projectItem: '基金',
+      //   assetItem: '4032.1',
+      //   progressItem: '3.6%',
+      //   proportionItem: '3.6%'
+      // },
+      // {
+      //   projectItem: '黄金',
+      //   assetItem: '201',
+      //   progressItem: '0.4%',
+      //   proportionItem: '0.4%'
+      // },
+      // {
+      //   projectItem: '定期',
+      //   assetItem: '40000',
+      //   progressItem: '42%',
+      //   proportionItem: '42%'
+      // },
+      // {
+      //   projectItem: '其他',
+      //   assetItem: '3201.24',
+      //   progressItem: '3%',
+      //   proportionItem: '3%'
+      // }
+      // ]
+      proportionOfAssetsByRisk: this.proportionOfAssetsByRisk,
+      suggestion: this.suggestion
     }
   },
+  props: {
+    proportionOfAssetsByRisk: '',
+    suggestion: ''
+  },
+  onShow () {
+    // this.getTotalEarn()
+  },
   onLoad () {
-    this.getTotalEarn()
+    // this.getTotalEarn()
   },
   methods: {
-    // 获取各类型资产
-    getTotalEarn () {
-      this.$httpWX.get({
-        url: '/personalFinancialAssets/getAssetsFromRisk',
-        data: {
-          userid: this.userid
-        }
-      }).then(res => {
-        console.log(res)
-        this.proportionOfAssets = res.assetsList
-        this.suggestion = res.suggestion
-        console.log(this.suggestion)
-      })
-    },
     // 切换建议可见性
     cutSuggestionVisable () {
       if (this.isSuggestionVisable === true) {

@@ -49,55 +49,27 @@ export default {
       isSuggestionVisable: false,
       visablesuggestionImg: '../../static/images/up.png',
       inVisableSuggestionImg: '../../static/images/down.png',
-      proportionOfAssets: [
-        // {
-        //   projectItem: '股票',
-        //   assetItem: '51324',
-        //   progressItem: '51%',
-        //   proportionItem: '51%'
-        // },
-        // {
-        //   projectItem: '基金',
-        //   assetItem: '4032.1',
-        //   progressItem: '3.6%',
-        //   proportionItem: '3.6%'
-        // },
-        // {
-        //   projectItem: '黄金',
-        //   assetItem: '201',
-        //   progressItem: '0.4%',
-        //   proportionItem: '0.4%'
-        // },
-        // {
-        //   projectItem: '定期',
-        //   assetItem: '40000',
-        //   progressItem: '42%',
-        //   proportionItem: '42%'
-        // },
-        // {
-        //   projectItem: '其他',
-        //   assetItem: '3201.24',
-        //   progressItem: '3%',
-        //   proportionItem: '3%'
-        // }
-      ]
+      // proportionOfAssets: [
+      // {
+      //   projectItem: '其他',
+      //   assetItem: '3201.24',
+      //   progressItem: '3%',
+      //   proportionItem: '3%'
+      // }
+      // ]
+      proportionOfAssets: this.proportionOfAssets
     }
   },
+  props: {
+    proportionOfAssets: ''
+  },
+  onShow () {
+    // this.getTotalEarn()
+  },
   onLoad () {
-    this.getTotalEarn()
+    // this.getTotalEarn()
   },
   methods: {
-    // 获取各类型资产
-    getTotalEarn () {
-      this.$httpWX.get({
-        url: '/personalFinancialAssets/getSumOfAssets',
-        data: {
-          userid: this.userid
-        }
-      }).then(res => {
-        this.proportionOfAssets = res
-      })
-    },
     // 切换建议可见性
     cutSuggestionVisable () {
       if (this.isSuggestionVisable === true) {

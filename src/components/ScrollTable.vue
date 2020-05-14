@@ -36,6 +36,8 @@ export default {
     // 去除索引为 0 的表头数据
     projectNameList () {
       var projectNameList = []
+      // 在每次累加之前，对原先数据进行清零
+      globalStore.commit('clearAssetsInfo')
       for (var len = 1; len < this.financialProjectList.length; len++) {
         projectNameList.push(this.financialProjectList[len])
 
@@ -46,9 +48,6 @@ export default {
       }
       return projectNameList
     }
-  },
-  beforeDestroy () {
-    globalStore.commit('clearAssetsInfo')
   },
   props: {
     financialProjectList: '',

@@ -15,9 +15,9 @@
     </div>
     <div class="menu">
       <div class="imgDiv">
-        <img src="../../static/images/collect.png" @click="toMyCollection" />
+        <img src="../../static/images/monthReport.png" @click="toMyMonthOfReport" />
       </div>
-      <div class="menuText">我的收藏</div>
+      <div class="menuText">我的月报</div>
     </div>
     <div class="menu">
       <div class="imgDiv">
@@ -36,9 +36,9 @@ export default {
         url: '../oprateHistory/main'
       })
     },
-    toMyCollection () {
+    toMyMonthOfReport () {
       wx.navigateTo({
-        url: '../myCollection/main'
+        url: '../myMonthReport/main'
       })
     },
     toRiskTest () {

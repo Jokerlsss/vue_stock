@@ -7,7 +7,7 @@
     <div class="userName">{{username}}</div>
     <div class="userCharacter">
       <!-- <van-tag type="primary" size="large" round>稳健</van-tag> -->
-      <CharacterTag :characterType="characterType"></CharacterTag>
+      <CharacterTag :characterType="investmentCharacter"></CharacterTag>
     </div>
   </div>
 </template>
@@ -16,13 +16,16 @@
 import CharacterTag from '@/components/CharacterTag'
 import globalStore from '../stores/global-stores'
 export default {
+  props: {
+    investmentCharacter: ''
+  },
   components: {
     CharacterTag
   },
   data () {
     return {
       userid: globalStore.state.userID,
-      characterType: globalStore.state.investmentCharacter,
+      investmentCharacter: this.investmentCharacter,
       username: globalStore.state.userName
     }
   },

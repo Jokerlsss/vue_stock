@@ -31,6 +31,11 @@
 <script>
 import globalStore from '../stores/global-stores'
 export default {
+  props: {
+    allAssets: 0,
+    dayEarn: 0,
+    holdEarn: 0
+  },
   computed: {
     isChangeToScrollTable () {
       return globalStore.state.isChangeToScrollTable
@@ -38,13 +43,13 @@ export default {
     /** 总资产 */
     allAsset () {
       // 保留两位小数
-      let dfTwo = parseFloat(globalStore.state.allAsset).toFixed(2)
+      let dfTwo = parseFloat(this.allAssets).toFixed(2)
       // 资产不需要正负号和红绿色之分
       return dfTwo
     },
     /** 今日收益 */
     dayAsset () {
-      let dfTwo = parseFloat(globalStore.state.dayAsset).toFixed(2)
+      let dfTwo = parseFloat(this.dayEarn).toFixed(2)
       // 正红负绿
       if (dfTwo >= 0) {
         dfTwo = '+' + dfTwo
@@ -67,7 +72,7 @@ export default {
     },
     /** 持有收益 */
     hadAsset () {
-      let dfTwo = parseFloat(globalStore.state.hadAsset).toFixed(2)
+      let dfTwo = parseFloat(this.holdEarn).toFixed(2)
       if (dfTwo >= 0) {
         dfTwo = '+' + dfTwo
         this.hadAssetStyle = 'color:#FF3300'
@@ -92,7 +97,12 @@ export default {
       invisableNum: '****',
       // 切换展示方式
       listShowImg: '../../static/images/list.png',
-      cardShowImg: '../../static/images/card.png'
+      cardShowImg: '../../static/images/card.png',
+
+      // 总资产、总持有收益、总最新收益
+      allAssets: this.allAssets,
+      dayEarn: this.dayEarn,
+      holdEarn: this.holdEarn
     }
   },
   methods: {

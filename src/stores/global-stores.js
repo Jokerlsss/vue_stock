@@ -163,16 +163,19 @@ export default new Vuex.Store({
         },
         // 在切换卡片时，清空资产数据防止重复累加（累计收益除外，累计收益无累加操作）
         clearAssetsInfo: (state) => {
+            console.log('触发了clearAssetsInfo，全部数值变成了0')
             state.allAsset = 0
             state.dayAsset = 0
             state.hadAsset = 0
         },
         // 累计收益
         getTotalEarn: (state, totalEarn) => {
+            console.log('触发了getTotalEarn')
             state.totalEarn = parseFloat(totalEarn)
         },
         // 接收资产信息并累加
         getAssets: (state, assets) => {
+            console.log('触发了getAssets')
             // 做数学运算时去除表头中文
             if (assets !== '资产') {
                 // 保留两位小数

@@ -117,6 +117,7 @@ export default {
     // 切换视图
     cutShow () {
       globalStore.commit('isChangeToScrollTable')
+      globalStore.commit('clearAssetsInfo')
       this.cutBtnGroupVisable()
     },
     // 弹出层
