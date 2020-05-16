@@ -50,6 +50,11 @@ export default {
     }
   },
   methods: {
+    // 清空输入框
+    clearInput () {
+      this.userName = ''
+      this.userPassword = ''
+    },
     // 登录
     login () {
       // 判空
@@ -75,6 +80,7 @@ export default {
               message: '登录成功',
               onClose: () => {
                 this.toMarket()
+                this.clearInput()
               }
             })
           } else if (res === 2) {
@@ -97,6 +103,8 @@ export default {
         // globalStore.commit('changeInvestmentCharacter', res.investmentCharacter)
         globalStore.commit('changeUserId', res.userID)
         globalStore.commit('changeUserName', res.username)
+        console.log(globalStore.state.userID)
+        console.log(globalStore.state.userName)
       })
     },
     // 注册

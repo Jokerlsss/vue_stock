@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/login/main",
+    "pages/mine/main",
     "pages/myMonthReport/main",
     "pages/market/main",
-    "pages/mine/main",
     "pages/index/main",
     "pages/productCompare/main",
     "pages/oprateHistory/main",

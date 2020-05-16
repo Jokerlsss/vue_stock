@@ -17,23 +17,11 @@
         <div class="progressItem">
           <ProportionProgress :width="projectItem.proportionItem"></ProportionProgress>
         </div>
-        <!-- <div class="progressItem">{{projectItem.progressItem}}</div> -->
       </div>
       <div class="proportionNum">
         <div class="proportionItem">{{projectItem.proportionItem}}</div>
       </div>
     </div>
-    <!-- 建议 -->
-    <!-- <div class="viewSuggestion" @click="cutSuggestionVisable">
-      <van-transition :show="isSuggestionVisable" name="fade-down" duration="500">
-        <div class="visableSuggestion" v-if="isSuggestionVisable">
-          <p>过于激进</p>
-        </div>
-      </van-transition>
-      <div class="inVisableSuggestion" v-if="true">
-        <img :src="isSuggestionVisable?visablesuggestionImg:inVisableSuggestionImg" />
-      </div>
-    </div>-->
   </div>
 </template>
 
@@ -45,7 +33,6 @@ export default {
   },
   data () {
     return {
-      userid: 1,
       isSuggestionVisable: false,
       visablesuggestionImg: '../../static/images/up.png',
       inVisableSuggestionImg: '../../static/images/down.png',

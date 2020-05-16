@@ -136,6 +136,8 @@
 </template>
 
 <script>
+import globalStore from '../../stores/global-stores'
+
 import InputGroup from '@/components/InputGroup'
 import BottomSpace from '@/components/BottomSpace'
 import ChooseDialog from '@/components/addPro/ChooseDialog'
@@ -241,7 +243,10 @@ export default {
         this.amountOfAssets = this.maxAmountOfAssets
       } else if (isWorkday === false) {
         Toast.fail('周末不能卖出')
-      } else if (isNull === true && isWorkday === true) {
+      } else if (this.maxAmountOfAssets - this.amountOfAssets < 1) {
+        Toast.fail('剩余份额需大于1份')
+        this.amountOfAssets = this.maxAmountOfAssets
+      } else {
         // 打开确认添加弹窗
         this.openConfirmDialog()
       }
@@ -311,8 +316,7 @@ export default {
       this.$httpWX.post({
         url: '/personalFinancialAssets/sellPro',
         data: {
-          // TODO: 改为全局变量 userID
-          userid: 1,
+          userid: globalStore.state.userID,
           productName: this.productName,
           productCode: this.productCode,
           productType: this.productType,

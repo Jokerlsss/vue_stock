@@ -19,32 +19,22 @@ export default {
   props: {
     investmentCharacter: ''
   },
+  computed: {
+    username () {
+      return globalStore.state.userName
+    }
+  },
   components: {
     CharacterTag
   },
   data () {
     return {
-      userid: globalStore.state.userID,
-      investmentCharacter: this.investmentCharacter,
-      username: globalStore.state.userName
+      investmentCharacter: this.investmentCharacter
     }
   },
   onLoad () {
-    // this.getUserInfo()
   },
   methods: {
-    // getUserInfo () {
-    //   this.$httpWX.get({
-    //     url: '/user/loadById',
-    //     data: {
-    //       userID: this.userid
-    //     }
-    //   }).then(res => {
-    //     this.characterType = res.inertmentCharacter
-    //     this.username = res.username
-    //     console.log(res)
-    //   })
-    // }
   }
 }
 </script>

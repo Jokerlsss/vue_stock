@@ -53,12 +53,17 @@
         <img :src="compareBtnImg" class="BtnGroupImg" v-if="isOpenBtnGroup" />
       </button>
     </div>
+    <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
+import Toast from '../../static/vant/toast/toast'
 import globalStore from '../stores/global-stores'
 export default {
+  props: {
+    financialProjectList: ''
+  },
   computed: {
     isChangeToScrollTable () {
       return globalStore.state.isChangeToScrollTable
@@ -66,6 +71,9 @@ export default {
   },
   data () {
     return {
+      // financialProjectList 若长度只有1（表头），则不能切换成表格形式
+      financialProjectList: this.financialProjectList,
+
       isOpenBtnGroup: false,
 
       toCompareSlidBtnStyle: 'bottom:530rpx;opacity:0.9',
@@ -116,9 +124,14 @@ export default {
     },
     // 切换视图
     cutShow () {
-      globalStore.commit('isChangeToScrollTable')
-      globalStore.commit('clearAssetsInfo')
-      this.cutBtnGroupVisable()
+      if (this.financialProjectList.length === 1) {
+        Toast.fail('空数据不支持切换')
+        this.cutBtnGroupVisable()
+      } else {
+        globalStore.commit('isChangeToScrollTable')
+        globalStore.commit('clearAssetsInfo')
+        this.cutBtnGroupVisable()
+      }
     },
     // 弹出层
     showPopup () {

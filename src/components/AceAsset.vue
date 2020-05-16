@@ -37,11 +37,11 @@
 </template>
 
 <script>
+import globalStore from '../stores/global-stores'
 export default {
   data () {
     return {
       today: new Date().getTime(),
-      userid: 1,
       // 累计收益字段
       totalEarnProductCode: '',
       totalEarnProductName: '',
@@ -103,7 +103,7 @@ export default {
       this.$httpWX.get({
         url: '/personalFinancialAssets/getAceOfAssets',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
         /**

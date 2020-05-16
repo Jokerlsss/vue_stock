@@ -59,10 +59,10 @@
 </template>
 
 <script>
+import globalStore from '../../stores/global-stores'
 export default {
   data () {
     return {
-      userid: 1,
       earnList: '',
       operateList: '',
       historicalOperation: ''
@@ -78,7 +78,7 @@ export default {
       this.$httpWX.get({
         url: '/historicalOperation/getMonthReportOfOperate',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
         console.log(res)
@@ -91,7 +91,7 @@ export default {
       this.$httpWX.get({
         url: '/historyEarnings/getMonthReportOfEarn',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
         console.log(res)

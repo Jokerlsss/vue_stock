@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import globalStore from '../../stores/global-stores'
 import HistoryEarnSteps from '@/components/historyEarn/HistoryEarnSteps'
 import HistoryEarnTitle from '@/components/historyEarn/HistoryEarnTitle'
 import BottomSpace from '@/components/BottomSpace'
@@ -29,7 +30,6 @@ export default {
   },
   data () {
     return {
-      userid: 1,
       earnList: ''
     }
   },
@@ -42,7 +42,7 @@ export default {
       this.$httpWX.get({
         url: '/historyEarnings/getHistoryEarn',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
         this.earnList = res
@@ -57,7 +57,7 @@ export default {
         this.$httpWX.get({
           url: '/historyEarnings/getMonthOfEarn',
           data: {
-            userid: this.userid,
+            userid: globalStore.state.userID,
             month: month
           }
         }).then(res => {

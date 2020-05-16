@@ -8,6 +8,7 @@
       :suggestion="suggestion"
     ></AssetProportionFromRisk>
     <AceAsset></AceAsset>
+    <ExitLogin></ExitLogin>
     <BottomSpace></BottomSpace>
   </div>
 </template>
@@ -19,6 +20,7 @@ import AssetProportion from '@/components/AssetProportion'
 import AssetProportionFromRisk from '@/components/AssetProportionFromRisk'
 import AceAsset from '@/components/AceAsset'
 import BottomSpace from '@/components/BottomSpace'
+import ExitLogin from '@/components/ExitLogin'
 
 import globalStore from '../../stores/global-stores'
 export default {
@@ -28,12 +30,18 @@ export default {
     AssetProportion,
     AceAsset,
     BottomSpace,
-    AssetProportionFromRisk
+    AssetProportionFromRisk,
+    ExitLogin
   },
   onShow () {
     this.getTotalEarn()
     this.getTotalEarnByRisk()
     this.getUserInfo()
+  },
+  onUnload () {
+    this.investmentCharacter = ''
+    this.proportionOfAssets = ''
+    this.proportionOfAssetsByRisk = ''
   },
   methods: {
     // 获取用户信息
@@ -54,9 +62,10 @@ export default {
       this.$httpWX.get({
         url: '/personalFinancialAssets/getSumOfAssets',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
+        console.log('getTotalEarn', res)
         this.proportionOfAssets = res
       })
     },
@@ -65,9 +74,10 @@ export default {
       this.$httpWX.get({
         url: '/personalFinancialAssets/getAssetsFromRisk',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
+        console.log('getTotalEarnByRisk', res)
         this.proportionOfAssetsByRisk = res.assetsList
         this.suggestion = res.suggestion
       })
@@ -75,8 +85,26 @@ export default {
   },
   data () {
     return {
-      userid: 1,
-      proportionOfAssets: '',
+      proportionOfAssets: [
+        // {
+        //   assetItem: 0,
+        //   progressItem: '0%',
+        //   projectItem: '股票',
+        //   proportionItem: '0%'
+        // },
+        // {
+        //   assetItem: 0,
+        //   progressItem: '0%',
+        //   projectItem: '基金',
+        //   proportionItem: '0%'
+        // },
+        // {
+        //   assetItem: 0,
+        //   progressItem: '0%',
+        //   projectItem: '黄金',
+        //   proportionItem: '0%'
+        // }
+      ],
       proportionOfAssetsByRisk: '',
 
       // 用户的投资性格

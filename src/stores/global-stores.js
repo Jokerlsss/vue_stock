@@ -39,6 +39,12 @@ export default new Vuex.Store({
         investmentCharacter: ''
     },
     mutations: {
+        /** 退出登录 */
+        exitLogin: (state) => {
+            state.userName = ''
+            state.userID = ''
+            state.investmentCharacter = ''
+        },
         /** 将用户信息保存在全局变量中 */
         changeUserName: (state, param) => {
             state.userName = param

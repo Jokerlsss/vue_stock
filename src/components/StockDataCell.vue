@@ -57,18 +57,37 @@
 
 <script>
 import globalStore from '../stores/global-stores'
-import Dialog from '../../static/vant/dialog/dialog'
+// import Dialog from '../../static/vant/dialog/dialog'
 import Toast from '../../static/vant/toast/toast'
 export default {
   // 控制卡片可见性
   computed: {
+    // 为展示用的数据（用于加正负号）
+    dayEarnShow () {
+      var num
+      if (this.dayEarn >= 0) {
+        num = '+' + this.dayEarn
+      } else {
+        num = this.dayEarn
+      }
+      return num
+    },
+    hadEarnShow () {
+      var num
+      if (this.hadEarn >= 0) {
+        num = '+' + this.hadEarn
+      } else {
+        num = this.hadEarn
+      }
+      return num
+    },
     dayEarnTextColor () {
       var style
       if (this.dayEarn >= 0) {
-        this.dayEarnShow = '+' + this.dayEarn
+        // this.dayEarnShow = '+' + this.dayEarn
         style = 'color: #FF3300;'
       } else {
-        this.dayEarnShow = this.dayEarn
+        // this.dayEarnShow = this.dayEarn
         style = 'color: #009900;'
       }
       return style
@@ -77,10 +96,10 @@ export default {
       var style
       // 正数：加号   负数：已经自带负号
       if (this.hadEarn >= 0) {
-        this.hadEarnShow = '+' + this.hadEarn
+        // this.hadEarnShow = '+' + this.hadEarn
         style = 'color: #FF3300;'
       } else {
-        this.hadEarnShow = this.hadEarn
+        // this.hadEarnShow = this.hadEarn
         style = 'color: #009900;'
       }
       return style
@@ -138,10 +157,6 @@ export default {
       productCode: this.productCode,
       TypeColor: '',
 
-      // 为展示用的数据（用于加正负号）
-      dayEarnShow: '',
-      hadEarnShow: '',
-
       // 滑动单元格
       clientS: '',
       clientE: '',
@@ -189,23 +204,24 @@ export default {
     // 打开删除项目确定框
     openDeleteDialog () {
       this.isSlid = false
-      Dialog.confirm({
-        title: '确定删除该项目吗？',
-        message: this.productName,
-        closeOnClickOverlay: true,
-        // 开启异步关闭
-        asyncClose: true,
-        zIndex: 999
-      }).then(() => {
-        // this.deleteProject()
-        setTimeout(() => {
-          Dialog.close()
-          Toast.success('删除成功')
-        }, 200)
-      }).catch(() => {
-        Dialog.close()
-        Toast.fail('删除失败')
-      })
+      Toast.fail('功能待完善')
+      // Dialog.confirm({
+      //   title: '确定删除该项目吗？',
+      //   message: this.productName,
+      //   closeOnClickOverlay: true,
+      //   // 开启异步关闭
+      //   asyncClose: true,
+      //   zIndex: 999
+      // }).then(() => {
+      //   // this.deleteProject()
+      //   setTimeout(() => {
+      //     Dialog.close()
+      //     Toast.success('删除成功')
+      //   }, 200)
+      // }).catch(() => {
+      //   Dialog.close()
+      //   Toast.fail('删除失败')
+      // })
     },
     // 删除项目
     deleteProject () {
@@ -213,8 +229,7 @@ export default {
       this.$httpWX.post({
         url: '/personalFinancialAssets/deleteByWrapper',
         data: {
-          // TODO: 改为全局变量 userID
-          userID: 1,
+          userID: globalStore.state.userID,
           personalFinancialAssetsID: this.personalFinancialAssetsID
         }
       }).then(res => {

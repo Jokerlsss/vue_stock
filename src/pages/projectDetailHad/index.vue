@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import globalStore from '../../stores/global-stores'
+
 import projectBaseInfo from '@/components/projectDetail/ProjectBaseInfo'
 import projectTrend from '@/components/projectDetail/ProjectTrend'
 import projectOprateBtn from '@/components/projectDetail/ProjectOprateBtn'
@@ -209,7 +211,7 @@ export default {
         url: '/personalFinancialAssets/selectOne',
         data: {
           productCode: this.productCode,
-          userid: 1
+          userid: globalStore.state.userID
         }
       }).then(res => {
         this.personalFinancialAssets = res

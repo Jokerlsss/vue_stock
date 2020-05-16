@@ -28,7 +28,6 @@ import BottomSpace from '@/components/BottomSpace'
 export default {
   data () {
     return {
-      userid: 1,
       QAlist: []
     }
   },
@@ -49,7 +48,7 @@ export default {
           url: '/answer/commitAnswer',
           data: {
             answerList: globalStore.state.answerList,
-            userid: this.userid
+            userid: globalStore.state.userID
           }
         }).then(res => {
           /** 清空所有 radio 选项 */
@@ -78,7 +77,6 @@ export default {
         url: '/pages/mine/main'
       })
     },
-    // TODO 提交问卷时，需要传入 userid
     getQA () {
       this.$httpWX.get({
         url: '/question/getQA'

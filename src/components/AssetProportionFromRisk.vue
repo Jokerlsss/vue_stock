@@ -54,7 +54,6 @@ export default {
   },
   data () {
     return {
-      userid: 1,
       isSuggestionVisable: false,
       visablesuggestionImg: '../../static/images/up.png',
       inVisableSuggestionImg: '../../static/images/down.png',

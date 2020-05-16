@@ -140,6 +140,8 @@
 </template>
 
 <script>
+import globalStore from '../../stores/global-stores'
+
 import InputGroup from '@/components/InputGroup'
 import BottomSpace from '@/components/BottomSpace'
 import ChooseDialog from '@/components/addPro/ChooseDialog'
@@ -312,8 +314,7 @@ export default {
       this.$httpWX.post({
         url: '/personalFinancialAssets/insert',
         data: {
-          // TODO: 改为全局变量 userID
-          userid: 1,
+          userid: globalStore.state.userID,
           productName: this.productName,
           productCode: this.productCode,
           productType: this.productType,

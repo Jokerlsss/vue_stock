@@ -33,7 +33,7 @@
       ></StockDataCell>
     </div>
     <!-- 添加项目按钮 -->
-    <AddProBtn @showPopup="openPopup"></AddProBtn>
+    <AddProBtn @showPopup="openPopup" :financialProjectList="financialProjectList"></AddProBtn>
     <!-- 底部留空 -->
     <BottomSpace></BottomSpace>
   </div>
@@ -90,7 +90,6 @@ export default {
   },
   data () {
     return {
-      userid: 1,
       isShowPopup: false,
       totalEarn: 0,
 
@@ -132,7 +131,7 @@ export default {
       this.$httpWX.get({
         url: '/personalFinancialAssets/getAssetsInfo',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
         if (res.status === 500) {
@@ -151,7 +150,7 @@ export default {
       this.$httpWX.get({
         url: '/personalFinancialAssets/getTotalEarn',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
         if (res.status === 500) {
@@ -167,7 +166,7 @@ export default {
       this.$httpWX.get({
         url: '/personalFinancialAssetsVO/listByWrapper',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
         // 每次获取数据时先清空原有数据，防止 push 重复
@@ -189,12 +188,6 @@ export default {
         console.log(res)
       })
     }
-    // async getDataTest () {
-    //   const { data: res } = await this.$httpWX.get(
-    //     `/personalFinancialAssetsVO/listByWrapper?${this.userid}`
-    //   )
-    //   console.log('await:', res)
-    // }
 
     // ? 为什么用箭头函数就不能将show传给控件？箭头函数与function的区别？that和this的区别？
   }

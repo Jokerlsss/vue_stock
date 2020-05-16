@@ -47,6 +47,7 @@
 <script>
 // TODO: 增加Toast节点
 import Toast from '../../../dist/wx/static/vant/toast/toast'
+import globalStore from '../../stores/global-stores'
 export default {
   props: {
     productName: '',
@@ -103,8 +104,7 @@ export default {
       this.$httpWX.get({
         url: '/personalFinancialAssets/isExist',
         data: {
-          // TODO: 改为全局变量 userID
-          userID: 1,
+          userID: globalStore.state.userID,
           productCode: this.productCode
         }
       }).then(res => {
@@ -133,8 +133,7 @@ export default {
       this.$httpWX.get({
         url: '/personalFinancialAssets/isExist',
         data: {
-          // TODO: 改为全局变量 userID
-          userID: 1,
+          userID: globalStore.state.userID,
           productCode: this.productCode
         }
       }).then(res => {

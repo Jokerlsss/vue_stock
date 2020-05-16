@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import globalStore from '../../stores/global-stores'
+
 import Steps from '@/components/Steps'
 import OprateTitle from '@/components/OprateTitle'
 import BottomSpace from '@/components/BottomSpace'
@@ -31,7 +33,6 @@ export default {
   },
   data () {
     return {
-      userid: 1,
       stepsList: [
         // {
         //   operateDate: '2020-3-11 14:23:21',
@@ -52,7 +53,7 @@ export default {
       this.$httpWX.get({
         url: '/historicalOperation/listForPersonal',
         data: {
-          userid: this.userid
+          userid: globalStore.state.userID
         }
       }).then(res => {
         console.log(res)
@@ -64,7 +65,7 @@ export default {
       this.$httpWX.get({
         url: '/historicalOperation/getMonthOfOperate',
         data: {
-          userid: this.userid,
+          userid: globalStore.state.userID,
           month: month
         }
       }).then(res => {
